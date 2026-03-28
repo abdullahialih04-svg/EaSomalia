@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EA Somalia — Combining Heart and Head to Do the Most Good</title>
+  <meta name="description" content="Effective Altruism Somalia helps Somali professionals identify high-impact careers, give effectively, and build community. Launched February 2026." />
+  <link rel="stylesheet" href="css/style.css" />
+  <style>
+    /* HOME-SPECIFIC */
+    .hero-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--text-muted);
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--light-border);
+      border: 1px solid var(--light-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .problem-cell {
+      background: white;
+      padding: 32px;
+      transition: background var(--transition);
+    }
+
+    .problem-cell:hover { background: var(--off-white); }
+
+    .problem-cell .icon { font-size: 28px; margin-bottom: 12px; }
+    .problem-cell h3 { font-family: var(--serif); font-size: 1.1rem; margin-bottom: 8px; }
+    .problem-cell p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
+
+    .steps-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 0;
+      border: 1px solid var(--light-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .step {
+      padding: 36px 32px;
+      border-right: 1px solid var(--light-border);
+      position: relative;
+    }
+
+    .step:last-child { border-right: none; }
+
+    .step-num {
+      font-family: var(--serif);
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--accent-pale);
+      line-height: 1;
+      margin-bottom: 16px;
+    }
+
+    .step h3 { font-size: 1.05rem; margin-bottom: 8px; }
+    .step p { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; }
+
+    .values-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .value-item { text-align: center; padding: 24px 16px; }
+    .value-item .v-icon { font-size: 2rem; margin-bottom: 12px; }
+    .value-item h3 { font-size: 1rem; margin-bottom: 6px; }
+    .value-item p { font-size: 13px; color: var(--text-secondary); }
+
+    .new-banner {
+      background: var(--accent-warm-pale);
+      border: 1px solid rgba(199,127,42,0.2);
+      border-radius: var(--radius-lg);
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 48px;
+    }
+
+    .new-banner .nb-icon { font-size: 1.5rem; flex-shrink: 0; }
+    .new-banner p { font-size: 14px; color: var(--text-secondary); }
+    .new-banner strong { color: var(--accent-warm); }
+
+    @media (max-width: 768px) {
+      .problem-grid, .steps-row { grid-template-columns: 1fr; }
+      .step { border-right: none; border-bottom: 1px solid var(--light-border); }
+      .step:last-child { border-bottom: none; }
+      .values-row { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    @media (max-width: 480px) {
+      .values-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="nav-container"></div>
+
+<!-- HERO -->
+<main>
+  <section class="hero">
+    <div class="container">
+      <div class="new-banner fade-up">
+        <span class="nb-icon">🌱</span>
+        <p><strong>We just launched!</strong> EA Somalia is brand new — founded February 2026 with ~50 passionate members. We're small, but we're growing fast. <a href="pages/about.html" style="color:var(--accent-warm);font-weight:600;">Learn about our story →</a></p>
+      </div>
+
+      <div class="hero-eyebrow fade-up">
+        <span class="badge badge-green"><span class="dot"></span> Active Community</span>
+        <span class="hero-label">Mogadishu, Somalia · Est. Feb 2026</span>
+      </div>
+
+      <h1 class="display-xl hero-title fade-up">
+        Combining <em>heart</em> and<br>head to do the most good.
+      </h1>
+
+      <p class="lead hero-desc fade-up">
+        We help Somali professionals find high-impact careers, give more effectively,
+        and build a community dedicated to solving pressing problems — using evidence and reason, not just good intentions.
+      </p>
+
+      <div class="hero-actions fade-up">
+        <a href="pages/career.html" class="btn btn-primary">Explore Career Guide</a>
+        <a href="pages/giving.html" class="btn btn-outline">Learn to Give Effectively</a>
+      </div>
+
+      <div class="hero-stat-row stagger">
+        <div class="hero-stat fade-up">
+          <div class="stat-num" data-count="50" data-suffix="+">50+</div>
+          <div class="stat-label">Community members</div>
+        </div>
+        <div class="hero-stat fade-up">
+          <div class="stat-num" data-count="1">1</div>
+          <div class="stat-label">Active chapter (Mogadishu)</div>
+        </div>
+        <div class="hero-stat fade-up">
+          <div class="stat-num">Feb</div>
+          <div class="stat-label">2026 · When we launched</div>
+        </div>
+        <div class="hero-stat fade-up">
+          <div class="stat-num" style="font-size:1.4rem;">Growing</div>
+          <div class="stat-label">Fast — join us early</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- WHY IT MATTERS -->
+  <section>
+    <div class="container">
+      <div class="section-header container-narrow fade-up">
+        <p class="section-label">Our Context</p>
+        <h2 class="display-md">Somalia is at a pivotal moment.</h2>
+        <p class="lead">With a young, talented population and a growing diaspora, we have an extraordinary opportunity to channel talent and resources toward the challenges that matter most.</p>
+      </div>
+
+      <div class="problem-grid">
+        <div class="problem-cell fade-up">
+          <div class="icon">🍽️</div>
+          <h3>Food Security</h3>
+          <p>Recurring drought and famine affect millions. Evidence-based agricultural research and policy can save thousands of lives each year.</p>
+        </div>
+        <div class="problem-cell fade-up">
+          <div class="icon">💻</div>
+          <h3>Digital Infrastructure</h3>
+          <p>Expanding internet access and digital literacy unlocks economic opportunity for millions locked out of the global economy.</p>
+        </div>
+        <div class="problem-cell fade-up">
+          <div class="icon">💸</div>
+          <h3>Remittance Efficiency</h3>
+          <p>Somalia receives over $1.3B in remittances yearly. Cutting transfer fees even slightly redirects millions toward essential needs.</p>
+        </div>
+        <div class="problem-cell fade-up">
+          <div class="icon">🌱</div>
+          <h3>Climate-Resilient Farming</h3>
+          <p>Drought-resistant crops and sustainable farming protect livelihoods and food supply as the climate shifts.</p>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:32px;" class="fade-up">
+        <a href="pages/career.html" class="btn-ghost">See our problem selection framework</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- HOW IT WORKS -->
+  <section style="background: var(--off-white);">
+    <div class="container">
+      <div class="section-header fade-up">
+        <p class="section-label">How it works</p>
+        <h2 class="display-md">Your path to high impact</h2>
+      </div>
+
+      <div class="steps-row">
+        <div class="step fade-up">
+          <div class="step-num">01</div>
+          <h3>Learn About Impact</h3>
+          <p>Explore evidence-based resources on pressing problems and how your skills can address them most effectively.</p>
+          <a href="pages/career.html" class="btn-ghost">Read the Career Guide</a>
+        </div>
+        <div class="step fade-up">
+          <div class="step-num">02</div>
+          <h3>Find Your Path</h3>
+          <p>Use our frameworks to identify where you can contribute most — through research, policy, entrepreneurship, or giving.</p>
+          <a href="pages/community.html" class="btn-ghost">Explore Mentorship</a>
+        </div>
+        <div class="step fade-up">
+          <div class="step-num">03</div>
+          <h3>Take Action</h3>
+          <p>Apply for high-impact jobs, join our Mogadishu chapter, or learn to give more effectively to proven charities.</p>
+          <a href="pages/jobs.html" class="btn-ghost">Browse Opportunities</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- VALUES -->
+  <section>
+    <div class="container">
+      <div class="section-header text-center fade-up" style="text-align:center;">
+        <p class="section-label">What we believe</p>
+        <h2 class="display-md">Guided by evidence, driven by community</h2>
+      </div>
+
+      <div class="values-row">
+        <div class="value-item fade-up">
+          <div class="v-icon">🔍</div>
+          <h3>Evidence First</h3>
+          <p>We prioritize interventions with rigorous evidence and are transparent about uncertainty.</p>
+        </div>
+        <div class="value-item fade-up">
+          <div class="v-icon">🌍</div>
+          <h3>Impartial Concern</h3>
+          <p>We care about wellbeing regardless of nationality or proximity to us.</p>
+        </div>
+        <div class="value-item fade-up">
+          <div class="v-icon">💡</div>
+          <h3>Intellectual Honesty</h3>
+          <p>We update our views with new evidence and welcome disagreement.</p>
+        </div>
+        <div class="value-item fade-up">
+          <div class="v-icon">🤝</div>
+          <h3>Open Community</h3>
+          <p>Everyone can learn and contribute, regardless of where they start.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CTA -->
+  <section>
+    <div class="container">
+      <div class="cta-banner fade-up">
+        <h2 class="display-md">Ready to make an impact?</h2>
+        <p>Join ~50 Somali professionals applying evidence and compassion to tackle real problems. We're early — your voice will shape what we become.</p>
+        <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+          <a href="pages/about.html#contact" class="btn btn-white">Get in Touch</a>
+          <a href="pages/career.html" class="btn" style="background:rgba(255,255,255,0.15);color:white;border:1.5px solid rgba(255,255,255,0.4);">Read the Career Guide</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="footer-container"></div>
+
+<script src="js/components.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
