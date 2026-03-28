@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Career Guide — EA Somalia</title>
+  <meta name="description" content="Use your 80,000 working hours to do the most good. EA Somalia's career guide for Somali professionals." />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .int-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+
+    .int-card {
+      border: 1px solid var(--light-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+    }
+
+    .int-header {
+      background: var(--accent);
+      color: white;
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .int-letter {
+      font-family: var(--serif);
+      font-size: 2.4rem;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .int-header h3 { font-family: var(--sans); font-size: 1rem; font-weight: 600; }
+    .int-header p { font-size: 13px; opacity: 0.8; margin-top: 2px; }
+
+    .int-body { padding: 20px 24px; }
+
+    .problem-row {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1px;
+      background: var(--light-border);
+      border: 1px solid var(--light-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-top: 32px;
+    }
+
+    .problem-detail {
+      background: white;
+      padding: 28px;
+    }
+
+    .problem-detail .icon { font-size: 1.6rem; margin-bottom: 12px; }
+    .problem-detail h3 { font-size: 1.05rem; margin-bottom: 12px; }
+
+    .metric-row { display: flex; flex-direction: column; gap: 8px; }
+
+    .metric {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .metric .m-label {
+      font-family: var(--mono);
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: white;
+      background: var(--accent);
+      padding: 2px 7px;
+      border-radius: 50px;
+      flex-shrink: 0;
+      width: 80px;
+      text-align: center;
+    }
+
+    .careers-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 24px;
+    }
+
+    .career-card {
+      border: 1px solid var(--light-border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      transition: all var(--transition);
+    }
+
+    .career-card:hover {
+      border-color: var(--accent-light);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .career-icon { font-size: 2rem; margin-bottom: 16px; }
+    .career-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
+    .career-card p { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; }
+
+    .career-roles {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 12px;
+    }
+
+    .career-impact {
+      font-family: var(--mono);
+      font-size: 11px;
+      color: var(--text-muted);
+      padding-top: 12px;
+      border-top: 1px solid var(--light-border);
+    }
+
+    .steps-list { list-style: none; counter-reset: steps; }
+    .steps-list li {
+      counter-increment: steps;
+      display: flex;
+      gap: 16px;
+      padding: 20px 0;
+      border-bottom: 1px solid var(--light-border);
+      align-items: flex-start;
+    }
+    .steps-list li:last-child { border-bottom: none; }
+    .steps-list li::before {
+      content: counter(steps, decimal-leading-zero);
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+      font-weight: 600;
+      flex-shrink: 0;
+      width: 32px;
+      padding-top: 2px;
+    }
+
+    .steps-list li div h4 { font-family: var(--sans); font-weight: 600; margin-bottom: 4px; }
+    .steps-list li div p { font-size: 14px; color: var(--text-secondary); }
+
+    @media (max-width: 768px) {
+      .int-grid { grid-template-columns: 1fr; }
+      .problem-row { grid-template-columns: 1fr; }
+      .careers-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+<div id="nav-container"></div>
+
+<main>
+  <!-- PAGE HERO -->
+  <div class="page-hero">
+    <div class="container">
+      <span class="badge badge-green" style="margin-bottom:16px;"><span class="dot"></span> Career Guide</span>
+      <h1 class="display-xl" style="margin-bottom:16px;">Your career is your<br><em>biggest lever for good.</em></h1>
+      <p class="lead">80,000 hours — that's how much time you'll spend working in your lifetime. We help you use them wisely.</p>
+    </div>
+  </div>
+
+  <!-- INTRO -->
+  <section>
+    <div class="container-narrow">
+      <div class="quote-block fade-up">
+        <p>"The most important career decision is which problem to work on — not which employer to join."</p>
+        <cite>— 80,000 Hours, Oxford University</cite>
+      </div>
+
+      <div style="margin-top:40px;" class="fade-up">
+        <p class="lead" style="margin-bottom:20px;">
+          Most of us want to make a difference. But conventional wisdom — become a doctor, volunteer locally — often misses the most impactful opportunities. In Somalia's context, this means asking: where is talent most scarce? Which problems are most important and neglected? Where can one skilled person have the greatest multiplier effect?
+        </p>
+        <p style="color:var(--text-secondary);font-size:15px;line-height:1.7;">
+          A policy advisor who shapes one major intervention may do more good than ten direct service workers. A software engineer who builds health data infrastructure at scale may save more lives than a clinic doctor. Our career guide helps you find your highest-leverage path.
+        </p>
+        <div style="margin-top:20px;">
+          <a href="https://80000hours.org" target="_blank" class="btn btn-outline">Visit 80,000 Hours ↗</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- INT FRAMEWORK -->
+  <section style="background:var(--off-white);">
+    <div class="container">
+      <div class="section-header fade-up">
+        <p class="section-label">Framework</p>
+        <h2 class="display-md">The INT Framework</h2>
+        <p class="lead">Three criteria to evaluate which problems deserve your attention most.</p>
+      </div>
+
+      <div class="int-grid">
+        <div class="int-card fade-up">
+          <div class="int-header">
+            <div class="int-letter">I</div>
+            <div>
+              <h3>Importance</h3>
+              <p>How many people are affected, and how severely?</p>
+            </div>
+          </div>
+          <div class="int-body">
+            <p style="font-size:14px;color:var(--text-secondary);">The problem affects a large number of people significantly. We think seriously about scale, duration, and depth of impact when assessing this.</p>
+          </div>
+        </div>
+        <div class="int-card fade-up">
+          <div class="int-header" style="background:#2a5e48;">
+            <div class="int-letter">N</div>
+            <div>
+              <h3>Neglectedness</h3>
+              <p>How much attention is this already getting?</p>
+            </div>
+          </div>
+          <div class="int-body">
+            <p style="font-size:14px;color:var(--text-secondary);">The more neglected a problem, the higher the marginal value of extra attention. Somalia-specific challenges are often overlooked globally.</p>
+          </div>
+        </div>
+        <div class="int-card fade-up">
+          <div class="int-header" style="background:#245242;">
+            <div class="int-letter">T</div>
+            <div>
+              <h3>Tractability</h3>
+              <p>How much progress can be made with more resources?</p>
+            </div>
+          </div>
+          <div class="int-body">
+            <p style="font-size:14px;color:var(--text-secondary);">Some problems yield dramatically to focused effort. We look for strong evidence that additional talent and funding produces real change.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="problem-row">
+        <div class="problem-detail fade-up">
+          <div class="icon">🍽️</div>
+          <h3>Food Security</h3>
+          <div class="metric-row">
+            <div class="metric"><span class="m-label">Importance</span> Affects 7M+ Somalis; malnutrition causes permanent harm</div>
+            <div class="metric"><span class="m-label">Neglected</span> Less than 3% of global humanitarian AI research investment</div>
+            <div class="metric"><span class="m-label">Tractable</span> Evidence-based cash transfers and drought-resistant crops work</div>
+          </div>
+        </div>
+        <div class="problem-detail fade-up">
+          <div class="icon">💻</div>
+          <h3>Digital Infrastructure</h3>
+          <div class="metric-row">
+            <div class="metric"><span class="m-label">Importance</span> Internet access multiplies income and health/education access</div>
+            <div class="metric"><span class="m-label">Neglected</span> Somalia has &lt;3% fixed internet penetration; overlooked by tech philanthropy</div>
+            <div class="metric"><span class="m-label">Tractable</span> Mobile infrastructure investments show near-linear returns</div>
+          </div>
+        </div>
+        <div class="problem-detail fade-up">
+          <div class="icon">💸</div>
+          <h3>Remittance Efficiency</h3>
+          <div class="metric-row">
+            <div class="metric"><span class="m-label">Importance</span> $1.3B flows annually; high fees tax the poorest families</div>
+            <div class="metric"><span class="m-label">Neglected</span> Fintech for conflict-affected regions gets minimal attention</div>
+            <div class="metric"><span class="m-label">Tractable</span> Regulatory advocacy can cut fees significantly within years</div>
+          </div>
+        </div>
+        <div class="problem-detail fade-up">
+          <div class="icon">🌱</div>
+          <h3>Climate-Resilient Agriculture</h3>
+          <div class="metric-row">
+            <div class="metric"><span class="m-label">Importance</span> 70% of Somalis depend on farming; climate is accelerating displacement</div>
+            <div class="metric"><span class="m-label">Neglected</span> Among least-funded countries for climate adaptation per capita</div>
+            <div class="metric"><span class="m-label">Tractable</span> Seed banks and extension programs are proven cost-effective</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- CAREER PATHS -->
+  <section>
+    <div class="container">
+      <div class="section-header fade-up">
+        <p class="section-label">Pathways</p>
+        <h2 class="display-md">High-impact career paths</h2>
+        <p class="lead">Four broad archetypes for creating outsized impact in Somalia and beyond.</p>
+      </div>
+
+      <div class="careers-grid">
+        <div class="career-card fade-up">
+          <div class="career-icon">🔬</div>
+          <h3>Research</h3>
+          <p>Generate the evidence base that guides policy and funding. Academic and policy researchers in Somalia can quantify intervention effectiveness and open access to global datasets.</p>
+          <div class="career-roles">
+            <span class="tag">Health Researcher</span>
+            <span class="tag">Agricultural Scientist</span>
+            <span class="tag">Policy Analyst</span>
+            <span class="tag">Economist</span>
+          </div>
+          <div class="career-impact">→ Publish findings → inform policy → redirect millions in aid</div>
+        </div>
+        <div class="career-card fade-up">
+          <div class="career-icon">🏛️</div>
+          <h3>Policy & Advocacy</h3>
+          <p>Shape the rules governing how resources are distributed. One well-placed policy professional can influence how billions of shillings are spent on public programs.</p>
+          <div class="career-roles">
+            <span class="tag">Government Advisor</span>
+            <span class="tag">NGO Policy Lead</span>
+            <span class="tag">Legal Advocate</span>
+          </div>
+          <div class="career-impact">→ Draft legislation → influence institutions → protect millions</div>
+        </div>
+        <div class="career-card fade-up">
+          <div class="career-icon">🚀</div>
+          <h3>Entrepreneurship</h3>
+          <p>Build solutions that scale. Social entrepreneurs in Somalia can create businesses that directly solve critical problems while generating employment and sustainable revenue.</p>
+          <div class="career-roles">
+            <span class="tag">Fintech Founder</span>
+            <span class="tag">Agri-tech</span>
+            <span class="tag">Health Startup</span>
+            <span class="tag">Edtech</span>
+          </div>
+          <div class="career-impact">→ Build product → reach scale → create systemic change</div>
+        </div>
+        <div class="career-card fade-up">
+          <div class="career-icon">💰</div>
+          <h3>Earning to Give</h3>
+          <p>Use a high-income career to fund work others can't. Diaspora professionals earning in hard currency can fund multiple full-time roles in effective Somali organizations.</p>
+          <div class="career-roles">
+            <span class="tag">Finance</span>
+            <span class="tag">Tech Engineer</span>
+            <span class="tag">Consultant</span>
+            <span class="tag">Medical Specialist</span>
+          </div>
+          <div class="career-impact">→ Earn high income → donate 10%+ → fund 3–5× your direct impact</div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- STEPS -->
+  <section style="background:var(--off-white);">
+    <div class="container-narrow">
+      <div class="section-header fade-up">
+        <p class="section-label">Get started</p>
+        <h2 class="display-md">Your step-by-step guide</h2>
+        <p class="lead">Whether you're a student, mid-career professional, or diaspora returnee — here's how to begin.</p>
+      </div>
+
+      <ul class="steps-list fade-up">
+        <li>
+          <div>
+            <h4>Read the 80,000 Hours career guide</h4>
+            <p>Free online. The most rigorous research on high-impact careers available. Start here. <a href="https://80000hours.org" target="_blank" style="color:var(--accent)">80000hours.org →</a></p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h4>Explore Somalia-specific cause areas</h4>
+            <p>Use the INT framework above to identify where your skills can have the most leverage given Somalia's current situation.</p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h4>Attend an EA Somalia meetup</h4>
+            <p>Join our Mogadishu chapter. We meet regularly to discuss ideas, share resources, and support each other's career moves. <a href="community.html" style="color:var(--accent)">See community page →</a></p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h4>Book a coaching session</h4>
+            <p>Get 1-on-1 guidance from an experienced mentor who has navigated a high-impact career transition. Free for all members. <a href="community.html#mentorship" style="color:var(--accent)">Learn about mentorship →</a></p>
+          </div>
+        </li>
+        <li>
+          <div>
+            <h4>Browse high-impact job listings</h4>
+            <p>Our job board curates roles in global health, governance, climate, and AI safety relevant to Somali professionals. <a href="jobs.html" style="color:var(--accent)">View open roles →</a></p>
+          </div>
+        </li>
+      </ul>
+
+      <div style="margin-top:32px;text-align:center;" class="fade-up">
+        <a href="mailto:mentorship@easomalia.org" class="btn btn-primary">Book a Free Coaching Session</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="footer-container"></div>
+<script src="../js/components.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>

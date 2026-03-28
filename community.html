@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community — EA Somalia</title>
+  <meta name="description" content="Join EA Somalia's growing community. Local chapter in Mogadishu, mentorship program, and diaspora network." />
+  <link rel="stylesheet" href="../css/style.css" />
+  <style>
+    .chapter-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .chapter-card {
+      border: 1px solid var(--light-border);
+      border-radius: var(--radius-lg);
+      padding: 24px 28px;
+      transition: all var(--transition);
+      position: relative;
+    }
+
+    .chapter-card:hover {
+      border-color: var(--accent-light);
+      box-shadow: var(--shadow-md);
+      transform: translateY(-2px);
+    }
+
+    .chapter-card.flagship {
+      border-color: var(--accent);
+      background: linear-gradient(135deg, #f0faf4 0%, white 100%);
+    }
+
+    .chapter-status {
+      position: absolute;
+      top: 20px; right: 20px;
+    }
+
+    .chapter-name { font-family: var(--serif); font-size: 1.2rem; margin-bottom: 6px; }
+    .chapter-meta { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin-bottom: 12px; }
+    .chapter-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 16px; line-height: 1.6; }
+
+    .chapter-footer {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-top: 16px;
+      border-top: 1px solid var(--light-border);
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .member-count {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    .member-count strong { color: var(--accent); }
+
+    .start-chapter {
+      background: var(--off-white);
+      border: 2px dashed var(--light-border);
+      border-radius: var(--radius-lg);
+      padding: 32px;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .start-chapter h3 { margin-bottom: 8px; }
+    .start-chapter p { font-size: 14px; color: var(--text-secondary); margin-bottom: 20px; }
+
+    .mentor-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 20px;
+    }
+
+    .mentor-card {
+      display: flex;
+      gap: 16px;
+      padding: 20px 24px;
+      border: 1px solid var(--light-border);
+      border-radius: var(--radius-lg);
+      align-items: flex-start;
+      transition: all var(--transition);
+    }
+
+    .mentor-card:hover {
+      border-color: var(--accent-light);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .mentor-avatar {
+      width: 48px; height: 48px;
+      border-radius: 50%;
+      background: var(--accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--serif);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: white;
+      flex-shrink: 0;
+    }
+
+    .mentor-name { font-weight: 600; font-size: 15px; margin-bottom: 2px; }
+    .mentor-title { font-size: 12px; color: var(--text-muted); margin-bottom: 8px; }
+    .mentor-bio { font-size: 13px; color: var(--text-secondary); line-height: 1.5; margin-bottom: 8px; }
+
+    .process-steps {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border: 1px solid var(--light-border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      margin-bottom: 40px;
+    }
+
+    .ps {
+      padding: 28px 24px;
+      border-right: 1px solid var(--light-border);
+      position: relative;
+    }
+
+    .ps:last-child { border-right: none; }
+
+    .ps-num {
+      font-family: var(--mono);
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent);
+      font-weight: 600;
+      margin-bottom: 12px;
+    }
+
+    .ps h4 { font-family: var(--sans); font-weight: 600; margin-bottom: 6px; }
+    .ps p { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+
+    @media (max-width: 900px) {
+      .process-steps { grid-template-columns: repeat(2, 1fr); }
+      .ps:nth-child(2) { border-right: none; }
+      .ps:nth-child(1), .ps:nth-child(2) { border-bottom: 1px solid var(--light-border); }
+    }
+
+    @media (max-width: 768px) {
+      .chapter-grid, .mentor-grid { grid-template-columns: 1fr; }
+      .process-steps { grid-template-columns: 1fr; }
+      .ps { border-right: none; border-bottom: 1px solid var(--light-border); }
+      .ps:last-child { border-bottom: none; }
+    }
+  </style>
+</head>
+<body>
+<div id="nav-container"></div>
+
+<main>
+  <div class="page-hero">
+    <div class="container">
+      <span class="badge badge-green" style="margin-bottom:16px;"><span class="dot"></span> Community</span>
+      <h1 class="display-xl" style="margin-bottom:16px;">You don't have to<br>do this <em>alone.</em></h1>
+      <p class="lead">EA Somalia is a community of practice — new as of February 2026, with ~50 members in Mogadishu building something meaningful together.</p>
+    </div>
+  </div>
+
+  <!-- CHAPTERS -->
+  <section>
+    <div class="container">
+      <div class="section-header fade-up">
+        <p class="section-label">Local Chapters</p>
+        <h2 class="display-md">Find your community</h2>
+        <p class="lead">We're just getting started. Our Mogadishu chapter is active and growing. We hope to expand to more cities as we grow.</p>
+      </div>
+
+      <div class="chapter-grid">
+        <div class="chapter-card flagship fade-up">
+          <div class="chapter-status"><span class="badge badge-green"><span class="dot"></span> Active</span></div>
+          <h2 class="chapter-name">🏙️ Mogadishu</h2>
+          <div class="chapter-meta">FLAGSHIP CHAPTER · EST. FEB 2026</div>
+          <p class="chapter-desc">Our main chapter with regular meetups, community discussions, and support for career transitions. Welcoming to all levels of familiarity with EA ideas.</p>
+          <div class="chapter-footer">
+            <div class="member-count">👥 <strong>~50</strong> members</div>
+            <a href="mailto:info@easomalia.org" style="font-size:13px;color:var(--accent);font-weight:600;text-decoration:none;">info@easomalia.org →</a>
+          </div>
+        </div>
+
+        <div class="chapter-card fade-up" style="opacity:0.7;">
+          <div class="chapter-status"><span class="badge badge-gray">Planned</span></div>
+          <h2 class="chapter-name">🌆 Hargeisa</h2>
+          <div class="chapter-meta">COMING SOON</div>
+          <p class="chapter-desc">We hope to launch in Hargeisa as we grow. Interested in helping start this chapter? Get in touch.</p>
+          <div class="chapter-footer">
+            <a href="mailto:chapters@easomalia.org" style="font-size:13px;color:var(--accent);font-weight:600;text-decoration:none;">Express interest →</a>
+          </div>
+        </div>
+
+        <div class="chapter-card fade-up" style="opacity:0.7;">
+          <div class="chapter-status"><span class="badge badge-gray">Planned</span></div>
+          <h2 class="chapter-name">🌍 Diaspora (Online)</h2>
+          <div class="chapter-meta">COMING SOON · REMOTE</div>
+          <p class="chapter-desc">An online community for Somali diaspora professionals. Planned to include Zoom events and an earning-to-give cohort.</p>
+          <div class="chapter-footer">
+            <a href="mailto:diaspora@easomalia.org" style="font-size:13px;color:var(--accent);font-weight:600;text-decoration:none;">Join waitlist →</a>
+          </div>
+        </div>
+
+        <div class="chapter-card fade-up" style="opacity:0.7;">
+          <div class="chapter-status"><span class="badge badge-gray">Planned</span></div>
+          <h2 class="chapter-name">🏙️ Garowe / Kismayo</h2>
+          <div class="chapter-meta">FUTURE EXPANSION</div>
+          <p class="chapter-desc">We plan to expand to other major cities. Help us prioritize by letting us know where you're based.</p>
+          <div class="chapter-footer">
+            <a href="mailto:chapters@easomalia.org" style="font-size:13px;color:var(--accent);font-weight:600;text-decoration:none;">Register interest →</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="start-chapter fade-up">
+        <h3>Want to start a chapter in your city?</h3>
+        <p>We're actively looking for chapter leaders across Somalia. We provide guidance, resources, and community support to help you get started.</p>
+        <a href="mailto:chapters@easomalia.org" class="btn btn-primary">Contact Us to Get Started</a>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- MENTORSHIP -->
+  <section id="mentorship" style="background:var(--off-white);">
+    <div class="container">
+      <div class="section-header fade-up">
+        <p class="section-label">Mentorship Program</p>
+        <h2 class="display-md">Get 1-on-1 guidance</h2>
+        <p class="lead">Free coaching sessions with experienced professionals who have navigated high-impact career transitions. Available to all EA Somalia community members.</p>
+      </div>
+
+      <div class="process-steps fade-up">
+        <div class="ps">
+          <div class="ps-num">Step 01</div>
+          <h4>Apply</h4>
+          <p>Share your background, career goals, and where you'd benefit from guidance.</p>
+        </div>
+        <div class="ps">
+          <div class="ps-num">Step 02</div>
+          <h4>Get Matched</h4>
+          <p>We match you with a mentor based on career stage, cause areas, and background.</p>
+        </div>
+        <div class="ps">
+          <div class="ps-num">Step 03</div>
+          <h4>4 Sessions</h4>
+          <p>Four 45-minute sessions covering career assessment, strategy, CV review, and planning.</p>
+        </div>
+        <div class="ps">
+          <div class="ps-num">Step 04</div>
+          <h4>Join Community</h4>
+          <p>Access our alumni network, ongoing peer cohort, and job referrals.</p>
+        </div>
+      </div>
+
+      <div class="section-header fade-up" style="margin-top:0;">
+        <h3 style="font-size:1.3rem;">Meet our mentors</h3>
+        <p style="color:var(--text-secondary);font-size:14px;margin-top:8px;">Experienced professionals committed to helping the next generation find high-impact paths.</p>
+      </div>
+
+      <div class="mentor-grid">
+        <div class="mentor-card fade-up">
+          <div class="mentor-avatar" style="background:#2d6a4f;">NH</div>
+          <div>
+            <div class="mentor-name">Dr. Nasro Ali Hassan</div>
+            <div class="mentor-title">Senior Health Policy Advisor, WHO Africa</div>
+            <div class="mentor-bio">Former Ministry of Health official turned WHO advisor. Specializes in evidence-based health system design for fragile states.</div>
+            <div class="tag-row"><span class="tag tag-green">Global Health</span><span class="tag">Policy</span><span class="tag">Research</span></div>
+          </div>
+        </div>
+
+        <div class="mentor-card fade-up">
+          <div class="mentor-avatar" style="background:#1d5740;">MF</div>
+          <div>
+            <div class="mentor-name">Mohamed Farah</div>
+            <div class="mentor-title">Co-Founder, SomTech Ventures</div>
+            <div class="mentor-bio">Built and scaled tech startups in East Africa. Passionate about using market mechanisms to solve social problems.</div>
+            <div class="tag-row"><span class="tag tag-green">Entrepreneurship</span><span class="tag">Fintech</span><span class="tag">Social Enterprise</span></div>
+          </div>
+        </div>
+
+        <div class="mentor-card fade-up">
+          <div class="mentor-avatar" style="background:#52b788;">IA</div>
+          <div>
+            <div class="mentor-name">Ikram Abdullahi</div>
+            <div class="mentor-title">Software Engineer → Digital Health Lead, UNICEF</div>
+            <div class="mentor-bio">Transitioned from commercial software engineering to building health data infrastructure for 200K+ patients.</div>
+            <div class="tag-row"><span class="tag tag-green">Career Pivots</span><span class="tag">Tech for Good</span><span class="tag">Digital Health</span></div>
+          </div>
+        </div>
+
+        <div class="mentor-card fade-up">
+          <div class="mentor-avatar" style="background:#245a42;">AW</div>
+          <div>
+            <div class="mentor-name">Abdi Warsame</div>
+            <div class="mentor-title">Senior Associate, Open Philanthropy</div>
+            <div class="mentor-bio">Works on global health grantmaking. Previously ran the Somali Giving What We Can chapter and has mentored 30+ people.</div>
+            <div class="tag-row"><span class="tag tag-green">Effective Giving</span><span class="tag">Grant Writing</span><span class="tag">Cause Prioritization</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:36px;" class="fade-up">
+        <a href="mailto:mentorship@easomalia.org" class="btn btn-primary">Apply for Mentorship</a>
+        <p style="font-size:13px;color:var(--text-muted);margin-top:12px;">Applications reviewed on a rolling basis · Free of charge</p>
+      </div>
+    </div>
+  </section>
+</main>
+
+<div id="footer-container"></div>
+<script src="../js/components.js"></script>
+<script src="../js/main.js"></script>
+</body>
+</html>
