@@ -7,116 +7,57 @@
   <meta name="description" content="Curated high-impact job listings and grant opportunities for Somali professionals." />
   <link rel="stylesheet" href="../css/style.css" />
   <style>
-    .filter-bar {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      margin-bottom: 32px;
-    }
-
+    .filter-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 28px; }
     .filter-btn {
-      padding: 7px 16px;
-      border-radius: 50px;
-      border: 1.5px solid var(--light-border);
-      background: white;
-      font-family: var(--sans);
-      font-size: 13px;
-      font-weight: 500;
-      color: var(--text-secondary);
-      cursor: pointer;
-      transition: all var(--transition);
+      padding: 7px 16px; border-radius: var(--r-full); border: 1.5px solid var(--warm-200);
+      background: white; font-family: var(--sans); font-size: 13px; font-weight: 500;
+      color: var(--text-700); cursor: pointer; transition: all var(--t);
     }
-
-    .filter-btn:hover, .filter-btn.active {
-      border-color: var(--accent);
-      color: var(--accent);
-      background: var(--accent-pale);
-    }
+    .filter-btn:hover, .filter-btn.active { border-color: var(--green-700); color: var(--green-700); background: var(--green-50); }
 
     .job-list { display: flex; flex-direction: column; gap: 12px; }
-
     .job-card {
-      border: 1px solid var(--light-border);
-      border-radius: var(--radius-lg);
-      padding: 20px 24px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      align-items: center;
-      transition: all var(--transition);
-      cursor: pointer;
+      border: 1px solid var(--warm-200); border-radius: var(--r-lg);
+      padding: 20px 26px; display: grid; grid-template-columns: 1fr auto;
+      gap: 16px; align-items: center; transition: all var(--t); cursor: default;
     }
-
-    .job-card:hover {
-      border-color: var(--accent-light);
-      box-shadow: var(--shadow-md);
-      transform: translateX(4px);
-    }
-
-    .job-card[data-hidden="true"] { display: none; }
-
-    .job-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; color: var(--text-primary); }
-    .job-org { font-size: 13px; color: var(--text-secondary); margin-bottom: 10px; }
-    .job-tags { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; }
+    .job-card:hover { border-color: var(--green-200); box-shadow: var(--shadow-md); transform: translateX(4px); }
+    .job-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
+    .job-org   { font-size: 13px; margin-bottom: 10px; }
     .job-right { text-align: right; min-width: 120px; }
-    .job-salary { font-weight: 600; font-size: 14px; color: var(--text-primary); }
-    .job-deadline { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .job-salary   { font-weight: 600; font-size: 14px; color: var(--text-900); }
+    .job-deadline { font-family: var(--mono); font-size: 10.5px; color: var(--text-300); margin-top: 4px; }
 
-    .grant-list { display: flex; flex-direction: column; gap: 12px; }
-
+    .grant-list { display: flex; flex-direction: column; gap: 14px; }
     .grant-card {
-      border: 1px solid var(--light-border);
-      border-radius: var(--radius-lg);
-      padding: 20px 24px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 16px;
-      align-items: center;
-      transition: all var(--transition);
+      border: 1px solid var(--warm-200); border-radius: var(--r-lg);
+      padding: 20px 26px; display: grid; grid-template-columns: 1fr auto;
+      gap: 16px; align-items: center; transition: all var(--t);
     }
-
-    .grant-card:hover {
-      border-color: var(--accent-warm);
-      box-shadow: var(--shadow-sm);
-    }
-
+    .grant-card:hover { border-color: var(--amber-500); box-shadow: var(--shadow-sm); }
     .grant-title { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
-    .grant-org { font-size: 13px; color: var(--text-muted); margin-bottom: 8px; }
-    .grant-desc { font-size: 14px; color: var(--text-secondary); }
-    .grant-amount { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--accent-warm); white-space: nowrap; }
-    .grant-deadline { font-family: var(--mono); font-size: 11px; color: var(--text-muted); margin-top: 4px; text-align: right; }
+    .grant-org   { font-family: var(--mono); font-size: 10.5px; color: var(--text-300); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.05em; }
+    .grant-desc  { font-size: 14px; line-height: 1.6; }
+    .grant-amount { font-family: var(--serif); font-size: 1.15rem; font-weight: 700; color: var(--amber-700); white-space: nowrap; }
+    .grant-right  { text-align: right; }
+    .grant-right a { font-size: 13px; color: var(--green-700); font-weight: 600; text-decoration: none; display: block; margin-top: 8px; }
 
-    .open-pill {
-      font-family: var(--mono);
-      font-size: 10px;
-      text-transform: uppercase;
-      padding: 3px 8px;
-      border-radius: 50px;
-      background: var(--accent-pale);
-      color: var(--accent);
-      font-weight: 600;
-      letter-spacing: 0.04em;
+    .open-badge {
+      font-family: var(--mono); font-size: 10px; text-transform: uppercase;
+      padding: 3px 9px; border-radius: var(--r-full);
+      background: var(--green-100); color: var(--green-700); letter-spacing: 0.04em; font-weight: 600;
     }
 
     .help-box {
-      background: var(--accent-pale);
-      border: 1px solid rgba(82,183,136,0.3);
-      border-radius: var(--radius-lg);
-      padding: 28px 32px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 24px;
-      margin-top: 24px;
-      flex-wrap: wrap;
+      background: var(--green-50); border: 1px solid var(--green-200); border-radius: var(--r-lg);
+      padding: 28px 32px; display: flex; align-items: center; justify-content: space-between;
+      gap: 24px; margin-top: 24px; flex-wrap: wrap;
     }
-
-    .help-box p { font-size: 14px; color: var(--text-secondary); max-width: 480px; }
-    .help-box strong { color: var(--text-primary); }
+    .help-box p { font-size: 14px; max-width: 480px; }
 
     @media (max-width: 600px) {
       .job-card, .grant-card { grid-template-columns: 1fr; }
-      .job-right, .grant-deadline { text-align: left; }
+      .job-right, .grant-right { text-align: left; }
     }
   </style>
 </head>
@@ -126,178 +67,111 @@
 <main>
   <div class="page-hero">
     <div class="container">
-      <span class="badge badge-green" style="margin-bottom:16px;"><span class="dot"></span> Opportunities</span>
-      <h1 class="display-xl" style="margin-bottom:16px;">Find work<br>that <em>matters.</em></h1>
+      <span class="badge badge-green"><span class="dot"></span> Opportunities</span>
+      <h1 class="display-xl" style="margin-bottom:18px;">Find work<br>that <em>matters.</em></h1>
       <p class="lead">Curated roles in global health, governance, climate, AI safety, and poverty alleviation — selected for impact potential and relevance to Somali professionals.</p>
     </div>
   </div>
 
-  <!-- JOBS -->
   <section>
     <div class="container">
       <div class="section-header fade-up" style="display:flex;justify-content:space-between;align-items:flex-end;flex-wrap:wrap;gap:16px;">
         <div>
-          <p class="section-label">Job Board</p>
+          <span class="eyebrow">Job Board</span>
           <h2 class="display-md">Curated listings</h2>
         </div>
         <span class="badge badge-gray" id="job-count">8 open positions</span>
       </div>
 
-      <div class="filter-bar fade-up" id="filter-bar">
+      <div class="filter-bar fade-up">
         <button class="filter-btn active" data-filter="all">All</button>
         <button class="filter-btn" data-filter="global-health">Global Health</button>
         <button class="filter-btn" data-filter="biosecurity">Biosecurity</button>
-        <button class="filter-btn" data-filter="poverty">Poverty Alleviation</button>
+        <button class="filter-btn" data-filter="poverty">Poverty</button>
         <button class="filter-btn" data-filter="climate">Climate</button>
         <button class="filter-btn" data-filter="governance">Governance</button>
         <button class="filter-btn" data-filter="ai-safety">AI Safety</button>
       </div>
 
       <div class="job-list fade-up" id="job-list">
-
         <div class="job-card" data-category="global-health">
           <div>
             <div class="job-title">Health Data Analyst</div>
             <div class="job-org">Somalia MOH / WHO · Mogadishu, Somalia · Full-time</div>
-            <div class="job-tags">
-              <span class="tag tag-green">Global Health</span>
-              <span class="tag">Data Analysis</span>
-              <span class="tag">Policy</span>
-            </div>
+            <div class="tag-row"><span class="tag tag-green">Global Health</span><span class="tag">Data Analysis</span><span class="tag">Policy</span></div>
           </div>
-          <div class="job-right">
-            <div class="job-salary">$35–50K</div>
-            <div class="job-deadline">Deadline: 31 Mar 2025</div>
-          </div>
+          <div class="job-right"><div class="job-salary">$35–50K</div><div class="job-deadline">Deadline: 31 Mar 2025</div></div>
         </div>
-
         <div class="job-card" data-category="global-health">
           <div>
             <div class="job-title">Malaria Research Coordinator</div>
             <div class="job-org">Africa CDC · Remote / Addis Ababa · Full-time</div>
-            <div class="job-tags">
-              <span class="tag tag-green">Global Health</span>
-              <span class="tag">Research</span>
-              <span class="tag">Field Work</span>
-            </div>
+            <div class="tag-row"><span class="tag tag-green">Global Health</span><span class="tag">Research</span><span class="tag">Field Work</span></div>
           </div>
-          <div class="job-right">
-            <div class="job-salary">$40–55K</div>
-            <div class="job-deadline">Deadline: 15 Apr 2025</div>
-          </div>
+          <div class="job-right"><div class="job-salary">$40–55K</div><div class="job-deadline">Deadline: 15 Apr 2025</div></div>
         </div>
-
         <div class="job-card" data-category="biosecurity">
           <div>
             <div class="job-title">Biosecurity Policy Researcher</div>
             <div class="job-org">Johns Hopkins Center for Health Security · Remote · Full-time</div>
-            <div class="job-tags">
-              <span class="badge badge-warm" style="font-size:11px;">Biosecurity</span>
-              <span class="tag">Policy</span>
-              <span class="tag">Research</span>
-            </div>
+            <div class="tag-row"><span class="badge badge-amber" style="font-size:11px;">Biosecurity</span><span class="tag">Policy</span><span class="tag">Research</span></div>
           </div>
-          <div class="job-right">
-            <div class="job-salary">$50–70K</div>
-            <div class="job-deadline">Deadline: 1 Apr 2025</div>
-          </div>
+          <div class="job-right"><div class="job-salary">$50–70K</div><div class="job-deadline">Deadline: 1 Apr 2025</div></div>
         </div>
-
         <div class="job-card" data-category="poverty">
           <div>
             <div class="job-title">Cash Transfer Program Manager</div>
             <div class="job-org">GiveDirectly Somalia · Mogadishu / Kismayo · Full-time</div>
-            <div class="job-tags">
-              <span class="tag tag-green">Poverty Alleviation</span>
-              <span class="tag">Cash Transfers</span>
-              <span class="tag">Field Work</span>
-            </div>
+            <div class="tag-row"><span class="tag tag-green">Poverty Alleviation</span><span class="tag">Cash Transfers</span></div>
           </div>
-          <div class="job-right">
-            <div class="job-salary">$30–45K</div>
-            <div class="job-deadline">Deadline: 25 Mar 2025</div>
-          </div>
+          <div class="job-right"><div class="job-salary">$30–45K</div><div class="job-deadline">Deadline: 25 Mar 2025</div></div>
         </div>
-
         <div class="job-card" data-category="climate">
           <div>
             <div class="job-title">Climate Adaptation Specialist</div>
             <div class="job-org">IGAD Climate Centre · Nairobi / Remote · Full-time</div>
-            <div class="job-tags">
-              <span class="tag tag-green">Climate</span>
-              <span class="tag">Agriculture</span>
-              <span class="tag">Community Development</span>
-            </div>
+            <div class="tag-row"><span class="tag tag-green">Climate</span><span class="tag">Agriculture</span><span class="tag">Community Dev</span></div>
           </div>
-          <div class="job-right">
-            <div class="job-salary">$45–60K</div>
-            <div class="job-deadline">Deadline: 1 May 2025</div>
-          </div>
+          <div class="job-right"><div class="job-salary">$45–60K</div><div class="job-deadline">Deadline: 1 May 2025</div></div>
         </div>
-
         <div class="job-card" data-category="governance">
           <div>
             <div class="job-title">Governance & Anti-Corruption Advisor</div>
             <div class="job-org">USAID Somalia · Mogadishu · Full-time</div>
-            <div class="job-tags">
-              <span class="tag tag-green">Governance</span>
-              <span class="tag">Policy</span>
-              <span class="tag">Institutions</span>
-            </div>
+            <div class="tag-row"><span class="tag tag-green">Governance</span><span class="tag">Policy</span><span class="tag">Institutions</span></div>
           </div>
-          <div class="job-right">
-            <div class="job-salary">$55–75K</div>
-            <div class="job-deadline">Deadline: 15 May 2025</div>
-          </div>
+          <div class="job-right"><div class="job-salary">$55–75K</div><div class="job-deadline">Deadline: 15 May 2025</div></div>
         </div>
-
         <div class="job-card" data-category="ai-safety">
           <div>
             <div class="job-title">AI Safety Researcher</div>
             <div class="job-org">EA Fund Grantee · Remote · Full-time</div>
-            <div class="job-tags">
-              <span class="badge badge-warm" style="font-size:11px;">AI Safety</span>
-              <span class="tag">Research</span>
-              <span class="tag">Remote</span>
-            </div>
+            <div class="tag-row"><span class="badge badge-amber" style="font-size:11px;">AI Safety</span><span class="tag">Research</span><span class="tag">Remote</span></div>
           </div>
-          <div class="job-right">
-            <div class="job-salary">$80–130K</div>
-            <div class="job-deadline">Deadline: 30 Apr 2025</div>
-          </div>
+          <div class="job-right"><div class="job-salary">$80–130K</div><div class="job-deadline">Deadline: 30 Apr 2025</div></div>
         </div>
-
         <div class="job-card" data-category="poverty">
           <div>
             <div class="job-title">EdTech Product Manager</div>
             <div class="job-org">Shaqodoon Somalia · Mogadishu / Hargeisa · Full-time</div>
-            <div class="job-tags">
-              <span class="tag tag-green">Education</span>
-              <span class="tag">Product Management</span>
-              <span class="tag">Youth</span>
-            </div>
+            <div class="tag-row"><span class="tag tag-green">Education</span><span class="tag">Product Management</span><span class="tag">Youth</span></div>
           </div>
-          <div class="job-right">
-            <div class="job-salary">$28–40K</div>
-            <div class="job-deadline">Deadline: 20 Apr 2025</div>
-          </div>
+          <div class="job-right"><div class="job-salary">$28–40K</div><div class="job-deadline">Deadline: 20 Apr 2025</div></div>
         </div>
-
       </div>
 
-      <p style="font-size:13px;color:var(--text-muted);margin-top:16px;text-align:center;" class="fade-up">
-        Job listings are curated from public sources. EA Somalia does not guarantee accuracy. Always verify directly with the employer.
+      <p style="font-size:13px;color:var(--text-300);margin-top:14px;text-align:center;" class="fade-up">
+        Listings curated from public sources. Always verify directly with the employer.
       </p>
     </div>
   </section>
 
   <hr class="divider" />
 
-  <!-- GRANTS -->
   <section style="background:var(--off-white);">
     <div class="container">
       <div class="section-header fade-up">
-        <p class="section-label">Grant Database</p>
+        <span class="eyebrow">Grant Database</span>
         <h2 class="display-md">Funding opportunities</h2>
         <p class="lead">For EA-aligned projects and charity entrepreneurs in Somalia.</p>
       </div>
@@ -305,70 +179,40 @@
       <div class="grant-list">
         <div class="grant-card fade-up">
           <div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-              <span class="grant-title">EA Funds — Global Health & Development</span>
-              <span class="open-pill">Open</span>
-            </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;"><span class="grant-title">EA Funds — Global Health & Development</span><span class="open-badge">Open</span></div>
             <div class="grant-org">EA Funds · Deadline: Rolling</div>
-            <div class="grant-desc">Grants for organizations and individuals improving health and wellbeing in the developing world. Somalia-relevant applications are strongly encouraged.</div>
+            <p class="grant-desc">Grants for organisations improving health and wellbeing in the developing world. Somalia-relevant applications strongly encouraged.</p>
           </div>
-          <div>
-            <div class="grant-amount">Up to $500K</div>
-            <div class="grant-deadline"><a href="https://funds.effectivealtruism.org" target="_blank" style="color:var(--accent);text-decoration:none;">View details →</a></div>
-          </div>
+          <div class="grant-right"><div class="grant-amount">Up to $500K</div><a href="https://funds.effectivealtruism.org" target="_blank">View details →</a></div>
         </div>
-
         <div class="grant-card fade-up">
           <div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-              <span class="grant-title">Founders Pledge Climate Fund</span>
-              <span class="open-pill">Open</span>
-            </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;"><span class="grant-title">Founders Pledge Climate Fund</span><span class="open-badge">Open</span></div>
             <div class="grant-org">Founders Pledge · Deadline: 30 Jun 2025</div>
-            <div class="grant-desc">Supports high-leverage climate work in underserved regions. Somalia's climate vulnerability makes it a priority area.</div>
+            <p class="grant-desc">Supports high-leverage climate work in underserved regions. Somalia's climate vulnerability makes it a priority area.</p>
           </div>
-          <div>
-            <div class="grant-amount">Up to $250K</div>
-            <div class="grant-deadline"><a href="https://www.founderspledge.com" target="_blank" style="color:var(--accent);text-decoration:none;">View details →</a></div>
-          </div>
+          <div class="grant-right"><div class="grant-amount">Up to $250K</div><a href="https://www.founderspledge.com" target="_blank">View details →</a></div>
         </div>
-
         <div class="grant-card fade-up">
           <div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-              <span class="grant-title">GiveWell Incubation Grants</span>
-              <span class="open-pill">Open</span>
-            </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;"><span class="grant-title">GiveWell Incubation Grants</span><span class="open-badge">Open</span></div>
             <div class="grant-org">GiveWell · Deadline: Rolling</div>
-            <div class="grant-desc">Seed funding for organizations developing new high-impact interventions. EA Somalia can help members prepare strong proposals.</div>
+            <p class="grant-desc">Seed funding for organisations developing new high-impact interventions. EA Somalia can help prepare strong proposals.</p>
           </div>
-          <div>
-            <div class="grant-amount">$50K–$2M</div>
-            <div class="grant-deadline"><a href="https://www.givewell.org/research/incubation-grants" target="_blank" style="color:var(--accent);text-decoration:none;">View details →</a></div>
-          </div>
+          <div class="grant-right"><div class="grant-amount">$50K–$2M</div><a href="https://www.givewell.org/research/incubation-grants" target="_blank">View details →</a></div>
         </div>
-
         <div class="grant-card fade-up">
           <div>
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;">
-              <span class="grant-title">Open Philanthropy — Emerging Opportunities</span>
-              <span class="open-pill">Open</span>
-            </div>
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:4px;"><span class="grant-title">Open Philanthropy — Emerging Opportunities</span><span class="open-badge">Open</span></div>
             <div class="grant-org">Open Philanthropy · Deadline: Rolling</div>
-            <div class="grant-desc">Funds high-impact work globally. Somalia-focused applications in health, governance, and AI are all relevant.</div>
+            <p class="grant-desc">Funds high-impact work globally. Somalia-focused applications in health, governance, and AI are all relevant.</p>
           </div>
-          <div>
-            <div class="grant-amount">Variable</div>
-            <div class="grant-deadline"><a href="https://www.openphilanthropy.org" target="_blank" style="color:var(--accent);text-decoration:none;">View details →</a></div>
-          </div>
+          <div class="grant-right"><div class="grant-amount">Variable</div><a href="https://www.openphilanthropy.org" target="_blank">View details →</a></div>
         </div>
       </div>
 
       <div class="help-box fade-up">
-        <div>
-          <strong>Need help with your grant application?</strong>
-          <p>EA Somalia provides free grant-writing coaching and review sessions for members pursuing EA-aligned funding.</p>
-        </div>
+        <div><strong style="font-size:15px;color:var(--text-900);">Need help with your grant application?</strong><p style="margin-top:6px;">EA Somalia provides free grant-writing coaching and review sessions for members pursuing EA-aligned funding.</p></div>
         <a href="mailto:grants@easomalia.org" class="btn btn-primary">Request Grant Support</a>
       </div>
     </div>
@@ -379,28 +223,21 @@
 <script src="../js/components.js"></script>
 <script src="../js/main.js"></script>
 <script>
-  // Filter functionality
   const filterBtns = document.querySelectorAll('.filter-btn');
-  const jobCards = document.querySelectorAll('.job-card');
-  const jobCount = document.getElementById('job-count');
-
+  const jobCards   = document.querySelectorAll('.job-card');
+  const jobCount   = document.getElementById('job-count');
   filterBtns.forEach(btn => {
     btn.addEventListener('click', () => {
       filterBtns.forEach(b => b.classList.remove('active'));
       btn.classList.add('active');
-
-      const filter = btn.dataset.filter;
-      let visible = 0;
-
-      jobCards.forEach(card => {
-        const cat = card.dataset.category;
-        const show = filter === 'all' || cat === filter;
-        card.dataset.hidden = show ? 'false' : 'true';
-        card.style.display = show ? '' : 'none';
-        if (show) visible++;
+      const f = btn.dataset.filter;
+      let n = 0;
+      jobCards.forEach(c => {
+        const show = f === 'all' || c.dataset.category === f;
+        c.style.display = show ? '' : 'none';
+        if (show) n++;
       });
-
-      jobCount.textContent = `${visible} open position${visible !== 1 ? 's' : ''}`;
+      jobCount.textContent = `${n} open position${n !== 1 ? 's' : ''}`;
     });
   });
 </script>
