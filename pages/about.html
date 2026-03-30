@@ -3,185 +3,78 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About — EA Somalia</title>
+  <title>About Us — EA Somalia</title>
   <meta name="description" content="Learn about EA Somalia — a new community of ~50 professionals launched in February 2026." />
   <link rel="stylesheet" href="../css/style.css" />
   <style>
-    .mission-block {
-      background: var(--off-white);
-      border-radius: var(--radius-lg);
-      padding: 48px;
-      margin-bottom: 64px;
-      border: 1px solid var(--light-border);
+    .mission-box {
+      background: var(--off-white); border: 1px solid var(--warm-200);
+      border-radius: var(--r-xl); padding: 48px; margin-bottom: 48px;
     }
+    .mission-box h2 { font-size: 1.3rem; margin-bottom: 16px; }
+    .mission-box p  { line-height: 1.8; margin-bottom: 14px; }
+    .mission-box p:last-child { margin-bottom: 0; }
 
-    .mission-block h2 { font-size: 1.3rem; margin-bottom: 16px; }
-    .mission-block p { color: var(--text-secondary); line-height: 1.8; margin-bottom: 16px; }
-
-    .values-grid {
-      display: grid;
-      grid-template-columns: repeat(2, 1fr);
-      gap: 20px;
+    .values-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 18px; }
+    .val-card {
+      border: 1px solid var(--warm-200); border-radius: var(--r-lg);
+      padding: 26px; display: flex; gap: 18px; align-items: flex-start;
+      transition: all var(--t);
     }
+    .val-card:hover { border-color: var(--green-200); background: var(--off-white); }
+    .val-icon { font-size: 1.8rem; width: 50px; height: 50px; background: var(--green-50); border-radius: var(--r-md); display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+    .val-card h3 { font-size: 1rem; margin-bottom: 6px; }
+    .val-card p  { font-size: 14px; line-height: 1.6; }
 
-    .value-card {
-      padding: 28px;
-      border: 1px solid var(--light-border);
-      border-radius: var(--radius-lg);
-      display: flex;
-      gap: 20px;
-      align-items: flex-start;
-      transition: all var(--transition);
-    }
+    .timeline { position: relative; padding-left: 28px; }
+    .timeline::before { content: ''; position: absolute; left: 7px; top: 8px; bottom: 0; width: 2px; background: var(--warm-200); }
+    .tl { position: relative; padding-bottom: 28px; }
+    .tl::before { content: ''; position: absolute; left: -25px; top: 7px; width: 10px; height: 10px; border-radius: 50%; background: var(--green-700); border: 2px solid white; box-shadow: 0 0 0 2px var(--green-700); }
+    .tl-date { font-family: var(--mono); font-size: 10.5px; color: var(--green-700); text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 5px; }
+    .tl h4 { font-family: var(--sans); font-weight: 600; margin-bottom: 4px; }
+    .tl p  { font-size: 14px; line-height: 1.6; }
 
-    .value-card:hover { border-color: var(--accent-light); background: var(--off-white); }
-
-    .value-icon-lg {
-      font-size: 2rem;
-      flex-shrink: 0;
-      width: 52px;
-      height: 52px;
-      background: var(--accent-pale);
-      border-radius: 12px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .value-card h3 { font-size: 1rem; margin-bottom: 6px; }
-    .value-card p { font-size: 14px; color: var(--text-secondary); line-height: 1.6; }
-
-    .team-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
+    .team-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
     .team-card {
-      border: 1px solid var(--light-border);
-      border-radius: var(--radius-lg);
-      padding: 28px;
-      text-align: center;
-      transition: all var(--transition);
+      border: 1px solid var(--warm-200); border-radius: var(--r-lg);
+      padding: 28px; text-align: center; transition: all var(--t);
     }
-
-    .team-card:hover { border-color: var(--accent-light); box-shadow: var(--shadow-sm); }
-
-    .team-avatar {
-      width: 64px; height: 64px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--serif);
-      font-size: 1.4rem;
-      font-weight: 700;
-      color: white;
-      margin: 0 auto 16px;
+    .team-card:hover { border-color: var(--green-200); box-shadow: var(--shadow-sm); }
+    .t-avatar {
+      width: 64px; height: 64px; border-radius: 50%; display: flex;
+      align-items: center; justify-content: center; font-family: var(--serif);
+      font-size: 1.4rem; font-weight: 700; color: white; margin: 0 auto 16px;
     }
-
-    .team-name { font-weight: 600; font-size: 15px; margin-bottom: 4px; }
-    .team-role { font-size: 12px; color: var(--text-muted); margin-bottom: 10px; font-family: var(--mono); }
-    .team-bio { font-size: 13px; color: var(--text-secondary); line-height: 1.5; }
+    .t-name   { font-weight: 600; font-size: 15px; margin-bottom: 4px; color: var(--text-900); }
+    .t-role   { font-family: var(--mono); font-size: 10.5px; color: var(--text-300); text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 10px; }
+    .t-bio    { font-size: 13px; line-height: 1.55; }
 
     .faq-list { display: flex; flex-direction: column; }
-    .faq-item { border-bottom: 1px solid var(--light-border); }
-    .faq-item:first-child { border-top: 1px solid var(--light-border); }
+    .faq-item { border-bottom: 1px solid var(--warm-200); }
+    .faq-item:first-child { border-top: 1px solid var(--warm-200); }
     .faq-q {
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
-      padding: 18px 0;
-      font-family: var(--sans);
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-primary);
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      width:100%; text-align:left; background:none; border:none;
+      padding:18px 0; font-family:var(--sans); font-size:15px; font-weight:600;
+      color:var(--text-900); cursor:pointer; display:flex; justify-content:space-between; align-items:center;
     }
-    .faq-q .arrow { font-size: 18px; color: var(--accent); transition: transform var(--transition); }
-    .faq-item.open .arrow { transform: rotate(180deg); }
-    .faq-a { display: none; padding: 0 0 18px; font-size: 14px; color: var(--text-secondary); line-height: 1.7; }
-    .faq-item.open .faq-a { display: block; }
+    .faq-arrow { font-size:18px; color:var(--green-700); transition:transform var(--t); }
+    .faq-item.open .faq-arrow { transform:rotate(180deg); }
+    .faq-a { display:none; padding:0 0 18px; font-size:14px; line-height:1.7; }
+    .faq-item.open .faq-a { display:block; }
 
-    .contact-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
-    }
-
+    .contact-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:16px; }
     .contact-card {
-      border: 1px solid var(--light-border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      text-decoration: none;
-      display: block;
-      transition: all var(--transition);
-      text-align: center;
+      border:1px solid var(--warm-200); border-radius:var(--r-lg); padding:26px;
+      text-decoration:none; display:block; text-align:center; transition:all var(--t);
     }
+    .contact-card:hover { border-color:var(--green-200); box-shadow:var(--shadow-sm); transform:translateY(-2px); }
+    .contact-card .cc-icon { font-size:1.8rem; margin-bottom:8px; }
+    .contact-card h4 { font-size:14px; margin-bottom:4px; color:var(--text-900); }
+    .contact-card p  { font-size:13px; color:var(--green-700); }
 
-    .contact-card:hover { border-color: var(--accent-light); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
-    .contact-card .c-icon { font-size: 1.8rem; margin-bottom: 8px; }
-    .contact-card h4 { font-size: 14px; margin-bottom: 4px; color: var(--text-primary); }
-    .contact-card p { font-size: 13px; color: var(--accent); }
-
-    .timeline {
-      position: relative;
-      padding-left: 32px;
-    }
-
-    .timeline::before {
-      content: '';
-      position: absolute;
-      left: 8px;
-      top: 6px;
-      bottom: 0;
-      width: 2px;
-      background: var(--light-border);
-    }
-
-    .tl-item {
-      position: relative;
-      padding-bottom: 28px;
-    }
-
-    .tl-item::before {
-      content: '';
-      position: absolute;
-      left: -28px;
-      top: 6px;
-      width: 10px;
-      height: 10px;
-      border-radius: 50%;
-      background: var(--accent);
-      border: 2px solid white;
-      box-shadow: 0 0 0 2px var(--accent);
-    }
-
-    .tl-date {
-      font-family: var(--mono);
-      font-size: 11px;
-      color: var(--accent);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 4px;
-    }
-
-    .tl-item h4 { font-family: var(--sans); font-weight: 600; margin-bottom: 4px; }
-    .tl-item p { font-size: 14px; color: var(--text-secondary); }
-
-    @media (max-width: 768px) {
-      .values-grid, .contact-grid { grid-template-columns: 1fr; }
-      .team-grid { grid-template-columns: repeat(2, 1fr); }
-      .mission-block { padding: 28px; }
-    }
-
-    @media (max-width: 500px) {
-      .team-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width:900px) { .team-grid { grid-template-columns:repeat(2,1fr); } }
+    @media (max-width:768px) { .values-grid,.contact-grid { grid-template-columns:1fr; } .mission-box { padding:28px; } }
+    @media (max-width:500px) { .team-grid { grid-template-columns:1fr; } }
   </style>
 </head>
 <body>
@@ -190,82 +83,41 @@
 <main>
   <div class="page-hero">
     <div class="container">
-      <span class="badge badge-warm" style="margin-bottom:16px;">🌱 New Organisation · Feb 2026</span>
-      <h1 class="display-xl" style="margin-bottom:16px;">We exist to help Somalia's talent<br>go where it's <em>needed most.</em></h1>
-      <p class="lead">EA Somalia launched in February 2026 with a small, passionate group of ~50 Somali professionals. We're at the very beginning of what we hope will be a meaningful journey.</p>
+      <span class="badge badge-amber">🌱 New Organisation · Feb 2026</span>
+      <h1 class="display-xl" style="margin-bottom:18px;">We exist to help Somalia's talent<br>go where it's <em>needed most.</em></h1>
+      <p class="lead">EA Somalia launched in February 2026 with a small, passionate group of ~50 Somali professionals. We're at the very beginning of a meaningful journey.</p>
     </div>
   </div>
 
-  <!-- MISSION -->
   <section>
     <div class="container">
       <div class="grid-2" style="gap:48px;align-items:start;">
         <div>
-          <div class="mission-block fade-up">
-            <p class="section-label">Our Mission</p>
+          <div class="mission-box fade-up">
+            <span class="eyebrow">Our Mission</span>
             <h2>Help Somali professionals identify and pursue the most impactful careers and giving opportunities.</h2>
             <p>We use evidence, reason, and a commitment to impartial concern for all people. We believe Somalia has extraordinary potential — a young, connected population, a growing diaspora with international experience, and a set of challenges that are simultaneously urgent and tractable with the right talent deployed at scale.</p>
-            <p>By connecting talent to the best frameworks, communities, and opportunities, we aim to catalyze a generation of Somali professionals making measurable, evidence-based progress on hard problems.</p>
+            <p>By connecting talent to the best frameworks, communities, and opportunities, we aim to catalyse a generation of Somali professionals making measurable, evidence-based progress on hard problems.</p>
           </div>
 
           <div class="fade-up">
-            <p class="section-label" style="margin-bottom:12px;">Our Story So Far</p>
+            <span class="eyebrow" style="margin-bottom:16px;">Our Story So Far</span>
             <div class="timeline">
-              <div class="tl-item">
-                <div class="tl-date">February 2026</div>
-                <h4>EA Somalia Founded</h4>
-                <p>A small group of Somali professionals in Mogadishu comes together around the idea of applying EA principles locally.</p>
-              </div>
-              <div class="tl-item">
-                <div class="tl-date">March 2026</div>
-                <h4>First Meetups</h4>
-                <p>Regular gatherings begin in Mogadishu. First discussions on career strategy and effective giving. ~50 members join.</p>
-              </div>
-              <div class="tl-item">
-                <div class="tl-date">Now</div>
-                <h4>Building & Growing</h4>
-                <p>This website launches. We're actively seeking new members, mentors, and people who want to help shape what EA Somalia becomes.</p>
-              </div>
-              <div class="tl-item" style="padding-bottom:0;">
-                <div class="tl-date">Future</div>
-                <h4>What's next?</h4>
-                <p>Expanding chapters, launching the mentorship program, and building our community. Join us early.</p>
-              </div>
+              <div class="tl"><div class="tl-date">February 2026</div><h4>EA Somalia Founded</h4><p>A small group of Somali professionals in Mogadishu comes together around the idea of applying EA principles locally.</p></div>
+              <div class="tl"><div class="tl-date">March 2026</div><h4>First Meetups</h4><p>Regular gatherings begin in Mogadishu. First discussions on career strategy and effective giving. ~50 members join.</p></div>
+              <div class="tl"><div class="tl-date">Now</div><h4>Building & Growing</h4><p>This website launches. We're actively seeking new members, mentors, and people who want to help shape what EA Somalia becomes.</p></div>
+              <div class="tl" style="padding-bottom:0;"><div class="tl-date">Future</div><h4>What's next?</h4><p>Expanding chapters, launching the mentorship program, and building our community. Join us early.</p></div>
             </div>
           </div>
         </div>
 
         <div>
-          <p class="section-label" style="margin-bottom:20px;">Our Core Values</p>
+          <span class="eyebrow" style="margin-bottom:18px;">Our Core Values</span>
           <div class="values-grid" style="grid-template-columns:1fr;">
-            <div class="value-card fade-up">
-              <div class="value-icon-lg">🔍</div>
-              <div>
-                <h3>Evidence First</h3>
-                <p>We prioritize interventions with rigorous evidence. When evidence is limited, we apply systematic frameworks and are transparent about uncertainty.</p>
-              </div>
-            </div>
-            <div class="value-card fade-up">
-              <div class="value-icon-lg">🌍</div>
-              <div>
-                <h3>Impartial Concern</h3>
-                <p>We care about improving wellbeing regardless of nationality, proximity, or identity — equal concern for all people.</p>
-              </div>
-            </div>
-            <div class="value-card fade-up">
-              <div class="value-icon-lg">💡</div>
-              <div>
-                <h3>Intellectual Honesty</h3>
-                <p>We update our views with new evidence, welcome disagreement, and acknowledge when we're wrong. Dogmatism is incompatible with doing good well.</p>
-              </div>
-            </div>
-            <div class="value-card fade-up">
-              <div class="value-icon-lg">🤝</div>
-              <div>
-                <h3>Open Community</h3>
-                <p>Everyone can learn and contribute regardless of where they start. EA Somalia is a place to explore and grow together.</p>
-              </div>
-            </div>
+            <div class="val-card fade-up"><div class="val-icon">🔍</div><div><h3>Evidence First</h3><p>We prioritise interventions with rigorous evidence and are transparent about uncertainty.</p></div></div>
+            <div class="val-card fade-up"><div class="val-icon">🌍</div><div><h3>Impartial Concern</h3><p>We care about wellbeing regardless of nationality, proximity, or identity.</p></div></div>
+            <div class="val-card fade-up"><div class="val-icon">💡</div><div><h3>Intellectual Honesty</h3><p>We update views with new evidence, welcome disagreement, and acknowledge when we're wrong.</p></div></div>
+            <div class="val-card fade-up"><div class="val-icon">🤝</div><div><h3>Open Community</h3><p>Everyone can learn and contribute regardless of where they start.</p></div></div>
           </div>
         </div>
       </div>
@@ -274,72 +126,55 @@
 
   <hr class="divider" />
 
-  <!-- TEAM -->
   <section style="background:var(--off-white);">
     <div class="container">
       <div class="section-header fade-up">
-        <p class="section-label">Our Team</p>
+        <span class="eyebrow">Our Team</span>
         <h2 class="display-md">The people building this</h2>
         <p class="lead">A small, dedicated group of Somali and diaspora professionals at the start of something meaningful.</p>
       </div>
-
       <div class="team-grid">
         <div class="team-card fade-up">
-          <div class="team-avatar" style="background:#2d6a4f;">SA</div>
-          <div class="team-name">Sahra Ahmed Omar</div>
-          <div class="team-role">Executive Director</div>
-          <div class="team-bio">Economist with a focus on fragile states. Passionate about applying evidence-based frameworks to Somali development challenges.</div>
-          <div class="tag-row" style="justify-content:center;margin-top:12px;">
-            <span class="tag">Cause Prioritization</span>
-            <span class="tag">Economic Policy</span>
-          </div>
+          <div class="t-avatar" style="background:#2d6a4f;">SA</div>
+          <div class="t-name">Sahra Ahmed Omar</div>
+          <div class="t-role">Executive Director</div>
+          <p class="t-bio">Economist with a focus on fragile states. Passionate about applying evidence-based frameworks to Somali development challenges.</p>
+          <div class="tag-row" style="justify-content:center;margin-top:12px;"><span class="tag">Cause Prioritization</span><span class="tag">Economic Policy</span></div>
         </div>
         <div class="team-card fade-up">
-          <div class="team-avatar" style="background:#1d5740;">KH</div>
-          <div class="team-name">Khalid Hassan Idle</div>
-          <div class="team-role">Community Lead</div>
-          <div class="team-bio">Organizational psychologist building EA Somalia's community from the ground up. Previously with Shaqodoon.</div>
-          <div class="tag-row" style="justify-content:center;margin-top:12px;">
-            <span class="tag">Community Building</span>
-            <span class="tag">Youth</span>
-          </div>
+          <div class="t-avatar" style="background:#1d5740;">KH</div>
+          <div class="t-name">Khalid Hassan Idle</div>
+          <div class="t-role">Community Lead</div>
+          <p class="t-bio">Organisational psychologist building EA Somalia's community from the ground up. Previously with Shaqodoon.</p>
+          <div class="tag-row" style="justify-content:center;margin-top:12px;"><span class="tag">Community Building</span><span class="tag">Youth</span></div>
         </div>
         <div class="team-card fade-up">
-          <div class="team-avatar" style="background:#52b788;">HF</div>
-          <div class="team-name">Hibo Farah Mohamed</div>
-          <div class="team-role">Career Coaching Lead</div>
-          <div class="team-bio">Career coach and public health professional helping Somali professionals navigate high-impact career transitions.</div>
-          <div class="tag-row" style="justify-content:center;margin-top:12px;">
-            <span class="tag">Career Coaching</span>
-            <span class="tag">Public Health</span>
-          </div>
+          <div class="t-avatar" style="background:#52b788;">HF</div>
+          <div class="t-name">Hibo Farah Mohamed</div>
+          <div class="t-role">Career Coaching Lead</div>
+          <p class="t-bio">Career coach and public health professional helping Somali professionals navigate high-impact career transitions.</p>
+          <div class="tag-row" style="justify-content:center;margin-top:12px;"><span class="tag">Career Coaching</span><span class="tag">Public Health</span></div>
         </div>
         <div class="team-card fade-up">
-          <div class="team-avatar" style="background:#245a42;">AY</div>
-          <div class="team-name">Abdirahman Yusuf Ali</div>
-          <div class="team-role">Research & Grants</div>
-          <div class="team-bio">Former researcher at IGAD Policy Institute. Manages our grant database and helps members with funding applications.</div>
-          <div class="tag-row" style="justify-content:center;margin-top:12px;">
-            <span class="tag">Policy Research</span>
-            <span class="tag">Grant Writing</span>
-          </div>
+          <div class="t-avatar" style="background:#245a42;">AY</div>
+          <div class="t-name">Abdirahman Yusuf Ali</div>
+          <div class="t-role">Research & Grants</div>
+          <p class="t-bio">Former researcher at IGAD Policy Institute. Manages our grant database and helps members with funding applications.</p>
+          <div class="tag-row" style="justify-content:center;margin-top:12px;"><span class="tag">Policy Research</span><span class="tag">Grant Writing</span></div>
         </div>
         <div class="team-card fade-up">
-          <div class="team-avatar" style="background:#40916c;">LI</div>
-          <div class="team-name">Layla Ibrahim Duale</div>
-          <div class="team-role">Diaspora Programs</div>
-          <div class="team-bio">UK-based Somali professional with experience in fintech. Planning our diaspora chapter and earning-to-give program.</div>
-          <div class="tag-row" style="justify-content:center;margin-top:12px;">
-            <span class="tag">Diaspora</span>
-            <span class="tag">Fintech</span>
-          </div>
+          <div class="t-avatar" style="background:#40916c;">LI</div>
+          <div class="t-name">Layla Ibrahim Duale</div>
+          <div class="t-role">Diaspora Programs</div>
+          <p class="t-bio">UK-based Somali professional with fintech experience. Planning our diaspora chapter and earning-to-give program.</p>
+          <div class="tag-row" style="justify-content:center;margin-top:12px;"><span class="tag">Diaspora</span><span class="tag">Fintech</span></div>
         </div>
-        <div class="team-card fade-up" style="background:var(--off-white);border-style:dashed;display:flex;align-items:center;justify-content:center;flex-direction:column;text-align:center;">
-          <div style="font-size:2rem;margin-bottom:12px;">✨</div>
-          <div class="team-name">Could be you</div>
-          <div class="team-role">We're a volunteer org</div>
-          <div class="team-bio">We're looking for passionate people to help build this. Get in touch.</div>
-          <a href="mailto:info@easomalia.org" class="btn btn-outline" style="margin-top:16px;font-size:13px;padding:8px 18px;">Get Involved</a>
+        <div class="team-card fade-up" style="background:var(--off-white);border-style:dashed;display:flex;align-items:center;justify-content:center;flex-direction:column;">
+          <div style="font-size:2.2rem;margin-bottom:12px;">✨</div>
+          <div class="t-name">Could be you</div>
+          <div class="t-role" style="margin-bottom:10px;">We're a volunteer org</div>
+          <p class="t-bio" style="margin-bottom:16px;">We're looking for passionate people to help build this. Get in touch.</p>
+          <a href="mailto:info@easomalia.org" class="btn btn-outline" style="font-size:13px;padding:8px 20px;">Get Involved</a>
         </div>
       </div>
     </div>
@@ -347,34 +182,32 @@
 
   <hr class="divider" />
 
-  <!-- FAQ -->
   <section>
     <div class="container-narrow">
       <div class="section-header fade-up">
-        <p class="section-label">FAQ</p>
+        <span class="eyebrow">FAQ</span>
         <h2 class="display-md">Common questions</h2>
       </div>
-
       <div class="faq-list fade-up">
         <div class="faq-item open">
-          <button class="faq-q">Is EA Somalia affiliated with the global EA movement? <span class="arrow">▾</span></button>
-          <div class="faq-a">Yes. EA Somalia is part of the broader EA community, drawing on research from 80,000 Hours, GiveWell, and Founders Pledge. We are an independent organization applying EA principles in the Somali context.</div>
+          <button class="faq-q">Is EA Somalia affiliated with the global EA movement? <span class="faq-arrow">▾</span></button>
+          <div class="faq-a">Yes. EA Somalia is part of the broader EA community, drawing on research from 80,000 Hours, GiveWell, and Founders Pledge. We are an independent organisation applying EA principles in the Somali context.</div>
         </div>
         <div class="faq-item">
-          <button class="faq-q">Do I need to commit to anything to join? <span class="arrow">▾</span></button>
+          <button class="faq-q">Do I need to commit to anything to join? <span class="faq-arrow">▾</span></button>
           <div class="faq-a">Not at all. EA Somalia is open to anyone curious about doing good more effectively. No membership fee, pledge requirement, or minimum involvement level. Just show up and explore with us.</div>
         </div>
         <div class="faq-item">
-          <button class="faq-q">I'm based abroad. Can I still participate? <span class="arrow">▾</span></button>
+          <button class="faq-q">I'm based abroad. Can I still participate? <span class="faq-arrow">▾</span></button>
           <div class="faq-a">Absolutely. We're planning a diaspora chapter specifically for Somalis abroad. Register your interest and we'll be in touch when it launches.</div>
         </div>
         <div class="faq-item">
-          <button class="faq-q">How is EA Somalia funded? <span class="arrow">▾</span></button>
-          <div class="faq-a">We're just getting started and are currently operating on volunteer time. We're exploring funding from EA Funds and individual donors as we grow. We will publish full financial transparency as we develop.</div>
+          <button class="faq-q">How is EA Somalia funded? <span class="faq-arrow">▾</span></button>
+          <div class="faq-a">We're just getting started and currently operating on volunteer time. We're exploring funding from EA Funds and individual donors as we grow. We will publish full financial transparency as we develop.</div>
         </div>
         <div class="faq-item">
-          <button class="faq-q">How can I help build EA Somalia? <span class="arrow">▾</span></button>
-          <div class="faq-a">We need help with community building, content creation, event organization, research, and more. Email us at info@easomalia.org — we'd love to hear from you.</div>
+          <button class="faq-q">How can I help build EA Somalia? <span class="faq-arrow">▾</span></button>
+          <div class="faq-a">We need help with community building, content creation, event organisation, research, and more. Email us at info@easomalia.org — we'd love to hear from you.</div>
         </div>
       </div>
     </div>
@@ -382,38 +215,26 @@
 
   <hr class="divider" />
 
-  <!-- CONTACT -->
   <section id="contact" style="background:var(--off-white);">
     <div class="container">
       <div class="section-header fade-up" style="text-align:center;">
-        <p class="section-label">Get in Touch</p>
+        <span class="eyebrow">Get in Touch</span>
         <h2 class="display-md">We'd love to hear from you</h2>
-        <p class="lead">Whether you want to join, collaborate, or just learn more — reach out.</p>
+        <p class="lead" style="margin:0 auto;">Whether you want to join, collaborate, or just learn more — reach out.</p>
       </div>
-
-      <div class="contact-grid">
-        <a href="mailto:info@easomalia.org" class="contact-card fade-up">
-          <div class="c-icon">✉️</div>
-          <h4>General Inquiries</h4>
-          <p>info@easomalia.org</p>
-        </a>
-        <a href="mailto:chapters@easomalia.org" class="contact-card fade-up">
-          <div class="c-icon">🌍</div>
-          <h4>Chapters & Community</h4>
-          <p>chapters@easomalia.org</p>
-        </a>
-        <a href="mailto:mentorship@easomalia.org" class="contact-card fade-up">
-          <div class="c-icon">🤝</div>
-          <h4>Mentorship Program</h4>
-          <p>mentorship@easomalia.org</p>
-        </a>
+      <div class="contact-grid fade-up">
+        <a href="mailto:info@easomalia.org" class="contact-card"><div class="cc-icon">✉️</div><h4>General Inquiries</h4><p>info@easomalia.org</p></a>
+        <a href="mailto:chapters@easomalia.org" class="contact-card"><div class="cc-icon">🌍</div><h4>Chapters & Community</h4><p>chapters@easomalia.org</p></a>
+        <a href="mailto:mentorship@easomalia.org" class="contact-card"><div class="cc-icon">🤝</div><h4>Mentorship Program</h4><p>mentorship@easomalia.org</p></a>
       </div>
-
-      <div style="text-align:center;margin-top:40px;" class="fade-up">
+      <div style="margin-top:44px;" class="fade-up">
         <div class="cta-banner">
           <h2 class="display-md">Ready to join us?</h2>
-          <p>We're 50 people with big ambitions and a lot of work to do. Your skills and energy would be welcome.</p>
-          <a href="mailto:info@easomalia.org" class="btn btn-white">Say Hello →</a>
+          <p>We're 50 people with big ambitions and a lot of work to do. Your skills and energy would be very welcome.</p>
+          <div class="btn-row">
+            <a href="mailto:info@easomalia.org" class="btn btn-white">Say Hello →</a>
+            <a href="/coming-soon.html" class="btn btn-glass">Register Interest</a>
+          </div>
         </div>
       </div>
     </div>
@@ -423,15 +244,5 @@
 <div id="footer-container"></div>
 <script src="../js/components.js"></script>
 <script src="../js/main.js"></script>
-<script>
-  document.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.faq-item');
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-    });
-  });
-</script>
 </body>
 </html>
