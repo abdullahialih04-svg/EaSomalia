@@ -526,7 +526,7 @@
 </div>
 
 <script>
-  /* ── Countdown to next monthly meetup (first Saturday of next month) ── */
+  /* ── Countdown logic ── */
   function nextFirstSaturday() {
     const now  = new Date();
     const year = now.getMonth() === 11 ? now.getFullYear() + 1 : now.getFullYear();
@@ -552,10 +552,7 @@
   updateCountdown();
   setInterval(updateCountdown, 30000);
 
-  /* ── Progress bar ── */
-  const members = 50;
-  const goal    = 100;
-  document.getElementById('progress-fill').style.width = (members / goal * 100) + '%';
+  document.getElementById('progress-fill').style.width = '50%';
 
   /* ── Form validation + submit ── */
   function validateField(id, errId, check) {
@@ -576,13 +573,11 @@
     
     if (!v1 || !v2 || !v3 || !v4 || !v5) return;
 
-    // UI State
     const btn = document.getElementById('submit-btn');
     const originalText = btn.textContent;
     btn.disabled = true;
     btn.textContent = 'Sending...';
 
-    // Gather data
     const data = {
       firstName:   document.getElementById('first-name').value.trim(),
       lastName:    document.getElementById('last-name').value.trim(),
@@ -594,7 +589,7 @@
     };
 
     try {
-        const response = await fetch('https://formspree.io/f/mnjodwjz', {
+        const response = await fetch('https://formspree.io/f/xpqodblv', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
             body: JSON.stringify(data)
@@ -622,10 +617,8 @@
   }
 
   function copyLink() {
-    navigator.clipboard.writeText('https://ea-somalia.vercel.app').then(() => {
-      const btn = event.target;
-      btn.textContent = '✓ Copied!';
-      setTimeout(() => btn.textContent = 'Copy Link', 2000);
+    navigator.clipboard.writeText(window.location.href).then(() => {
+      alert('Link copied to clipboard!');
     });
   }
 
