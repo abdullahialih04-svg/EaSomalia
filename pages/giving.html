@@ -4,159 +4,66 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Giving Effectively — EA Somalia</title>
-  <meta name="description" content="Not all donations are equal. Learn to give smarter with EA Somalia's guide to effective giving." />
+  <meta name="description" content="Not all donations are equal. Give smarter with EA Somalia's guide to effective giving." />
   <link rel="stylesheet" href="../css/style.css" />
   <style>
-    .pillars {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 24px;
-      margin-bottom: 64px;
-    }
-
-    .pillar {
-      text-align: center;
-      padding: 32px 24px;
-      border: 1px solid var(--light-border);
-      border-radius: var(--radius-lg);
-    }
-
-    .pillar .p-icon { font-size: 2rem; margin-bottom: 12px; }
+    .pillars { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; margin-bottom: 64px; }
+    .pillar  { text-align: center; padding: 34px 24px; border: 1px solid var(--warm-200); border-radius: var(--r-lg); transition: all var(--t); }
+    .pillar:hover { border-color: var(--green-200); background: var(--green-50); }
+    .pillar .p-icon { font-size: 2.2rem; margin-bottom: 14px; }
     .pillar h3 { margin-bottom: 8px; font-size: 1rem; }
-    .pillar p { font-size: 13px; color: var(--text-secondary); }
+    .pillar p  { font-size: 13px; }
 
-    .charity-grid { display: flex; flex-direction: column; gap: 16px; }
-
+    .charity-list { display: flex; flex-direction: column; gap: 14px; }
     .charity-card {
-      border: 1px solid var(--light-border);
-      border-radius: var(--radius-lg);
-      padding: 24px 28px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 24px;
-      align-items: start;
-      transition: all var(--transition);
+      border: 1px solid var(--warm-200); border-radius: var(--r-lg);
+      padding: 22px 28px; display: grid; grid-template-columns: 1fr auto;
+      gap: 20px; align-items: center; transition: all var(--t);
     }
-
-    .charity-card:hover {
-      border-color: var(--accent-light);
-      box-shadow: var(--shadow-md);
-    }
-
-    .charity-card.somalia {
-      border-left: 3px solid var(--accent-warm);
-    }
-
-    .charity-header {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
-    }
-
-    .charity-name { font-family: var(--serif); font-size: 1.15rem; }
-
+    .charity-card:hover { border-color: var(--green-200); box-shadow: var(--shadow-md); }
+    .charity-card.somalia { border-left: 3px solid var(--amber-500); }
+    .charity-header { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap; }
+    .charity-name  { font-family: var(--serif); font-size: 1.15rem; font-weight: 600; }
     .stars { color: #f59e0b; font-size: 12px; letter-spacing: 2px; }
-
-    .charity-desc { font-size: 14px; color: var(--text-secondary); margin-bottom: 12px; line-height: 1.6; }
-
-    .charity-meta {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex-wrap: wrap;
-    }
-
-    .charity-right { text-align: right; min-width: 140px; }
-    .cost-label { font-family: var(--mono); font-size: 10px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.06em; }
-    .cost-value { font-family: var(--serif); font-size: 1.1rem; font-weight: 700; color: var(--accent); }
-    .cost-desc { font-size: 11px; color: var(--text-muted); margin-top: 4px; }
+    .charity-desc  { font-size: 14px; margin-bottom: 12px; line-height: 1.65; }
+    .charity-right { text-align: right; min-width: 130px; }
+    .cost-label  { font-family: var(--mono); font-size: 10px; text-transform: uppercase; color: var(--text-300); letter-spacing: 0.06em; }
+    .cost-value  { font-family: var(--serif); font-size: 1.2rem; font-weight: 700; color: var(--green-700); }
+    .cost-note   { font-size: 11px; color: var(--text-300); margin-top: 4px; }
 
     .pledge-box {
-      background: var(--off-white);
-      border: 1px solid var(--light-border);
-      border-radius: var(--radius-lg);
-      padding: 40px;
-      display: grid;
-      grid-template-columns: 1fr auto;
-      gap: 32px;
-      align-items: center;
+      background: var(--off-white); border: 1px solid var(--warm-200); border-radius: var(--r-xl);
+      padding: 44px 48px; display: grid; grid-template-columns: 1fr 280px; gap: 40px; align-items: center;
     }
-
-    .pledge-pct {
-      font-family: var(--serif);
-      font-size: 4rem;
-      font-weight: 700;
-      color: var(--accent);
-      line-height: 1;
+    .pledge-pct { font-family: var(--serif); font-size: 5rem; font-weight: 700; color: var(--green-700); line-height: 1; }
+    .pledge-right {
+      background: var(--green-50); border: 1px solid var(--green-200);
+      border-radius: var(--r-lg); padding: 28px; text-align: center;
     }
+    .pledge-right .num { font-family: var(--serif); font-size: 2rem; font-weight: 700; color: var(--green-700); }
+    .pledge-right .desc { font-size: 13px; color: var(--text-500); margin: 6px 0; }
 
-    .faq-list { display: flex; flex-direction: column; gap: 0; }
-
-    .faq-item {
-      border-bottom: 1px solid var(--light-border);
-    }
-
-    .faq-item:first-child { border-top: 1px solid var(--light-border); }
-
+    .faq-list { display: flex; flex-direction: column; }
+    .faq-item { border-bottom: 1px solid var(--warm-200); }
+    .faq-item:first-child { border-top: 1px solid var(--warm-200); }
     .faq-q {
-      width: 100%;
-      text-align: left;
-      background: none;
-      border: none;
-      padding: 20px 0;
-      font-family: var(--sans);
-      font-size: 15px;
-      font-weight: 600;
-      color: var(--text-primary);
-      cursor: pointer;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      width: 100%; text-align: left; background: none; border: none;
+      padding: 20px 0; font-family: var(--sans); font-size: 15px; font-weight: 600;
+      color: var(--text-900); cursor: pointer; display: flex; justify-content: space-between; align-items: center;
     }
-
-    .faq-q .arrow {
-      font-size: 18px;
-      color: var(--accent);
-      transition: transform var(--transition);
-    }
-
-    .faq-item.open .arrow { transform: rotate(180deg); }
-
-    .faq-a {
-      display: none;
-      padding: 0 0 20px;
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.7;
-    }
-
+    .faq-arrow { font-size: 18px; color: var(--green-700); transition: transform var(--t); }
+    .faq-item.open .faq-arrow { transform: rotate(180deg); }
+    .faq-a { display: none; padding: 0 0 20px; font-size: 14px; line-height: 1.7; }
     .faq-item.open .faq-a { display: block; }
 
-    .resources-row {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 20px;
-    }
-
+    .resources-row { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; }
     .resource-link {
-      display: block;
-      border: 1px solid var(--light-border);
-      border-radius: var(--radius-lg);
-      padding: 24px;
-      text-decoration: none;
-      transition: all var(--transition);
+      display: block; border: 1px solid var(--warm-200); border-radius: var(--r-lg);
+      padding: 24px; text-decoration: none; transition: all var(--t);
     }
-
-    .resource-link:hover {
-      border-color: var(--accent-light);
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-md);
-    }
-
-    .resource-link h4 { font-size: 15px; margin-bottom: 6px; color: var(--text-primary); }
-    .resource-link p { font-size: 13px; color: var(--text-secondary); }
+    .resource-link:hover { border-color: var(--green-200); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .resource-link h4 { font-size: 15px; margin-bottom: 6px; color: var(--text-900); }
+    .resource-link p  { font-size: 13px; }
 
     @media (max-width: 768px) {
       .pillars { grid-template-columns: 1fr; }
@@ -173,141 +80,70 @@
 <main>
   <div class="page-hero">
     <div class="container">
-      <span class="badge badge-green" style="margin-bottom:16px;"><span class="dot"></span> Giving Effectively</span>
-      <h1 class="display-xl" style="margin-bottom:16px;">Give more. Give <em>smarter.</em><br>Make it count.</h1>
-      <p class="lead">Not all donations are created equal. Some charities are literally 100× more effective than others at the same goal. We cut through the noise so your giving goes as far as possible.</p>
+      <span class="badge badge-green"><span class="dot"></span> Giving Effectively</span>
+      <h1 class="display-xl" style="margin-bottom:18px;">Give more. Give <em>smarter.</em><br>Make it count.</h1>
+      <p class="lead">Not all donations are equal. Some charities are literally 100× more effective than others at the same goal. We cut through the noise.</p>
     </div>
   </div>
 
   <section>
     <div class="container">
       <div class="pillars">
-        <div class="pillar fade-up">
-          <div class="p-icon">🔬</div>
-          <h3>Evidence-Based</h3>
-          <p>We only feature charities with rigorous RCT or quasi-experimental evidence for their core interventions.</p>
-        </div>
-        <div class="pillar fade-up">
-          <div class="p-icon">📊</div>
-          <h3>Independently Evaluated</h3>
-          <p>All recommendations are based on GiveWell, Founders Pledge, or ACE assessments — not charity self-reporting.</p>
-        </div>
-        <div class="pillar fade-up">
-          <div class="p-icon">🎯</div>
-          <h3>Cost-Effectiveness First</h3>
-          <p>We compare charities on lives saved per dollar, not operational metrics like overhead ratios.</p>
-        </div>
+        <div class="pillar fade-up"><div class="p-icon">🔬</div><h3>Evidence-Based</h3><p>We only feature charities with rigorous RCT or quasi-experimental evidence for their core interventions.</p></div>
+        <div class="pillar fade-up"><div class="p-icon">📊</div><h3>Independently Evaluated</h3><p>All recommendations are based on GiveWell, Founders Pledge, or ACE assessments — not charity self-reporting.</p></div>
+        <div class="pillar fade-up"><div class="p-icon">🎯</div><h3>Cost-Effectiveness First</h3><p>We compare charities on lives saved per dollar, not operational metrics like overhead ratios.</p></div>
       </div>
 
       <div class="section-header fade-up">
-        <p class="section-label">Recommended Charities</p>
+        <span class="eyebrow">Recommended Charities</span>
         <h2 class="display-md">Top picks by evidence</h2>
-        <p class="lead">Globally and Somalia-specific organizations evaluated on impact per dollar.</p>
+        <p class="lead">Globally and Somalia-specific organisations evaluated on impact per dollar.</p>
       </div>
 
-      <div class="charity-grid">
-        <!-- Global -->
+      <div class="charity-list">
         <div class="charity-card fade-up">
           <div>
-            <div class="charity-header">
-              <span class="charity-name">Against Malaria Foundation</span>
-              <span class="stars">★★★★★</span>
-              <span class="badge badge-green">GiveWell Top</span>
-            </div>
+            <div class="charity-header"><span class="charity-name">Against Malaria Foundation</span><span class="stars">★★★★★</span><span class="badge badge-green">GiveWell Top</span></div>
             <p class="charity-desc">Distributes insecticide-treated bed nets in sub-Saharan Africa. One of the most cost-effective life-saving interventions ever studied.</p>
-            <div class="charity-meta">
-              <span class="tag">Global Health</span>
-              <span class="tag">Malaria</span>
-              <a href="https://www.givewell.org/charities/amf" target="_blank" style="font-size:13px;color:var(--accent);text-decoration:none;font-weight:600;">GiveWell review →</a>
-            </div>
+            <div class="tag-row"><span class="tag">Global Health</span><span class="tag">Malaria</span><a href="https://www.givewell.org/charities/amf" target="_blank" style="font-size:13px;color:var(--green-700);font-weight:600;text-decoration:none;">GiveWell review →</a></div>
           </div>
-          <div class="charity-right">
-            <div class="cost-label">Cost per life saved</div>
-            <div class="cost-value">$3–5K</div>
-            <div class="cost-desc">Per life saved</div>
-          </div>
+          <div class="charity-right"><div class="cost-label">Cost per life saved</div><div class="cost-value">$3–5K</div></div>
         </div>
 
         <div class="charity-card fade-up">
           <div>
-            <div class="charity-header">
-              <span class="charity-name">GiveDirectly</span>
-              <span class="stars">★★★★★</span>
-              <span class="badge badge-green">GiveWell Top</span>
-            </div>
+            <div class="charity-header"><span class="charity-name">GiveDirectly</span><span class="stars">★★★★★</span><span class="badge badge-green">GiveWell Top</span></div>
             <p class="charity-desc">Provides direct cash transfers to extremely poor households. Strong evidence shows cash outperforms many traditional aid programs in Africa.</p>
-            <div class="charity-meta">
-              <span class="tag">Cash Transfers</span>
-              <span class="tag">Africa</span>
-              <a href="https://www.givedirectly.org" target="_blank" style="font-size:13px;color:var(--accent);text-decoration:none;font-weight:600;">Visit site →</a>
-            </div>
+            <div class="tag-row"><span class="tag">Cash Transfers</span><span class="tag">Africa</span><a href="https://www.givedirectly.org" target="_blank" style="font-size:13px;color:var(--green-700);font-weight:600;text-decoration:none;">Visit site →</a></div>
           </div>
-          <div class="charity-right">
-            <div class="cost-label">Direct transfer</div>
-            <div class="cost-value">$1K</div>
-            <div class="cost-desc">Per household</div>
-          </div>
+          <div class="charity-right"><div class="cost-label">Direct transfer</div><div class="cost-value">$1K</div></div>
         </div>
 
         <div class="charity-card fade-up">
           <div>
-            <div class="charity-header">
-              <span class="charity-name">Malaria Consortium</span>
-              <span class="stars">★★★★★</span>
-              <span class="badge badge-green">GiveWell Top</span>
-            </div>
-            <p class="charity-desc">Delivers seasonal malaria chemoprevention to children in the Sahel. Reaches millions of children with preventive medicine annually.</p>
-            <div class="charity-meta">
-              <span class="tag">Preventive Health</span>
-              <span class="tag">Children</span>
-            </div>
+            <div class="charity-header"><span class="charity-name">Malaria Consortium</span><span class="stars">★★★★★</span><span class="badge badge-green">GiveWell Top</span></div>
+            <p class="charity-desc">Delivers seasonal malaria chemoprevention to children in the Sahel. Reaches millions annually with preventive medicine.</p>
+            <div class="tag-row"><span class="tag">Preventive Health</span><span class="tag">Children</span></div>
           </div>
-          <div class="charity-right">
-            <div class="cost-label">Cost per life saved</div>
-            <div class="cost-value">$2.5–4K</div>
-            <div class="cost-desc">Per life saved</div>
-          </div>
+          <div class="charity-right"><div class="cost-label">Cost per life saved</div><div class="cost-value">$2.5–4K</div></div>
         </div>
 
-        <!-- Somalia specific -->
-        <div class="charity-card fade-up">
+        <div class="charity-card somalia fade-up">
           <div>
-            <div class="charity-header">
-              <span class="charity-name">Somalia Nutrition Consortium</span>
-              <span class="stars">★★★★</span>
-              <span class="badge badge-warm">Somalia-Specific</span>
-            </div>
-            <p class="charity-desc">Addresses acute malnutrition in Somalia's most vulnerable communities through therapeutic feeding programs and nutrition education.</p>
-            <div class="charity-meta">
-              <span class="tag">Nutrition</span>
-              <span class="tag">Children</span>
-            </div>
+            <div class="charity-header"><span class="charity-name">Somalia Nutrition Consortium</span><span class="stars">★★★★</span><span class="badge badge-amber">Somalia</span></div>
+            <p class="charity-desc">Addresses acute malnutrition in Somalia's most vulnerable communities through therapeutic feeding and nutrition education.</p>
+            <div class="tag-row"><span class="tag">Nutrition</span><span class="tag">Children</span><span class="tag">Somalia</span></div>
           </div>
-          <div class="charity-right">
-            <div class="cost-label">Cost per case</div>
-            <div class="cost-value">$2–6K</div>
-            <div class="cost-desc">Per life saved</div>
-          </div>
+          <div class="charity-right"><div class="cost-label">Cost per life saved</div><div class="cost-value">$2–6K</div></div>
         </div>
 
-        <div class="charity-card fade-up">
+        <div class="charity-card somalia fade-up">
           <div>
-            <div class="charity-header">
-              <span class="charity-name">Shaqodoon</span>
-              <span class="stars">★★★★</span>
-              <span class="badge badge-warm">Somalia-Specific</span>
-            </div>
-            <p class="charity-desc">Provides vocational skills training and employment support to Somali youth. Addresses youth unemployment — a major driver of instability.</p>
-            <div class="charity-meta">
-              <span class="tag">Youth Empowerment</span>
-              <span class="tag">Employment</span>
-            </div>
+            <div class="charity-header"><span class="charity-name">Shaqodoon</span><span class="stars">★★★★</span><span class="badge badge-amber">Somalia</span></div>
+            <p class="charity-desc">Vocational training and employment support for Somali youth. Addresses youth unemployment — a key driver of instability.</p>
+            <div class="tag-row"><span class="tag">Youth Empowerment</span><span class="tag">Employment</span><span class="tag">Somalia</span></div>
           </div>
-          <div class="charity-right">
-            <div class="cost-label">Employment rate</div>
-            <div class="cost-value">~60%</div>
-            <div class="cost-desc">Within 6 months</div>
-          </div>
+          <div class="charity-right"><div class="cost-label">Employment rate</div><div class="cost-value">~60%</div><div class="cost-note">within 6 months</div></div>
         </div>
       </div>
 
@@ -319,11 +155,10 @@
 
   <hr class="divider" />
 
-  <!-- EARNING TO GIVE -->
   <section style="background:var(--off-white);">
     <div class="container">
       <div class="section-header fade-up">
-        <p class="section-label">Strategy</p>
+        <span class="eyebrow">Strategy</span>
         <h2 class="display-md">Earning to Give</h2>
         <p class="lead">For high-income professionals — especially Somali diaspora earning in USD, GBP, or EUR — donating a significant share of income may be the single highest-impact action available.</p>
       </div>
@@ -331,39 +166,37 @@
       <div class="pledge-box fade-up">
         <div>
           <div class="pledge-pct">10%</div>
-          <h3 style="margin:12px 0 8px;">The Giving What We Can Pledge</h3>
-          <p style="color:var(--text-secondary);font-size:14px;max-width:480px;line-height:1.7;">A commitment to donate at least 10% of your income to effective causes for the rest of your career. Taken by 9,000+ people globally — including members of our community.</p>
-          <div style="margin-top:20px;">
-            <a href="https://www.givingwhatwecan.org" target="_blank" class="btn btn-primary">Take the Pledge ↗</a>
-          </div>
+          <h3 style="margin:14px 0 8px;font-size:1.2rem;">The Giving What We Can Pledge</h3>
+          <p style="font-size:14px;max-width:460px;margin-bottom:24px;">A commitment to donate at least 10% of your income to effective causes for the rest of your career. Taken by 9,000+ people globally.</p>
+          <a href="https://www.givingwhatwecan.org" target="_blank" class="btn btn-primary">Take the Pledge ↗</a>
         </div>
-        <div style="text-align:center;padding:24px;background:var(--accent-pale);border-radius:var(--radius-lg);border:1px solid rgba(82,183,136,0.3);">
-          <div style="font-family:var(--serif);font-size:2rem;font-weight:700;color:var(--accent);">$10,000</div>
-          <div style="font-size:13px;color:var(--text-secondary);margin:8px 0;">donated to a top charity</div>
-          <div style="font-size: 1.5rem;">≈</div>
-          <div style="font-family:var(--serif);font-size:1.5rem;font-weight:700;color:var(--accent);">Multiple lives saved</div>
-          <div style="font-size:12px;color:var(--text-muted);margin-top:6px;">That's 10–15% of a UK tech salary</div>
+        <div class="pledge-right">
+          <div class="num">$10,000</div>
+          <div class="desc">donated to a top charity</div>
+          <div style="font-size:1.8rem;margin:6px 0;">≈</div>
+          <div class="num" style="font-size:1.4rem;">Multiple lives saved</div>
+          <div class="desc">That's 10–15% of a UK tech salary</div>
         </div>
       </div>
 
-      <div style="margin-top:48px;" class="fade-up">
-        <h3 style="margin-bottom:20px;">Frequently Asked Questions</h3>
-        <div class="faq-list" id="faq">
+      <div style="margin-top:52px;" class="fade-up">
+        <h3 style="margin-bottom:20px;font-size:1.3rem;">Frequently Asked Questions</h3>
+        <div class="faq-list">
           <div class="faq-item">
-            <button class="faq-q">What is Earning to Give? <span class="arrow">▾</span></button>
-            <div class="faq-a">Earning to Give is a strategy where you choose a high-earning career specifically to donate a significant portion to high-impact causes. It's based on the insight that funding effective interventions can create more good than working directly on them.</div>
+            <button class="faq-q">What is Earning to Give? <span class="faq-arrow">▾</span></button>
+            <div class="faq-a">Earning to Give is a strategy where you choose a high-earning career specifically to donate a significant portion to high-impact causes. Funding effective interventions can create more good than working directly on them.</div>
           </div>
           <div class="faq-item">
-            <button class="faq-q">How much should I donate? <span class="arrow">▾</span></button>
-            <div class="faq-a">The most common commitment is the Giving What We Can pledge — 10% of your pre-tax income. Many EA members in high-income careers donate 20–50%. Even 1% from a diaspora salary makes a meaningful difference in the Somali context.</div>
+            <button class="faq-q">How much should I donate? <span class="faq-arrow">▾</span></button>
+            <div class="faq-a">The most common commitment is 10% (Giving What We Can pledge). Many EA members in high-income careers donate 20–50%. Even 1% from a diaspora salary makes a meaningful difference in the Somali context.</div>
           </div>
           <div class="faq-item">
-            <button class="faq-q">Is it better to give money or work directly? <span class="arrow">▾</span></button>
-            <div class="faq-a">It depends on your skills and circumstances. For many people, especially in finance, tech, law, or medicine, the counterfactual impact of their donation exceeds what they could do directly. Our community discussions can help you think this through.</div>
+            <button class="faq-q">Is it better to give money or work directly? <span class="faq-arrow">▾</span></button>
+            <div class="faq-a">It depends on your skills. For many people in finance, tech, law, or medicine, the counterfactual impact of their donation exceeds what they could do directly. Our community discussions can help you think this through.</div>
           </div>
           <div class="faq-item">
-            <button class="faq-q">Which careers generate the most giving potential? <span class="arrow">▾</span></button>
-            <div class="faq-a">Software engineering, medicine, finance, law, consulting, and international development tend to offer the highest salaries. Diaspora professionals earning in USD, GBP, or EUR are particularly well-positioned to maximize this strategy.</div>
+            <button class="faq-q">Which careers generate the most giving potential? <span class="faq-arrow">▾</span></button>
+            <div class="faq-a">Software engineering, medicine, finance, law, consulting, and international development tend to offer the highest salaries. Diaspora professionals earning in USD, GBP, or EUR are particularly well-positioned.</div>
           </div>
         </div>
       </div>
@@ -372,27 +205,16 @@
 
   <hr class="divider" />
 
-  <!-- RESOURCES -->
   <section>
     <div class="container">
       <div class="section-header fade-up">
-        <p class="section-label">Go Deeper</p>
+        <span class="eyebrow">Go Deeper</span>
         <h2 class="display-md">More giving resources</h2>
       </div>
-
       <div class="resources-row">
-        <a href="https://funds.effectivealtruism.org" target="_blank" class="resource-link fade-up">
-          <h4>EA Funds</h4>
-          <p>Pool your donation with others and have expert grantmakers deploy it to the highest-impact opportunities.</p>
-        </a>
-        <a href="https://www.givewell.org" target="_blank" class="resource-link fade-up">
-          <h4>GiveWell</h4>
-          <p>The gold standard for charity evaluation. Browse their top picks for global health and poverty.</p>
-        </a>
-        <a href="jobs.html" class="resource-link fade-up">
-          <h4>Local Somalia Grants</h4>
-          <p>EA Somalia maintains a database of local grant opportunities for Somali charity entrepreneurs.</p>
-        </a>
+        <a href="https://funds.effectivealtruism.org" target="_blank" class="resource-link fade-up"><h4>EA Funds</h4><p>Pool your donation with experts who deploy it to highest-impact opportunities.</p></a>
+        <a href="https://www.givewell.org" target="_blank" class="resource-link fade-up"><h4>GiveWell</h4><p>The gold standard for charity evaluation. Browse top picks for global health and poverty.</p></a>
+        <a href="/pages/jobs.html" class="resource-link fade-up"><h4>Local Somalia Grants</h4><p>EA Somalia's database of local grant opportunities for Somali charity entrepreneurs.</p></a>
       </div>
     </div>
   </section>
@@ -401,16 +223,5 @@
 <div id="footer-container"></div>
 <script src="../js/components.js"></script>
 <script src="../js/main.js"></script>
-<script>
-  // FAQ accordion
-  document.querySelectorAll('.faq-q').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.faq-item');
-      const isOpen = item.classList.contains('open');
-      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
-      if (!isOpen) item.classList.add('open');
-    });
-  });
-</script>
 </body>
 </html>
