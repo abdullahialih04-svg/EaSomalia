@@ -4,50 +4,52 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Career Guide — EA Somalia</title>
-  <meta name="description" content="Use your 80,000 working hours to do the most good. EA Somalia career guide." />
+  <meta name="description" content="Your career is roughly 80,000 working hours. EA Somalia's guide to choosing problems worth working on, and the paths that let Somali professionals contribute most." />
   <link rel="stylesheet" href="../css/style.css" />
   <style>
+    /* INT framework cards */
     .int-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
     .int-card { border: 1px solid var(--warm-200); border-radius: var(--r-lg); overflow: hidden; }
     .int-head { background: var(--green-700); color: white; padding: 22px 26px; display: flex; gap: 14px; align-items: center; }
-    .int-head.n { background: #245a42; }
+    .int-head.n { background: #2a5540; }
     .int-head.t { background: var(--green-900); }
     .int-letter { font-family: var(--serif); font-size: 2.8rem; font-weight: 700; line-height: 1; }
-    .int-head h3 { font-family: var(--sans); font-size: 1rem; font-weight: 600; }
-    .int-head p  { font-size: 13px; opacity: 0.78; margin-top: 2px; }
+    .int-head h3 { font-family: var(--sans); font-size: 1rem; font-weight: 600; color: white; }
+    .int-head p  { font-size: 13px; color: rgba(255,255,255,0.82); margin-top: 2px; }
     .int-body { padding: 20px 26px; }
     .int-body p { font-size: 14px; line-height: 1.65; }
 
-    .problems-detail {
-      display: grid; grid-template-columns: repeat(2, 1fr);
-      border: 1px solid var(--warm-200); border-radius: var(--r-xl);
-      background: var(--warm-200); gap: 1px; overflow: hidden;
+    /* Cause cells */
+    .cause-cell .cell-label {
+      font-family: var(--mono); font-size: 11px; font-weight: 500;
+      letter-spacing: 0.12em; text-transform: uppercase;
+      color: var(--text-500); margin-bottom: 12px;
     }
-    .pd-cell { background: white; padding: 30px; }
-    .pd-cell .icon { font-size: 1.8rem; margin-bottom: 12px; }
-    .pd-cell h3 { font-size: 1.05rem; margin-bottom: 14px; }
-    .metric { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; margin-bottom: 8px; }
-    .ml {
-      font-family: var(--mono); font-size: 9.5px; letter-spacing: 0.05em;
-      text-transform: uppercase; color: white; background: var(--green-700);
-      padding: 2px 8px; border-radius: var(--r-full); flex-shrink: 0;
-      margin-top: 2px; white-space: nowrap;
-    }
+    .cause-cell h3 { font-size: 1.25rem; margin-bottom: 10px; }
+    .cause-cell p  { font-size: 14px; line-height: 1.7; }
+    .cause-cell p + p { margin-top: 10px; }
 
+    .source-note {
+      font-family: var(--mono); font-size: 11px; line-height: 1.6;
+      color: var(--text-500); margin-top: 14px;
+    }
+    .source-note a { color: var(--text-500); text-underline-offset: 2px; }
+
+    /* Career path cards */
     .careers-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
     .career-card {
       border: 1px solid var(--warm-200); border-radius: var(--r-lg); padding: 28px;
       transition: all var(--t);
     }
-    .career-card:hover { border-color: var(--green-200); box-shadow: var(--shadow-md); transform: translateY(-3px); }
-    .career-icon { font-size: 2rem; margin-bottom: 16px; }
-    .career-card h3 { font-size: 1.1rem; margin-bottom: 10px; }
-    .career-card p  { font-size: 14px; margin-bottom: 16px; line-height: 1.65; }
-    .career-impact {
-      font-family: var(--mono); font-size: 11px; color: var(--text-300);
+    .career-card:hover { border-color: var(--green-200); box-shadow: var(--shadow-sm); transform: translateY(-2px); }
+    .career-card h3 { font-size: 1.2rem; margin-bottom: 10px; }
+    .career-card p  { font-size: 14px; margin-bottom: 16px; line-height: 1.7; }
+    .career-note {
+      font-size: 13px; line-height: 1.6; color: var(--text-500);
       padding-top: 14px; border-top: 1px solid var(--warm-200);
     }
 
+    /* Steps */
     .steps-list { list-style: none; counter-reset: steps; }
     .steps-list li {
       counter-increment: steps;
@@ -64,9 +66,8 @@
     .steps-list li p  { font-size: 14px; }
     .steps-list li a  { color: var(--green-700); font-weight: 600; text-underline-offset: 2px; }
 
-    @media (max-width: 768px) {
-      .int-grid, .problems-detail, .careers-grid { grid-template-columns: 1fr; }
-    }
+    @media (max-width: 960px) { .int-grid { grid-template-columns: 1fr; } }
+    @media (max-width: 768px) { .careers-grid { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -77,90 +78,201 @@
     <div class="container">
       <span class="badge badge-green"><span class="dot"></span> Career Guide</span>
       <h1 class="display-xl" style="margin-bottom:18px;">Your career is your<br><em>biggest lever for good.</em></h1>
-      <p class="lead">80,000 hours — that's how much time you'll spend working in your lifetime. Choosing the right path can mean the difference between helping hundreds of people and helping millions.</p>
+      <p class="lead">Around 80,000 hours — that's roughly how long you'll spend working across a lifetime. It's the largest resource most people ever control, and it's usually allocated with far less deliberation than a house purchase.</p>
     </div>
   </div>
 
   <section>
     <div class="container-narrow">
-      <div class="quote-block fade-up">
-        <p>"The most important career decision is which problem to work on — not which employer to join."</p>
-        <cite>— 80,000 Hours, Oxford University</cite>
-      </div>
-      <div style="margin-top:36px;" class="fade-up">
-        <p class="lead" style="margin-bottom:18px;">
-          In Somalia's context, this means asking: where is talent most scarce? Which problems are most important and neglected? Where can one skilled person have the greatest multiplier effect?
+      <div class="fade-up">
+        <p class="lead" style="margin-bottom:20px;">
+          The research organisation 80,000 Hours argues that which problem you work on matters more
+          than which employer you join — because the scale and neglectedness of a problem can differ
+          by orders of magnitude, while the difference between two good employers rarely does.
         </p>
-        <p style="margin-bottom:24px;">
-          A policy advisor who shapes one major intervention may do more good than ten direct service workers. A software engineer who builds health data infrastructure at scale may save more lives than a clinic doctor.
+        <p style="margin-bottom:18px;">
+          In Somalia's context, that means asking a harder question than "what job can I get?"
+          Where is skilled attention genuinely scarce? Which problems are large but under-worked?
+          Where does one well-placed person change what happens to many?
         </p>
-        <a href="https://80000hours.org" target="_blank" rel="noopener" class="btn btn-outline">Visit 80,000 Hours ↗</a>
+        <p style="margin-bottom:28px;">
+          These aren't questions with clean answers, and anyone who gives you one should be treated
+          with suspicion. But they're answerable well enough to beat choosing by default.
+        </p>
+        <a href="https://80000hours.org" target="_blank" rel="noopener" class="btn btn-outline">Read the 80,000 Hours guide ↗</a>
       </div>
     </div>
   </section>
 
   <hr class="divider" />
 
+  <!-- ── INT FRAMEWORK ── -->
   <section style="background:var(--off-white);">
     <div class="container">
       <div class="section-header fade-up">
         <span class="eyebrow">Framework</span>
-        <h2 class="display-md">The INT Framework</h2>
-        <p class="lead">Three criteria to evaluate which problems deserve your attention most.</p>
+        <h2 class="display-md">Importance, neglectedness, tractability</h2>
+        <p class="lead">A rough tool, widely used across effective altruism, for comparing problems that otherwise resist comparison. It won't give you a ranking you should trust blindly — but it will tell you which questions you haven't asked.</p>
       </div>
+
       <div class="int-grid">
         <div class="int-card fade-up">
           <div class="int-head">
             <div class="int-letter">I</div>
-            <div><h3>Importance</h3><p>How many people are affected, and how severely?</p></div>
+            <div><h3>Importance</h3><p>How many are affected, and how severely?</p></div>
           </div>
-          <div class="int-body"><p>The problem affects a large number of people significantly. We consider scale, duration, and depth of impact when assessing this dimension.</p></div>
+          <div class="int-body"><p>Scale, depth, and duration. A problem that harms many people badly and for a long time scores higher than one that inconveniences many briefly.</p></div>
         </div>
         <div class="int-card fade-up">
           <div class="int-head n">
             <div class="int-letter">N</div>
-            <div><h3>Neglectedness</h3><p>How much attention is this problem already getting?</p></div>
+            <div><h3>Neglectedness</h3><p>How much attention is it already getting?</p></div>
           </div>
-          <div class="int-body"><p>The more neglected a problem, the higher the marginal value of extra attention. Somalia-specific challenges are often overlooked globally.</p></div>
+          <div class="int-body"><p>The less crowded a problem, the more one additional person tends to add. This is where small communities often find their advantage.</p></div>
         </div>
         <div class="int-card fade-up">
           <div class="int-head t">
             <div class="int-letter">T</div>
-            <div><h3>Tractability</h3><p>How much progress can be made with more resources?</p></div>
+            <div><h3>Tractability</h3><p>How much progress would more resources buy?</p></div>
           </div>
-          <div class="int-body"><p>Some problems yield dramatically to focused effort. We look for strong evidence that additional talent and funding produces real, measurable change.</p></div>
+          <div class="int-body"><p>Some enormous problems resist effort almost entirely. Others yield steadily. Importance without tractability is a way to waste a career sincerely.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ── WHERE WE THINK THE LEVERAGE IS ── -->
+  <section>
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="eyebrow">Where we focus</span>
+        <h2 class="display-md">Where we think the leverage is</h2>
+        <p class="lead">Three areas we point members toward, plus the Somali-specific questions that sit alongside them. We're not claiming these are the only things worth doing — they're where we think the case is strongest and where we can actually help you.</p>
+      </div>
+
+      <div class="hair-grid hg-3">
+        <div class="cause-cell fade-up">
+          <div class="cell-label">01 · Global health</div>
+          <h3>The strongest evidence base there is</h3>
+          <p>Decades of trials mean we can say with unusual confidence what malaria prevention or nutrition programmes actually achieve per dollar. For clinicians, epidemiologists, health economists and data people, the work is well-defined and the impact is measurable.</p>
+          <p>Much of it happens in contexts close to our own, which makes Somali professionals unusually useful rather than incidental to it.</p>
+        </div>
+
+        <div class="cause-cell fade-up">
+          <div class="cell-label">02 · AI safety</div>
+          <h3>Large, and thinly staffed</h3>
+          <p>AI systems are being deployed faster than anyone has worked out how to make them reliable, and the number of people working on that gap is small relative to its scale — a textbook case of neglectedness.</p>
+          <p>It's the hardest of the three to enter from Somalia, and we won't pretend otherwise. But it's a field young enough that entering it now means entering it early.</p>
+        </div>
+
+        <div class="cause-cell fade-up">
+          <div class="cell-label">03 · Animal welfare</div>
+          <h3>Among the most neglected areas in philanthropy</h3>
+          <p>An enormous amount of suffering receives a very small share of global charitable attention, which means marginal funding and effort go further here than almost anywhere.</p>
+          <p>It's also a live question in an economy where livestock is central — one most people here have practical knowledge of already.</p>
         </div>
       </div>
 
-      <div class="problems-detail" style="margin-top:28px;">
-        <div class="pd-cell fade-up">
-          <div class="icon">🍽️</div>
-          <h3>Food Security</h3>
-          <div class="metric"><span class="ml">Importance</span> Affects 7M+ Somalis; malnutrition causes permanent harm</div>
-          <div class="metric"><span class="ml">Neglected</span> Less than 3% of global humanitarian AI research investment</div>
-          <div class="metric"><span class="ml">Tractable</span> Evidence-based cash transfers and drought-resistant crops work</div>
+      <div class="hair-grid hg-2" style="margin-top:24px;">
+        <div class="cause-cell fade-up">
+          <div class="cell-label">Somali context · Giving</div>
+          <h3>Somalis already give. The question is where it lands.</h3>
+          <p>Generosity isn't the missing ingredient here. Between zakat, sadaqah, and support sent to family and community, Somalis give a great deal — often a serious share of their income, and often without being asked.</p>
+          <p>What's harder is knowing which organisations turn that money into the most good. GiveWell's research finds large differences in cost-effectiveness between charities working on the same problem — which means the choice of where to give can matter as much as the decision to give at all. That's a question worth a few hours of anyone's attention, whatever their career.</p>
+          <p class="source-note">EA Somalia doesn't accept donations. See <a href="https://www.givewell.org/charities/top-charities" target="_blank" rel="noopener">GiveWell's top charities</a> and <a href="https://www.givingwhatwecan.org/pledge" target="_blank" rel="noopener">Giving What We Can</a>, or read our <a href="/pages/giving.html">giving guide</a> — which covers zakat and sadaqah properly.</p>
         </div>
-        <div class="pd-cell fade-up">
-          <div class="icon">💻</div>
-          <h3>Digital Infrastructure</h3>
-          <div class="metric"><span class="ml">Importance</span> Internet access multiplies income and health/education access</div>
-          <div class="metric"><span class="ml">Neglected</span> Somalia has &lt;3% fixed internet penetration; overlooked globally</div>
-          <div class="metric"><span class="ml">Tractable</span> Mobile infrastructure investments show near-linear returns</div>
+
+        <div class="cause-cell fade-up">
+          <div class="cell-label">Somali context · Food security &amp; digital access</div>
+          <h3>Two problems where the response quality varies enormously</h3>
+          <p>Recurring drought puts large numbers of people at risk, and the responses available differ hugely in how well-studied and how cheap they are per life improved. That variation is where analytical work earns its keep.</p>
+          <p>Digital access is the other. A generation coming online at once is a generation making decisions — about work, money, and what to believe — with tools it hasn't been taught to use. Building that capacity is unglamorous and compounding.</p>
         </div>
-        <div class="pd-cell fade-up">
-          <div class="icon">💸</div>
-          <h3>Remittance Efficiency</h3>
-          <div class="metric"><span class="ml">Importance</span> $1.3B flows annually; high fees tax the poorest families</div>
-          <div class="metric"><span class="ml">Neglected</span> Fintech for conflict-affected regions gets minimal attention</div>
-          <div class="metric"><span class="ml">Tractable</span> Regulatory advocacy can cut fees significantly within years</div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ── CAREER PATHS ── -->
+  <section style="background:var(--off-white);">
+    <div class="container">
+      <div class="section-header fade-up">
+        <span class="eyebrow">Pathways</span>
+        <h2 class="display-md">Four routes worth considering</h2>
+        <p class="lead">Broad archetypes rather than job titles. Most real careers mix them, and most people move between them more than once.</p>
+      </div>
+
+      <div class="careers-grid">
+        <div class="career-card fade-up">
+          <h3>Research</h3>
+          <p>Generate the evidence that guides where money and attention go. Somalia is under-studied, which means well-designed local research can influence decisions far larger than itself.</p>
+          <div class="tag-row" style="margin-bottom:16px;"><span class="tag">Health research</span><span class="tag">Policy analysis</span><span class="tag">Economics</span></div>
+          <div class="career-note">Suits people who can tolerate slow feedback and care more about being right than being fast.</div>
         </div>
-        <div class="pd-cell fade-up">
-          <div class="icon">🌱</div>
-          <h3>Climate-Resilient Agriculture</h3>
-          <div class="metric"><span class="ml">Importance</span> 70% of Somalis depend on farming; climate accelerates displacement</div>
-          <div class="metric"><span class="ml">Neglected</span> Among least-funded countries for climate adaptation per capita</div>
-          <div class="metric"><span class="ml">Tractable</span> Seed banks and extension programs are proven cost-effective</div>
+
+        <div class="career-card fade-up">
+          <h3>Policy &amp; advocacy</h3>
+          <p>Shape the rules that determine how public resources are allocated. The leverage here is real but indirect — you rarely see your own effect, and attributing outcomes is genuinely hard.</p>
+          <div class="tag-row" style="margin-bottom:16px;"><span class="tag">Government advisory</span><span class="tag">NGO policy</span><span class="tag">Legal advocacy</span></div>
+          <div class="career-note">High ceiling, high variance. Depends heavily on being in the right room at the right moment.</div>
         </div>
+
+        <div class="career-card fade-up">
+          <h3>Building things</h3>
+          <p>Start or join organisations that solve a problem directly and can grow. In Somalia this covers fintech, agricultural technology, and health delivery — areas where the gap between what exists and what's possible is wide.</p>
+          <div class="tag-row" style="margin-bottom:16px;"><span class="tag">Fintech</span><span class="tag">Agri-tech</span><span class="tag">Health delivery</span></div>
+          <div class="career-note">Most attempts fail. That's a reason to expect failure, not a reason to avoid trying.</div>
+        </div>
+
+        <div class="career-card fade-up">
+          <h3>Earning to give</h3>
+          <p>Take a high-earning career and fund work that others are better placed to do. For diaspora professionals earning in hard currency, the exchange rate alone makes this substantial.</p>
+          <div class="tag-row" style="margin-bottom:16px;"><span class="tag">Finance</span><span class="tag">Software</span><span class="tag">Consulting</span></div>
+          <div class="career-note">Giving What We Can's pledge is the usual starting point. <a href="https://www.givingwhatwecan.org/pledge" target="_blank" rel="noopener" style="color:var(--green-700);font-weight:600;">Read about it ↗</a></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="divider" />
+
+  <!-- ── GET STARTED ── -->
+  <section>
+    <div class="container-narrow">
+      <div class="section-header fade-up">
+        <span class="eyebrow">Get started</span>
+        <h2 class="display-md">Where to begin</h2>
+        <p class="lead">Whether you're a student, mid-career, or a returnee weighing a move — this is the order we'd suggest.</p>
+      </div>
+
+      <ul class="steps-list fade-up">
+        <li><div>
+          <h4>Read the 80,000 Hours career guide</h4>
+          <p>Free, thorough, and the best single starting point that exists. Don't take it as gospel — take it as the most carefully argued position available. <a href="https://80000hours.org" target="_blank" rel="noopener">80000hours.org →</a></p>
+        </div></li>
+        <li><div>
+          <h4>Work through the framework on your own situation</h4>
+          <p>Importance, neglectedness, tractability — applied to problems you could plausibly reach from where you are now, with the skills you actually have.</p>
+        </div></li>
+        <li><div>
+          <h4>Join one of our online sessions</h4>
+          <p>We meet online, so it doesn't matter where you are. Discussion of ideas, and people thinking through the same decisions you are. <a href="/pages/community.html">See the community page →</a></p>
+        </div></li>
+        <li><div>
+          <h4>Talk it through with someone</h4>
+          <p>Career decisions are hard to make alone and easy to make badly in isolation. We can connect you with someone further along a similar path. <a href="/pages/community.html#mentorship">About mentorship →</a></p>
+        </div></li>
+        <li><div>
+          <h4>Look at what's actually open</h4>
+          <p>Roles in global health, governance, and adjacent fields — including ones you can do remotely. <a href="/pages/jobs.html">View the job board →</a></p>
+        </div></li>
+      </ul>
+
+      <div style="margin-top:36px;text-align:center;" class="fade-up">
+        <a href="mailto:mentorship@easomalia.org" class="btn btn-primary">Get in touch about mentorship</a>
       </div>
     </div>
   </section>
@@ -169,62 +281,13 @@
 
   <section>
     <div class="container">
-      <div class="section-header fade-up">
-        <span class="eyebrow">Pathways</span>
-        <h2 class="display-md">High-impact career paths</h2>
-        <p class="lead">Four broad archetypes for creating outsized impact in Somalia and beyond.</p>
-      </div>
-      <div class="careers-grid">
-        <div class="career-card fade-up">
-          <div class="career-icon">🔬</div>
-          <h3>Research</h3>
-          <p>Generate the evidence base that guides policy and funding. Researchers in Somalia can quantify intervention effectiveness and open access to global datasets.</p>
-          <div class="tag-row" style="margin-bottom:16px;"><span class="tag">Health Researcher</span><span class="tag">Policy Analyst</span><span class="tag">Economist</span></div>
-          <div class="career-impact">→ Publish findings → inform policy → redirect millions in aid</div>
+      <div class="cta-banner fade-up">
+        <h2 class="display-md">Still working it out?</h2>
+        <p>Most people are. Register your interest and we'll keep you in the loop on sessions, resources, and openings — occasional emails only, unsubscribe any time.</p>
+        <div class="btn-row">
+          <a href="/pages/register-interest.html" class="btn btn-white">Register your interest</a>
+          <a href="/pages/giving.html" class="btn btn-glass">Read the giving guide</a>
         </div>
-        <div class="career-card fade-up">
-          <div class="career-icon">🏛️</div>
-          <h3>Policy & Advocacy</h3>
-          <p>Shape the rules governing how resources are distributed. One well-placed policy professional can influence how billions of shillings are spent on public programs.</p>
-          <div class="tag-row" style="margin-bottom:16px;"><span class="tag">Government Advisor</span><span class="tag">NGO Policy Lead</span><span class="tag">Legal Advocate</span></div>
-          <div class="career-impact">→ Draft legislation → influence institutions → protect millions</div>
-        </div>
-        <div class="career-card fade-up">
-          <div class="career-icon">🚀</div>
-          <h3>Entrepreneurship</h3>
-          <p>Build solutions that scale. Social entrepreneurs in Somalia can create businesses that directly solve critical problems while generating employment and sustainable revenue.</p>
-          <div class="tag-row" style="margin-bottom:16px;"><span class="tag">Fintech Founder</span><span class="tag">Agri-tech</span><span class="tag">Health Startup</span></div>
-          <div class="career-impact">→ Build product → reach scale → create systemic change</div>
-        </div>
-        <div class="career-card fade-up">
-          <div class="career-icon">💰</div>
-          <h3>Earning to Give</h3>
-          <p>Use a high-income career to fund work others can't. Diaspora professionals earning in hard currency can fund multiple full-time roles in effective Somali organizations.</p>
-          <div class="tag-row" style="margin-bottom:16px;"><span class="tag">Finance</span><span class="tag">Tech Engineer</span><span class="tag">Consultant</span></div>
-          <div class="career-impact">→ Earn high income → donate 10%+ → fund 3–5× your direct impact</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <hr class="divider" />
-
-  <section style="background:var(--off-white);">
-    <div class="container-narrow">
-      <div class="section-header fade-up">
-        <span class="eyebrow">Get started</span>
-        <h2 class="display-md">Your step-by-step guide</h2>
-        <p class="lead">Whether you're a student, mid-career professional, or diaspora returnee — here's how to begin.</p>
-      </div>
-      <ul class="steps-list fade-up">
-        <li><div><h4>Read the 80,000 Hours career guide</h4><p>Free online. The most rigorous research on high-impact careers available. <a href="https://80000hours.org" target="_blank">80000hours.org →</a></p></div></li>
-        <li><div><h4>Explore Somalia-specific cause areas</h4><p>Use the INT framework above to identify where your skills can have the most leverage given Somalia's current situation.</p></div></li>
-        <li><div><h4>Attend an EA Somalia meetup</h4><p>Join our Mogadishu chapter. We meet regularly to discuss ideas and support each other's career moves. <a href="/pages/community.html">See community page →</a></p></div></li>
-        <li><div><h4>Book a free coaching session</h4><p>Get 1-on-1 guidance from an experienced mentor. Free for all members. <a href="/pages/community.html#mentorship">Learn about mentorship →</a></p></div></li>
-        <li><div><h4>Browse high-impact job listings</h4><p>Our job board curates roles in global health, governance, climate, and AI safety. <a href="/pages/jobs.html">View open roles →</a></p></div></li>
-      </ul>
-      <div style="margin-top:32px;text-align:center;" class="fade-up">
-        <a href="mailto:mentorship@easomalia.org" class="btn btn-primary">Book a Free Coaching Session</a>
       </div>
     </div>
   </section>
