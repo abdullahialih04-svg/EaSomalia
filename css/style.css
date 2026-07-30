@@ -1,28 +1,40 @@
 @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=Outfit:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 
-/* ─── DESIGN TOKENS ─── */
+/* ─── DESIGN TOKENS ───────────────────────────────────────────
+   Palette revised: lower saturation, warmer neutrals, and
+   --text-300 darkened to meet contrast minimums (it was 2.3:1
+   on white and is used for every eyebrow and stat label).
+   ───────────────────────────────────────────────────────────── */
 :root {
   --white:        #ffffff;
-  --off-white:    #f7f5f1;
-  --warm-100:     #f0ece4;
-  --warm-200:     #e6e0d4;
-  --warm-300:     #cfc7b8;
-  --text-900:     #1c1a17;
-  --text-700:     #4a453d;
-  --text-500:     #857e73;
-  --text-300:     #b5afa6;
+  --off-white:    #f7f4ee;
+  --warm-100:     #efeae0;
+  --warm-200:     #e3ddd1;
+  --warm-300:     #cac2b2;
 
-  --green-900:    #1a4731;
-  --green-700:    #2d6a4f;
-  --green-500:    #52b788;
-  --green-200:    #b7e4c7;
-  --green-100:    #d8f3dc;
-  --green-50:     #f0faf4;
+  --text-900:     #1c1a17;   /* 16.1:1 on white — AAA */
+  --text-700:     #4a453d;   /*  8.4:1 — AAA */
+  --text-500:     #6e6960;   /*  5.3:1 — AA  */
+  --text-300:     #767166;   /*  4.8:1 — AA  (was #b5afa6, 2.3:1 FAIL) */
 
-  --amber-700:    #b45309;
-  --amber-500:    #d97706;
-  --amber-100:    #fef3c7;
-  --amber-50:     #fffbeb;
+  --green-900:    #1b3f2d;
+  --green-700:    #33604a;   /* primary — 7.2:1 on white */
+  --green-500:    #7aa88d;   /* borders/dots only — 2.4:1, never text */
+  --green-200:    #c3d8c9;
+  --green-100:    #dde9e0;
+  --green-50:     #f2f7f3;
+
+  --amber-700:    #8a5420;
+  --amber-500:    #ab7238;
+  --amber-100:    #f3e8d5;
+  --amber-50:     #faf6ef;
+
+  /* rgba equivalents of the greens, for use in shadows and glows
+     where a token can't be used. Update these together with the
+     hex values above. */
+  --green-700-rgb: 51, 96, 74;
+  --green-500-rgb: 122, 168, 141;
+  --amber-500-rgb: 171, 114, 56;
 
   --serif:   'Cormorant Garamond', Georgia, serif;
   --sans:    'Outfit', system-ui, sans-serif;
@@ -34,10 +46,10 @@
   --r-xl:   24px;
   --r-full: 9999px;
 
-  --shadow-xs: 0 1px 2px rgba(0,0,0,0.05);
-  --shadow-sm: 0 2px 8px rgba(0,0,0,0.07);
-  --shadow-md: 0 6px 20px rgba(0,0,0,0.09);
-  --shadow-lg: 0 16px 48px rgba(0,0,0,0.11);
+  --shadow-xs: 0 1px 2px rgba(28,26,23,0.04);
+  --shadow-sm: 0 2px 8px rgba(28,26,23,0.06);
+  --shadow-md: 0 6px 20px rgba(28,26,23,0.07);
+  --shadow-lg: 0 16px 48px rgba(28,26,23,0.09);
 
   --ease: cubic-bezier(0.4, 0, 0.2, 1);
   --t:    0.2s var(--ease);
@@ -59,6 +71,24 @@ body {
 img, svg { display: block; max-width: 100%; }
 a { color: inherit; }
 button { font-family: var(--sans); cursor: pointer; }
+
+/* Visible focus for keyboard users — was missing entirely. */
+:focus-visible {
+  outline: 2px solid var(--green-700);
+  outline-offset: 3px;
+  border-radius: var(--r-sm);
+}
+
+/* Respect the OS "reduce motion" setting. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+  .fade-up { opacity: 1 !important; transform: none !important; }
+}
 
 /* ─── LAYOUT ─── */
 .container        { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
@@ -201,7 +231,7 @@ nav {
 }
 .nav-cta:hover {
   background: var(--green-900) !important;
-  box-shadow: 0 4px 16px rgba(45,106,79,0.3) !important;
+  box-shadow: 0 3px 12px rgba(var(--green-700-rgb), 0.22) !important;
   transform: translateY(-1px) !important;
 }
 
@@ -249,7 +279,10 @@ nav {
 }
 .mobile-nav a:hover { background: var(--green-50); color: var(--green-700); }
 
-/* ─── BUTTONS ─── */
+/* ─── BUTTONS ───────────────────────────────────────────────
+   Hover lift reduced from 2px to 1px and shadows softened.
+   The old 28px shadow read as a marketing site; this reads as
+   a considered one, which is the whole argument of the brand. */
 .btn {
   display: inline-flex;
   align-items: center;
@@ -272,8 +305,8 @@ nav {
 }
 .btn-primary:hover {
   background: var(--green-900);
-  transform: translateY(-2px);
-  box-shadow: 0 8px 28px rgba(45,106,79,0.28);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 16px rgba(var(--green-700-rgb), 0.20);
 }
 .btn-outline {
   background: transparent;
@@ -283,7 +316,7 @@ nav {
 .btn-outline:hover {
   border-color: var(--green-700);
   color: var(--green-700);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 .btn-white {
   background: white;
@@ -292,7 +325,7 @@ nav {
 }
 .btn-white:hover {
   background: var(--green-50);
-  transform: translateY(-2px);
+  transform: translateY(-1px);
 }
 .btn-ghost {
   background: none;
@@ -331,11 +364,11 @@ nav {
   width: 6px; height: 6px;
   border-radius: 50%;
   background: currentColor;
-  animation: pulse-dot 2s ease-in-out infinite;
+  animation: pulse-dot 2.4s ease-in-out infinite;
 }
 @keyframes pulse-dot {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50%       { opacity: 0.4; transform: scale(0.8); }
+  50%       { opacity: 0.5; transform: scale(0.85); }
 }
 
 /* ─── TAGS ─── */
@@ -367,6 +400,27 @@ hr.divider {
 .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
 .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
 
+/* ─── HAIRLINE GRID ─────────────────────────────────────────
+   The bordered-cell pattern, promoted out of the home page's
+   inline <style> so every page can use it. 1px gap over a
+   --warm-200 background fakes internal hairlines. */
+.hair-grid {
+  display: grid;
+  background: var(--warm-200);
+  border: 1px solid var(--warm-200);
+  border-radius: var(--r-xl);
+  overflow: hidden;
+  gap: 1px;
+}
+.hair-grid > * {
+  background: var(--white);
+  padding: 34px 32px;
+  transition: background var(--t);
+}
+.hair-grid > *:hover { background: var(--off-white); }
+.hg-2 { grid-template-columns: repeat(2, 1fr); }
+.hg-3 { grid-template-columns: repeat(3, 1fr); }
+
 /* ─── CARD BASE ─── */
 .card {
   background: white;
@@ -377,8 +431,8 @@ hr.divider {
 }
 .card:hover {
   border-color: var(--green-200);
-  box-shadow: var(--shadow-md);
-  transform: translateY(-3px);
+  box-shadow: var(--shadow-sm);
+  transform: translateY(-2px);
 }
 .card-icon {
   width: 44px; height: 44px;
@@ -400,7 +454,7 @@ hr.divider {
   position: absolute;
   top: -160px; right: -160px;
   width: 640px; height: 640px;
-  background: radial-gradient(circle at center, rgba(82,183,136,0.07) 0%, transparent 65%);
+  background: radial-gradient(circle at center, rgba(var(--green-500-rgb),0.11) 0%, transparent 65%);
   pointer-events: none;
 }
 .hero::after {
@@ -408,22 +462,21 @@ hr.divider {
   position: absolute;
   bottom: -80px; left: -80px;
   width: 400px; height: 400px;
-  background: radial-gradient(circle at center, rgba(217,119,6,0.04) 0%, transparent 70%);
+  background: radial-gradient(circle at center, rgba(var(--amber-500-rgb),0.06) 0%, transparent 70%);
   pointer-events: none;
 }
 .hero-eyebrow   { display: flex; align-items: center; gap: 12px; margin-bottom: 24px; flex-wrap: wrap; }
 .hero-title     { margin-bottom: 24px; }
-.hero-desc      { margin-bottom: 40px; max-width: 560px; }
+.hero-desc      { margin-bottom: 40px; max-width: 600px; }
 .hero-actions   { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-bottom: 72px; }
 
 .hero-stats {
   display: flex;
   align-items: center;
-  gap: 48px;
   padding-top: 48px;
   border-top: 1px solid var(--warm-200);
   flex-wrap: wrap;
-  gap: 32px;
+  gap: 32px 48px;
 }
 .stat-num {
   font-family: var(--serif);
@@ -451,7 +504,7 @@ hr.divider {
   position: absolute;
   top: -100px; right: -100px;
   width: 480px; height: 480px;
-  background: radial-gradient(circle, rgba(82,183,136,0.06) 0%, transparent 65%);
+  background: radial-gradient(circle, rgba(var(--green-500-rgb),0.10) 0%, transparent 65%);
   pointer-events: none;
 }
 .page-hero .badge { margin-bottom: 18px; display: inline-flex; }
@@ -463,7 +516,7 @@ hr.divider {
   align-items: flex-start;
   gap: 16px;
   background: var(--amber-50);
-  border: 1px solid rgba(217,119,6,0.2);
+  border: 1px solid rgba(var(--amber-500-rgb),0.28);
   border-radius: var(--r-lg);
   padding: 18px 22px;
   margin-bottom: 52px;
@@ -472,6 +525,20 @@ hr.divider {
 .info-banner p  { font-size: 14px; line-height: 1.6; color: var(--text-700); }
 .info-banner strong { color: var(--amber-700); }
 .info-banner a  { color: var(--amber-700); font-weight: 600; text-underline-offset: 2px; }
+
+/* ─── PLANNED / NOT-YET-LIVE BLOCK ──────────────────────────
+   Dashed edge so upcoming work is visually distinct from
+   things that actually exist. Honesty, enforced by CSS. */
+.planned {
+  border: 1px dashed var(--warm-300);
+  border-radius: var(--r-xl);
+  padding: 32px 34px;
+  margin-top: 28px;
+  background: var(--white);
+}
+.planned h3 { font-size: 1.3rem; margin-bottom: 10px; }
+.planned p  { font-size: 14px; line-height: 1.7; max-width: 64ch; }
+.planned .btn-ghost { margin-top: 16px; }
 
 /* ─── QUOTE BLOCK ─── */
 .quote-block {
@@ -482,7 +549,7 @@ hr.divider {
 }
 .quote-block p {
   font-family: var(--serif);
-  font-size: 1.25rem;
+  font-size: 1.3rem;
   font-style: italic;
   color: var(--text-900);
   margin-bottom: 10px;
@@ -490,7 +557,7 @@ hr.divider {
 }
 .quote-block cite {
   font-size: 13px;
-  color: var(--text-300);
+  color: var(--text-500);
   font-style: normal;
 }
 
@@ -509,7 +576,7 @@ hr.divider {
   position: absolute;
   top: -100px; right: -100px;
   width: 360px; height: 360px;
-  background: rgba(255,255,255,0.05);
+  background: rgba(255,255,255,0.04);
   border-radius: 50%;
 }
 .cta-banner::after {
@@ -517,11 +584,11 @@ hr.divider {
   position: absolute;
   bottom: -60px; left: -60px;
   width: 240px; height: 240px;
-  background: rgba(255,255,255,0.03);
+  background: rgba(255,255,255,0.025);
   border-radius: 50%;
 }
 .cta-banner h2 { color: white; margin-bottom: 14px; }
-.cta-banner p  { color: rgba(255,255,255,0.78); margin-bottom: 36px; font-size: 1.05rem; }
+.cta-banner p  { color: rgba(255,255,255,0.82); margin-bottom: 36px; font-size: 1.05rem; }
 .cta-banner .btn-row {
   display: flex;
   gap: 14px;
@@ -533,12 +600,12 @@ hr.divider {
 .btn-glass {
   background: rgba(255,255,255,0.12);
   color: white;
-  border: 1.5px solid rgba(255,255,255,0.3);
+  border: 1.5px solid rgba(255,255,255,0.34);
   backdrop-filter: blur(4px);
 }
 .btn-glass:hover {
-  background: rgba(255,255,255,0.22);
-  transform: translateY(-2px);
+  background: rgba(255,255,255,0.2);
+  transform: translateY(-1px);
 }
 
 /* ─── FOOTER ─── */
@@ -555,7 +622,7 @@ footer {
 }
 .footer-brand .brand-name {
   font-family: var(--serif);
-  font-size: 1.25rem;
+  font-size: 1.35rem;
   color: white;
   display: block;
   margin-bottom: 10px;
@@ -563,7 +630,7 @@ footer {
 .footer-brand p {
   font-size: 14px;
   line-height: 1.65;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255,255,255,0.58);
   max-width: 270px;
   margin-bottom: 18px;
 }
@@ -576,7 +643,7 @@ footer {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: var(--green-500);
-  background: rgba(82,183,136,0.12);
+  background: rgba(var(--green-500-rgb),0.14);
   padding: 5px 12px;
   border-radius: var(--r-full);
 }
@@ -585,13 +652,13 @@ footer {
   font-size: 11px;
   letter-spacing: 0.09em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.35);
+  color: rgba(255,255,255,0.45);
   margin-bottom: 18px;
   font-weight: 600;
 }
 .footer-col a {
   display: block;
-  color: rgba(255,255,255,0.58);
+  color: rgba(255,255,255,0.66);
   text-decoration: none;
   font-size: 14px;
   padding: 5px 0;
@@ -599,23 +666,23 @@ footer {
 }
 .footer-col a:hover { color: white; }
 .footer-bottom {
-  border-top: 1px solid rgba(255,255,255,0.08);
+  border-top: 1px solid rgba(255,255,255,0.09);
   padding-top: 28px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   font-size: 13px;
-  color: rgba(255,255,255,0.3);
+  color: rgba(255,255,255,0.45);
   flex-wrap: wrap;
   gap: 12px;
 }
-.footer-bottom a { color: rgba(255,255,255,0.4); text-decoration: none; }
+.footer-bottom a { color: rgba(255,255,255,0.55); text-decoration: none; }
 .footer-bottom a:hover { color: white; }
 
 /* ─── ANIMATIONS ─── */
 .fade-up {
   opacity: 0;
-  transform: translateY(24px);
+  transform: translateY(20px);
   transition: opacity var(--t-lg), transform var(--t-lg);
 }
 .fade-up.visible {
@@ -629,12 +696,16 @@ footer {
   .hamburger  { display: flex; }
   .grid-3     { grid-template-columns: repeat(2, 1fr); }
   .grid-4     { grid-template-columns: repeat(2, 1fr); }
+  .hg-3       { grid-template-columns: 1fr; }
   .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
 }
 @media (max-width: 640px) {
   section   { padding: 60px 0; }
   .hero     { padding: 70px 0 60px; }
   .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+  .hg-2     { grid-template-columns: 1fr; }
+  .hair-grid > * { padding: 28px 24px; }
+  .planned  { padding: 26px 24px; }
   .hero-stats { gap: 24px; }
   .cta-banner { padding: 44px 28px; }
   .footer-grid { grid-template-columns: 1fr; gap: 28px; }
