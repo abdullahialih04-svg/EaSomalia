@@ -4,73 +4,89 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>EA Somalia — Combining Heart and Head to Do the Most Good</title>
-  <meta name="description" content="Effective Altruism Somalia — a community of ~50 Somali professionals applying evidence and reason to do the most good. Launched February 2026." />
+  <meta name="description" content="Effective Altruism Somalia — a community of ~50 Somali professionals applying evidence and reason to do the most good. Launched February 2026 in Mogadishu." />
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    /* ── HOME PAGE EXTRAS ── */
-    .problem-grid {
+    /* ── HOME PAGE EXTRAS ──
+       NOTE: class names prefixed .hg- to avoid colliding with the
+       site-wide .grid-2 / .grid-3 helpers already in style.css. */
+
+    .hair-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr);
       background: var(--warm-200);
       border: 1px solid var(--warm-200);
       border-radius: var(--r-xl);
       overflow: hidden;
       gap: 1px;
     }
-    .problem-cell {
+    .hair-grid > * {
       background: var(--white);
-      padding: 36px 32px;
+      padding: 34px 32px;
       transition: background var(--t);
     }
-    .problem-cell:hover { background: var(--off-white); }
-    .problem-cell .icon { font-size: 2rem; margin-bottom: 14px; }
-    .problem-cell h3    { font-size: 1.2rem; margin-bottom: 10px; }
-    .problem-cell p     { font-size: 14px; line-height: 1.65; }
+    .hair-grid > *:hover { background: var(--off-white); }
 
-    .steps-grid {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      border: 1px solid var(--warm-200);
-      border-radius: var(--r-xl);
-      overflow: hidden;
+    .hg-2 { grid-template-columns: repeat(2, 1fr); }
+    .hg-3 { grid-template-columns: repeat(3, 1fr); }
+
+    .cell h3 { font-size: 1.3rem; margin-bottom: 10px; }
+    .cell p  { font-size: 14px; line-height: 1.7; }
+    .cell .btn-ghost { margin-top: 16px; }
+
+    .cell-label {
+      font-family: var(--mono);
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-500);
+      margin-bottom: 12px;
     }
-    .step-cell {
-      padding: 40px 36px;
-      border-right: 1px solid var(--warm-200);
-      transition: background var(--t);
+
+    .source-note {
+      font-family: var(--mono);
+      font-size: 11px;
+      line-height: 1.6;
+      color: var(--text-500);
+      margin-top: 14px;
     }
-    .step-cell:last-child { border-right: none; }
-    .step-cell:hover { background: var(--off-white); }
-    .step-num {
+    .source-note a { color: var(--text-500); text-underline-offset: 2px; }
+
+    .focus-num {
       font-family: var(--serif);
-      font-size: 3.5rem;
+      font-size: 3rem;
       font-weight: 700;
-      color: var(--green-100);
+      color: var(--green-200);
       line-height: 1;
-      margin-bottom: 18px;
+      margin-bottom: 14px;
     }
-    .step-cell h3 { font-size: 1.1rem; margin-bottom: 10px; }
-    .step-cell p  { font-size: 14px; margin-bottom: 18px; line-height: 1.65; }
 
-    .values-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 20px;
+    /* Planned-work note — dashed edge signals "not live yet" */
+    .planned {
+      border: 1px dashed var(--warm-300);
+      border-radius: var(--r-xl);
+      padding: 32px 34px;
+      margin-top: 28px;
+      background: var(--white);
     }
-    .value-item { text-align: center; padding: 28px 20px; }
-    .value-item .v-icon   { font-size: 2.2rem; margin-bottom: 14px; }
-    .value-item h3 { font-size: 1.05rem; margin-bottom: 8px; }
-    .value-item p  { font-size: 13px; }
+    .planned h3 { font-size: 1.3rem; margin-bottom: 10px; }
+    .planned p  { font-size: 14px; line-height: 1.7; max-width: 64ch; }
+    .planned .btn-ghost { margin-top: 16px; }
 
-    @media (max-width: 768px) {
-      .problem-grid { grid-template-columns: 1fr; }
-      .steps-grid   { grid-template-columns: 1fr; }
-      .step-cell    { border-right: none; border-bottom: 1px solid var(--warm-200); }
-      .step-cell:last-child { border-bottom: none; }
-      .values-row   { grid-template-columns: repeat(2, 1fr); }
+    .org-name {
+      font-family: var(--serif);
+      font-size: 1.4rem;
+      font-weight: 600;
+      margin-bottom: 10px;
     }
-    @media (max-width: 480px) {
-      .values-row { grid-template-columns: 1fr; }
+
+    @media (max-width: 960px) {
+      .hg-3 { grid-template-columns: 1fr; }
+    }
+    @media (max-width: 640px) {
+      .hg-2 { grid-template-columns: 1fr; }
+      .hair-grid > * { padding: 28px 24px; }
+      .planned { padding: 26px 24px; }
     }
   </style>
 </head>
@@ -79,18 +95,18 @@
 <div id="nav-container"></div>
 
 <main>
-  <!-- HERO -->
+  <!-- ── HERO ── -->
   <section class="hero">
     <div class="container">
 
       <div class="info-banner fade-up">
         <span class="ib-icon">🌱</span>
-        <p><strong>Just launched!</strong> EA Somalia is brand new — we started in February 2026 with ~50 passionate people in Mogadishu. We're small and growing. <a href="pages/about.html">Learn our story →</a></p>
+        <p><strong>Just launched.</strong> EA Somalia started in February 2026 with around 50 people in Mogadishu. We're small, and early members shape what this becomes. <a href="/pages/about.html">Our story →</a></p>
       </div>
 
       <div class="hero-eyebrow fade-up">
         <span class="badge badge-green"><span class="dot"></span> Active · Mogadishu</span>
-        <span style="font-family:var(--mono);font-size:11px;color:var(--text-300);letter-spacing:0.08em;text-transform:uppercase;">Est. Feb 2026</span>
+        <span class="badge badge-gray">Est. Feb 2026</span>
       </div>
 
       <h1 class="display-xl hero-title fade-up">
@@ -98,14 +114,15 @@
       </h1>
 
       <p class="lead hero-desc fade-up">
-        We help Somali professionals find high-impact careers, give more effectively,
-        and build a community dedicated to solving pressing problems — using evidence
-        and reason, not just good intentions.
+        Good intentions are common. Working out what actually helps — and by how much — is harder.
+        We're a community of Somali professionals using evidence and reason to answer one question:
+        how can we do the most good with the time and money we have?
       </p>
 
       <div class="hero-actions fade-up">
-        <a href="pages/career.html" class="btn btn-primary">Explore Career Guide</a>
-        <a href="pages/giving.html" class="btn btn-outline">Learn to Give Effectively</a>
+        <a href="/pages/giving.html" class="btn btn-primary">Give effectively</a>
+        <a href="/pages/career.html" class="btn btn-outline">Find a high-impact career</a>
+        <a href="/pages/register-interest.html" class="btn btn-outline">Join the community</a>
       </div>
 
       <div class="hero-stats fade-up">
@@ -115,14 +132,14 @@
         </div>
         <div>
           <div class="stat-num">1</div>
-          <div class="stat-label">Active chapter in Mogadishu</div>
+          <div class="stat-label">Chapter, in Mogadishu</div>
         </div>
         <div>
-          <div class="stat-num" style="font-family:var(--serif);font-size:2rem;">Feb 2026</div>
+          <div class="stat-num" style="font-size:2rem;">Feb 2026</div>
           <div class="stat-label">When we launched</div>
         </div>
         <div>
-          <div class="stat-num" style="font-size:1.6rem;color:var(--green-700);">Growing</div>
+          <div class="stat-num" style="font-size:1.7rem;color:var(--green-700);">Growing</div>
           <div class="stat-label">Join us early</div>
         </div>
       </div>
@@ -132,122 +149,133 @@
 
   <hr class="divider" />
 
-  <!-- PROBLEMS -->
+  <!-- ── THE QUESTIONS THAT MATTER HERE ── -->
   <section>
     <div class="container">
       <div class="section-header fade-up">
-        <span class="eyebrow">Our Context</span>
-        <h2 class="display-md">Somalia is at a pivotal moment.</h2>
-        <p class="lead">With a young, talented population and a growing diaspora, we have an extraordinary opportunity to channel talent toward challenges that matter most.</p>
+        <span class="eyebrow">Our context</span>
+        <h2 class="display-md">The questions that matter here</h2>
+        <p class="lead">Somalia has a young, capable population and a diaspora that already moves enormous sums home every year. Where that talent and money goes is a decision worth making carefully.</p>
       </div>
 
-      <div class="problem-grid">
-        <div class="problem-cell fade-up">
-          <div class="icon">🍽️</div>
-          <h3>Food Security</h3>
-          <p>Recurring droughts and famine affect millions. Evidence-based agricultural research and policy can save thousands of lives each year.</p>
+      <div class="hair-grid hg-2">
+        <div class="cell fade-up">
+          <div class="cell-label">Diaspora giving</div>
+          <h3>Two billion dollars a year, already moving</h3>
+          <p>The US State Department estimates remittances to Somalia at around $2 billion annually — by its estimate roughly a quarter of GDP — with most of it moving through hawalas and mobile money. Small improvements in where and how it lands add up to a great deal.</p>
+          <p class="source-note">Source: <a href="https://www.state.gov/reports/2025-investment-climate-statements/somalia" target="_blank" rel="noopener">US State Department, 2025 Investment Climate Statement</a>. Other estimates put the GDP share lower; the dollar figure is widely cited.</p>
         </div>
-        <div class="problem-cell fade-up">
-          <div class="icon">💻</div>
-          <h3>Digital Infrastructure</h3>
-          <p>Expanding internet access and digital literacy unlocks economic opportunity for millions locked out of the global economy.</p>
-        </div>
-        <div class="problem-cell fade-up">
-          <div class="icon">💸</div>
-          <h3>Remittance Efficiency</h3>
-          <p>Somalia receives over $1.3B in remittances yearly. Cutting transfer fees even slightly redirects millions toward essential needs.</p>
-        </div>
-        <div class="problem-cell fade-up">
-          <div class="icon">🌱</div>
-          <h3>Climate-Resilient Farming</h3>
-          <p>Drought-resistant crops and sustainable farming protect livelihoods and food supply as the climate shifts dangerously.</p>
-        </div>
-      </div>
 
-      <div style="text-align:center;margin-top:32px;" class="fade-up">
-        <a href="pages/career.html" class="btn-ghost">See our problem selection framework</a>
+        <div class="cell fade-up">
+          <div class="cell-label">Food security</div>
+          <h3>Drought, and the gap between responses</h3>
+          <p>Recurring drought puts millions at risk. Some responses are far better studied and far cheaper per life improved than others, and the difference between them is not obvious from the outside. Closing that gap is exactly what careful evaluation is for.</p>
+        </div>
+
+        <div class="cell fade-up">
+          <div class="cell-label">Health</div>
+          <h3>The best-evidenced interventions are relevant here</h3>
+          <p>Several of the interventions with the strongest global evidence base — treating malaria, preventing malnutrition, routine vaccination — are directly relevant to Somali households. This is not a case where the research and the need sit in different places.</p>
+        </div>
+
+        <div class="cell fade-up">
+          <div class="cell-label">Careers and digital access</div>
+          <h3>A generation deciding what to do with its working life</h3>
+          <p>A generation coming online at once is a generation deciding what to do with their working lives. Career choice is one of the largest decisions most people ever make about their impact — and one of the least deliberately made.</p>
+          <a href="/pages/career.html" class="btn-ghost">How we think about choosing problems</a>
+        </div>
       </div>
     </div>
   </section>
 
   <hr class="divider" />
 
-  <!-- HOW IT WORKS -->
+  <!-- ── WHERE WE FOCUS ── -->
   <section style="background:var(--off-white);">
     <div class="container">
       <div class="section-header fade-up">
-        <span class="eyebrow">How it works</span>
-        <h2 class="display-md">Your path to high impact</h2>
+        <span class="eyebrow">Where we focus</span>
+        <h2 class="display-md">Three areas, chosen deliberately</h2>
+        <p class="lead">We can't work on everything, and a small community that tries to will do nothing well. These are the areas we point members toward — chosen because the evidence is unusually strong, the scale is large, or comparatively few people are working on them.</p>
       </div>
 
-      <div class="steps-grid">
-        <div class="step-cell fade-up">
-          <div class="step-num">01</div>
-          <h3>Learn About Impact</h3>
-          <p>Explore evidence-based resources on pressing problems and how your skills can address them most effectively.</p>
-          <a href="pages/career.html" class="btn-ghost">Read the Career Guide</a>
+      <div class="hair-grid hg-3">
+        <div class="cell fade-up">
+          <div class="focus-num">01</div>
+          <h3>Global health</h3>
+          <p>The strongest evidence base in all of effective giving. Decades of trials mean we can say with unusual confidence what a donation to malaria prevention or nutrition programmes actually buys — and much of that work happens in contexts close to our own.</p>
         </div>
-        <div class="step-cell fade-up">
-          <div class="step-num">02</div>
-          <h3>Find Your Path</h3>
-          <p>Use our frameworks to identify where you can contribute most — through research, policy, entrepreneurship, or giving.</p>
-          <a href="pages/community.html" class="btn-ghost">Explore Mentorship</a>
+
+        <div class="cell fade-up">
+          <div class="focus-num">02</div>
+          <h3>AI safety</h3>
+          <p>AI systems are being deployed faster than anyone is working out how to make them reliable, and very few people work on the problem relative to its scale. Somali technologists entering the field now are entering it early.</p>
         </div>
-        <div class="step-cell fade-up">
-          <div class="step-num">03</div>
-          <h3>Take Action</h3>
-          <p>Apply for high-impact jobs, join our Mogadishu chapter, or learn to give more effectively to proven charities.</p>
-          <a href="pages/jobs.html" class="btn-ghost">Browse Opportunities</a>
+
+        <div class="cell fade-up">
+          <div class="focus-num">03</div>
+          <h3>Animal welfare</h3>
+          <p>An enormous amount of suffering, and among the most neglected areas in philanthropy — a small amount of funding and attention goes further here than almost anywhere else. It's a live question in a country where livestock is central to the economy.</p>
         </div>
+      </div>
+
+      <div class="planned fade-up">
+        <div class="cell-label">Planned — not running yet</div>
+        <h3>Digital literacy training</h3>
+        <p>We intend to build a digital literacy programme teaching people to use technology productively and safely: practical skills for work, alongside the parts that rarely get taught — recognising scams and misinformation, protecting your own data, and understanding what AI tools can and can't be trusted to do. This is a plan, not a running programme. If you'd want to teach on it or take it, tell us — that's how we'll decide whether to build it.</p>
+        <a href="/pages/register-interest.html" class="btn-ghost">Register your interest</a>
       </div>
     </div>
   </section>
 
   <hr class="divider" />
 
-  <!-- VALUES -->
+  <!-- ── WHERE WE POINT PEOPLE ── -->
   <section>
     <div class="container">
-      <div class="section-header fade-up" style="text-align:center;">
-        <span class="eyebrow">What we believe</span>
-        <h2 class="display-md">Guided by evidence, driven by community</h2>
+      <div class="section-header fade-up">
+        <span class="eyebrow">Where we point people</span>
+        <h2 class="display-md">We don't take donations. We point at people who've done the work.</h2>
+        <p class="lead">EA Somalia runs a community and shares research. The charity evaluation, the pledge, and the career research are all done by established organisations — give directly to them, or to the charities they recommend.</p>
       </div>
-      <div class="values-row">
-        <div class="value-item fade-up">
-          <div class="v-icon">🔍</div>
-          <h3>Evidence First</h3>
-          <p>We prioritize interventions backed by rigorous evidence.</p>
+
+      <div class="hair-grid hg-3">
+        <div class="cell fade-up">
+          <div class="org-name">GiveWell</div>
+          <p>Spends thousands of hours a year finding charities where an extra dollar does the most measurable good, and publishes all of its reasoning so you can check it yourself.</p>
+          <a href="https://www.givewell.org/charities/top-charities" class="btn-ghost" target="_blank" rel="noopener">See the top charities</a>
         </div>
-        <div class="value-item fade-up">
-          <div class="v-icon">🌍</div>
-          <h3>Impartial Concern</h3>
-          <p>We care about wellbeing regardless of nationality or proximity.</p>
+
+        <div class="cell fade-up">
+          <div class="org-name">Giving What We Can</div>
+          <p>Runs the pledge to give a meaningful percentage of your income to effective charities, and maintains a directory of vetted funds.</p>
+          <a href="https://www.givingwhatwecan.org/pledge" class="btn-ghost" target="_blank" rel="noopener">About the pledge</a>
         </div>
-        <div class="value-item fade-up">
-          <div class="v-icon">💡</div>
-          <h3>Intellectual Honesty</h3>
-          <p>We update views with new evidence and welcome disagreement.</p>
+
+        <div class="cell fade-up">
+          <div class="org-name">80,000 Hours</div>
+          <p>Free research on which career paths let you contribute most, based on which problems are most pressing and most neglected.</p>
+          <a href="https://80000hours.org/" class="btn-ghost" target="_blank" rel="noopener">Career research</a>
         </div>
-        <div class="value-item fade-up">
-          <div class="v-icon">🤝</div>
-          <h3>Open Community</h3>
-          <p>Everyone can learn and contribute, wherever they start.</p>
-        </div>
+      </div>
+
+      <div style="text-align:center;margin-top:36px;" class="fade-up">
+        <a href="/pages/giving.html" class="btn-ghost">How to give effectively, including zakat and sadaqah</a>
       </div>
     </div>
   </section>
 
   <hr class="divider" />
 
-  <!-- CTA -->
+  <!-- ── STAY IN TOUCH ── -->
   <section>
     <div class="container">
       <div class="cta-banner fade-up">
-        <h2 class="display-md">Ready to make an impact?</h2>
-        <p>Join ~50 Somali professionals applying evidence and compassion to tackle real problems. We're early — your voice will shape what we become.</p>
+        <h2 class="display-md">Stay in touch</h2>
+        <p>Tell us what you're interested in — mentorship, jobs, giving, or the diaspora network — and we'll be in touch. Occasional emails only, unsubscribe any time.</p>
         <div class="btn-row">
-          <a href="pages/about.html#contact" class="btn btn-white">Get in Touch</a>
-          <a href="pages/career.html" class="btn btn-glass">Read the Career Guide</a>
+          <a href="/pages/register-interest.html" class="btn btn-white">Register your interest</a>
+          <a href="/pages/about.html#contact" class="btn btn-glass">Get in touch</a>
         </div>
       </div>
     </div>
