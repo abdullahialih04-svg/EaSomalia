@@ -8,29 +8,12 @@
   <link rel="stylesheet" href="css/style.css" />
   <style>
     /* ── HOME PAGE EXTRAS ──
-       NOTE: class names prefixed .hg- to avoid colliding with the
-       site-wide .grid-2 / .grid-3 helpers already in style.css. */
-
-    .hair-grid {
-      display: grid;
-      background: var(--warm-200);
-      border: 1px solid var(--warm-200);
-      border-radius: var(--r-xl);
-      overflow: hidden;
-      gap: 1px;
-    }
-    .hair-grid > * {
-      background: var(--white);
-      padding: 34px 32px;
-      transition: background var(--t);
-    }
-    .hair-grid > *:hover { background: var(--off-white); }
-
-    .hg-2 { grid-template-columns: repeat(2, 1fr); }
-    .hg-3 { grid-template-columns: repeat(3, 1fr); }
+       .hair-grid, .hg-2, .hg-3 and .planned now live in style.css.
+       Only genuinely page-specific rules remain here. */
 
     .cell h3 { font-size: 1.3rem; margin-bottom: 10px; }
     .cell p  { font-size: 14px; line-height: 1.7; }
+    .cell p + p { margin-top: 12px; }
     .cell .btn-ghost { margin-top: 16px; }
 
     .cell-label {
@@ -48,7 +31,7 @@
       font-size: 11px;
       line-height: 1.6;
       color: var(--text-500);
-      margin-top: 14px;
+      margin-top: 16px;
     }
     .source-note a { color: var(--text-500); text-underline-offset: 2px; }
 
@@ -61,32 +44,11 @@
       margin-bottom: 14px;
     }
 
-    /* Planned-work note — dashed edge signals "not live yet" */
-    .planned {
-      border: 1px dashed var(--warm-300);
-      border-radius: var(--r-xl);
-      padding: 32px 34px;
-      margin-top: 28px;
-      background: var(--white);
-    }
-    .planned h3 { font-size: 1.3rem; margin-bottom: 10px; }
-    .planned p  { font-size: 14px; line-height: 1.7; max-width: 64ch; }
-    .planned .btn-ghost { margin-top: 16px; }
-
     .org-name {
       font-family: var(--serif);
       font-size: 1.4rem;
       font-weight: 600;
       margin-bottom: 10px;
-    }
-
-    @media (max-width: 960px) {
-      .hg-3 { grid-template-columns: 1fr; }
-    }
-    @media (max-width: 640px) {
-      .hg-2 { grid-template-columns: 1fr; }
-      .hair-grid > * { padding: 28px 24px; }
-      .planned { padding: 26px 24px; }
     }
   </style>
 </head>
@@ -161,9 +123,10 @@
       <div class="hair-grid hg-2">
         <div class="cell fade-up">
           <div class="cell-label">Diaspora giving</div>
-          <h3>Two billion dollars a year, already moving</h3>
-          <p>The US State Department estimates remittances to Somalia at around $2 billion annually — by its estimate roughly a quarter of GDP — with most of it moving through hawalas and mobile money. Small improvements in where and how it lands add up to a great deal.</p>
-          <p class="source-note">Source: <a href="https://www.state.gov/reports/2025-investment-climate-statements/somalia" target="_blank" rel="noopener">US State Department, 2025 Investment Climate Statement</a>. Other estimates put the GDP share lower; the dollar figure is widely cited.</p>
+          <h3>The money already flows. What it costs to move is a choice.</h3>
+          <p>World Bank figures put personal remittances to Somalia at roughly 15% of GDP — among the highest shares of any economy in the world, and several times the global average. Almost all of it arrives through money transfer operators and mobile money rather than banks.</p>
+          <p>The UN's Sustainable Development Goals set a target of cutting remittance transfer costs below 3%. World Bank research has found costs on Somali corridors running at more than twice that. Fees aren't a fixed feature of the system — they're a number that can be argued down, and every point shaved off is money arriving in households instead of intermediaries.</p>
+          <p class="source-note">Sources: <a href="https://data.worldbank.org/indicator/BX.TRF.PWKR.DT.GD.ZS?locations=SO" target="_blank" rel="noopener">World Bank, personal remittances received (% of GDP)</a> · <a href="https://documents1.worldbank.org/curated/en/597711594118138283/pdf/Summary-of-Chapter-6-Remittances.pdf" target="_blank" rel="noopener">World Bank, Somali remittances</a> · UN SDG target 10.c.</p>
         </div>
 
         <div class="cell fade-up">
