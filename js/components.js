@@ -1,111 +1,28 @@
-/* ── Shared nav + footer injected into every page ── */
-
-const NAV_HTML = `
-<nav>
-  <div class="nav-inner">
-    <a href="/" class="nav-logo">
-      <div class="logo-mark">EA</div>
-      <div>
-        <span class="logo-text">EA Somalia</span>
-        <span class="logo-sub">Effective Altruism</span>
-      </div>
-    </a>
-    <ul class="nav-links">
-      <li><a href="/pages/career.html">Career Guide</a></li>
-      <li><a href="/pages/giving.html">Giving</a></li>
-      <li><a href="/pages/community.html">Community</a></li>
-      <li><a href="/pages/jobs.html">Jobs</a></li>
-      <li><a href="/pages/about.html">About</a></li>
-      <li><a href="/pages/about.html#contact" class="btn nav-cta">Get Involved</a></li>
-    </ul>
-    <button class="hamburger" aria-label="Open menu">
-      <span></span><span></span><span></span>
-    </button>
-  </div>
-</nav>
-<div class="mobile-nav" id="mobile-nav">
-  <a href="/">Home</a>
-  <a href="/pages/career.html">Career Guide</a>
-  <a href="/pages/giving.html">Giving Effectively</a>
-  <a href="/pages/community.html">Community</a>
-  <a href="/pages/jobs.html">Job Board</a>
-  <a href="/pages/about.html">About Us</a>
-  <a href="/pages/about.html#contact" style="color:var(--green-700);font-weight:700;margin-top:12px;">Get Involved →</a>
-</div>
-`;
-
-const FOOTER_HTML = `
-<footer>
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-brand">
-        <span class="brand-name">EA Somalia</span>
-        <p>A growing community of ~50 Somali professionals applying evidence and reason to do the most good. Launched February 2026.</p>
-        <span class="footer-new-badge">
-          <span style="width:6px;height:6px;border-radius:50%;background:currentColor;display:inline-block;animation:pulse-dot 2s infinite;"></span>
-          New · Est. Feb 2026
-        </span>
-      </div>
-      <div class="footer-col">
-        <h4>Resources</h4>
-        <a href="/pages/career.html">Career Guide</a>
-        <a href="/pages/giving.html">Giving Effectively</a>
-        <a href="/pages/jobs.html">Job Board</a>
-      </div>
-      <div class="footer-col">
-        <h4>Community</h4>
-        <a href="/pages/community.html">Local Chapters</a>
-        <a href="/pages/community.html#mentorship">Mentorship</a>
-        <a href="/pages/about.html">About Us</a>
-      </div>
-      <div class="footer-col">
-        <h4>Connect</h4>
-        <a href="mailto:info@easomalia.org">info@easomalia.org</a>
-        <a href="https://twitter.com/EASomalia" target="_blank" rel="noopener">Twitter / X</a>
-        <a href="https://linkedin.com/company/ea-somalia" target="_blank" rel="noopener">LinkedIn</a>
-      </div>
-    </div>
-    <div class="footer-bottom">
-      <span>© 2026 Effective Altruism Somalia. All rights reserved.</span>
-      <span>Part of the global <a href="https://effectivealtruism.org" target="_blank" rel="noopener">EA movement</a></span>
-    </div>
-  </div>
-</footer>
-`;
-
-document.addEventListener('DOMContentLoaded', () => {
-  const navEl    = document.getElementById('nav-container');
-  const footerEl = document.getElementById('footer-container');
-  if (navEl)    navEl.innerHTML    = NAV_HTML;
-  if (footerEl) footerEl.innerHTML = FOOTER_HTML;
-
-  /* ── Hamburger toggle ── */
-  const hamburger = document.querySelector('.hamburger');
-  const mobileNav = document.querySelector('.mobile-nav');
-  if (hamburger && mobileNav) {
-    hamburger.addEventListener('click', () => {
-      const open = mobileNav.classList.toggle('open');
-      const spans = hamburger.querySelectorAll('span');
-      spans[0].style.transform = open ? 'rotate(45deg) translate(5px, 5px)' : '';
-      spans[1].style.opacity   = open ? '0' : '1';
-      spans[2].style.transform = open ? 'rotate(-45deg) translate(5px, -5px)' : '';
-    });
-    mobileNav.querySelectorAll('a').forEach(a => {
-      a.addEventListener('click', () => {
-        mobileNav.classList.remove('open');
-        hamburger.querySelectorAll('span').forEach(s => {
-          s.style.transform = ''; s.style.opacity = '';
-        });
-      });
-    });
-  }
-
-  /* ── Active nav link ── */
-  const path = window.location.pathname;
-  document.querySelectorAll('.nav-links a, .mobile-nav a').forEach(a => {
-    const href = new URL(a.href, location.origin).pathname;
-    if (href === path || (href !== '/' && path.startsWith(href))) {
-      a.classList.add('active');
-    }
-  });
-});
+(function(){
+const FELLOWS=[
+ ['EA Fellowship','/pages/ea-fellowship.html',false],
+ ['Animal Welfare Fellowship','/pages/animal-welfare-fellowship.html',true],
+ ['Global Health Fellowship','/pages/global-health-fellowship.html',true],
+ ['AI Safety / Governance Fellowship','/pages/ai-safety-governance-fellowship.html',true]];
+const path=location.pathname.replace(/\/$/,'')||'/';
+const cur=h=>(path===h||(h==='/'&&path==='/index.html'))?' aria-current="page"':'';
+const drop=FELLOWS.map(f=>`<a href="${f[1]}"${cur(f[1])}>${f[0]}${f[2]?'<span class="tag">Coming soon</span>':''}</a>`).join('');
+document.getElementById('site-nav').outerHTML=`<header class="nav"><div class="wrap">
+<a class="logo" href="/">EA <b>Somalia</b></a>
+<button class="burger" aria-label="Menu" aria-expanded="false">☰</button>
+<ul class="menu">
+<li><a href="/"${cur('/')}>Home</a></li>
+<li class="has-drop"><button aria-haspopup="true">Learn ▾</button><div class="drop">${drop}</div></li>
+<li><a href="/pages/incubation.html"${cur('/pages/incubation.html')}>Incubation</a></li>
+<li><a href="/pages/connect.html"${cur('/pages/connect.html')}>Connect</a></li>
+</ul></div></header>`;
+document.getElementById('site-footer').outerHTML=`<footer><div class="wrap"><div class="cols">
+<div><h3>EA Somalia</h3><p>Somali professionals using evidence and reason to do the most good.</p></div>
+<div><h3>Learn</h3><ul>${FELLOWS.map(f=>`<li><a href="${f[1]}">${f[0]}</a></li>`).join('')}</ul></div>
+<div><h3>More</h3><ul><li><a href="/pages/incubation.html">Incubation</a></li><li><a href="/pages/connect.html">Connect</a></li></ul></div>
+<div><h3>Contact</h3><ul><li><a href="mailto:info@easomalia.org">info@easomalia.org</a></li></ul></div>
+</div><p class="small">© 2026 Effective Altruism Somalia</p></div></footer>`;
+const b=document.querySelector('.burger'),m=document.querySelector('.menu');
+b.onclick=()=>{const o=m.classList.toggle('show');b.setAttribute('aria-expanded',o)};
+document.querySelector('.has-drop>button').onclick=e=>e.currentTarget.parentNode.classList.toggle('open');
+})();
