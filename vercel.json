@@ -1,0 +1,45 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "cleanUrls": false,
+  "trailingSlash": false,
+  "redirects": [
+    { "source": "/index.html", "destination": "/", "permanent": true },
+
+    { "source": "/pages/career.html", "destination": "/pages/jobs.html", "permanent": true },
+    { "source": "/pages/careers.html", "destination": "/pages/jobs.html", "permanent": true },
+    { "source": "/pages/giving.html", "destination": "/pages/effective-giving.html", "permanent": true },
+    { "source": "/pages/community.html", "destination": "/pages/connect.html", "permanent": true },
+    { "source": "/pages/about.html", "destination": "/pages/connect.html", "permanent": true },
+    { "source": "/pages/fellowship.html", "destination": "/pages/ea-fellowship.html", "permanent": true },
+
+    { "source": "/ea-fellowship", "destination": "/pages/ea-fellowship.html", "permanent": false },
+    { "source": "/fellowship", "destination": "/pages/ea-fellowship.html", "permanent": false },
+    { "source": "/animal-welfare-fellowship", "destination": "/pages/animal-welfare-fellowship.html", "permanent": false },
+    { "source": "/global-health-fellowship", "destination": "/pages/global-health-fellowship.html", "permanent": false },
+    { "source": "/ai-safety-governance-fellowship", "destination": "/pages/ai-safety-governance-fellowship.html", "permanent": false },
+    { "source": "/effective-giving", "destination": "/pages/effective-giving.html", "permanent": false },
+    { "source": "/giving", "destination": "/pages/effective-giving.html", "permanent": false },
+    { "source": "/jobs", "destination": "/pages/jobs.html", "permanent": false },
+    { "source": "/careers", "destination": "/pages/jobs.html", "permanent": false },
+    { "source": "/incubation", "destination": "/pages/incubation.html", "permanent": false },
+    { "source": "/connect", "destination": "/pages/connect.html", "permanent": false },
+    { "source": "/contact", "destination": "/pages/connect.html", "permanent": false }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=()" }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=604800, stale-while-revalidate=86400" }
+      ]
+    }
+  ]
+}
