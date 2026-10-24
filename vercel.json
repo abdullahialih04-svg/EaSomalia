@@ -10,97 +10,126 @@
       "destination": "/",
       "permanent": true
     },
-
     {
       "source": "/pages/career.html",
-      "destination": "/pages/jobs",
+      "destination": "/jobs",
       "permanent": true
     },
     {
       "source": "/pages/careers.html",
-      "destination": "/pages/jobs",
+      "destination": "/jobs",
       "permanent": true
     },
     {
       "source": "/pages/giving.html",
-      "destination": "/pages/effective-giving",
+      "destination": "/effective-giving",
       "permanent": true
     },
     {
       "source": "/pages/community.html",
-      "destination": "/pages/connect",
+      "destination": "/connect",
       "permanent": true
     },
     {
       "source": "/pages/about.html",
-      "destination": "/pages/connect",
+      "destination": "/connect",
       "permanent": true
     },
     {
       "source": "/pages/fellowship.html",
-      "destination": "/pages/ea-fellowship",
+      "destination": "/ea-fellowship",
       "permanent": true
     },
+    {
+      "source": "/pages/ea-fellowship.html",
+      "destination": "/ea-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/animal-welfare-fellowship.html",
+      "destination": "/animal-welfare-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/global-health-fellowship.html",
+      "destination": "/global-health-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/ai-safety-governance-fellowship.html",
+      "destination": "/ai-safety-governance-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/effective-giving.html",
+      "destination": "/effective-giving",
+      "permanent": true
+    },
+    {
+      "source": "/pages/jobs.html",
+      "destination": "/jobs",
+      "permanent": true
+    },
+    {
+      "source": "/pages/connect.html",
+      "destination": "/connect",
+      "permanent": true
+    },
+    {
+      "source": "/pages/incubation.html",
+      "destination": "/incubation",
+      "permanent": true
+    }
+  ],
 
+  "rewrites": [
     {
       "source": "/ea-fellowship",
-      "destination": "/pages/ea-fellowship",
-      "permanent": false
+      "destination": "/pages/ea-fellowship.html"
     },
     {
       "source": "/fellowship",
-      "destination": "/pages/ea-fellowship",
-      "permanent": false
+      "destination": "/pages/ea-fellowship.html"
     },
     {
       "source": "/animal-welfare-fellowship",
-      "destination": "/pages/animal-welfare-fellowship",
-      "permanent": false
+      "destination": "/pages/animal-welfare-fellowship.html"
     },
     {
       "source": "/global-health-fellowship",
-      "destination": "/pages/global-health-fellowship",
-      "permanent": false
+      "destination": "/pages/global-health-fellowship.html"
     },
     {
       "source": "/ai-safety-governance-fellowship",
-      "destination": "/pages/ai-safety-governance-fellowship",
-      "permanent": false
+      "destination": "/pages/ai-safety-governance-fellowship.html"
     },
     {
       "source": "/effective-giving",
-      "destination": "/pages/effective-giving",
-      "permanent": false
+      "destination": "/pages/effective-giving.html"
     },
     {
       "source": "/giving",
-      "destination": "/pages/effective-giving",
-      "permanent": false
+      "destination": "/pages/effective-giving.html"
     },
     {
       "source": "/jobs",
-      "destination": "/pages/jobs",
-      "permanent": false
+      "destination": "/pages/jobs.html"
     },
     {
       "source": "/careers",
-      "destination": "/pages/jobs",
-      "permanent": false
+      "destination": "/pages/jobs.html"
     },
     {
       "source": "/incubation",
-      "destination": "/pages/incubation",
-      "permanent": false
+      "destination": "/pages/incubation.html"
     },
     {
       "source": "/connect",
-      "destination": "/pages/connect",
-      "permanent": false
+      "destination": "/pages/connect.html"
     },
     {
       "source": "/contact",
-      "destination": "/pages/connect",
-      "permanent": false
+      "destination": "/pages/connect.html"
     }
   ],
 
