@@ -5,62 +5,55 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- Primary SEO -->
-  <title>Effective Altruism Somalia | Evidence-Based Impact</title>
+  <!-- SEO -->
+  <title>Effective Altruism Somalia | Do Good, Better</title>
   <meta
     name="description"
-    content="EA Somalia is a community exploring evidence-based ways to do the most good. Discover effective giving, global health, animal welfare, AI safety, and opportunities to make a difference in Somalia and beyond."
+    content="Discover Effective Altruism Somalia: a community using evidence and reason to find effective ways to improve lives, support animal welfare, advance global health, and make AI safer."
   >
   <meta name="robots" content="index, follow">
   <meta name="author" content="Effective Altruism Somalia">
   <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="https://easomalia.org/">
 
-  <!-- Favicons: use a white-background EA Somalia icon -->
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
-  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192.png">
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+  <!-- Website icons -->
+  <!-- The original logo is the fallback until the new icons are uploaded. -->
+  <link rel="icon" href="/images/logo.png" type="image/png">
+  <link rel="icon" href="/images/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/images/favicon-192.png" type="image/png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/images/apple-touch-icon.png" sizes="180x180">
 
-  <!-- Open Graph: social sharing -->
+  <!-- Social sharing -->
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="Effective Altruism Somalia">
   <meta property="og:locale" content="en_US">
   <meta property="og:url" content="https://easomalia.org/">
-  <meta
-    property="og:title"
-    content="Effective Altruism Somalia | Evidence-Based Impact"
-  >
+  <meta property="og:title" content="Effective Altruism Somalia | Do Good, Better">
   <meta
     property="og:description"
-    content="A community of Somalis using evidence and careful reasoning to find effective ways to tackle important problems in Somalia and beyond."
+    content="A community exploring evidence-based ways to tackle important problems in Somalia and beyond."
   >
   <meta
     property="og:image"
     content="https://easomalia.org/images/ea-somalia-social.png"
   >
-  <meta property="og:image:width" content="1200">
-  <meta property="og:image:height" content="630">
   <meta
     property="og:image:alt"
-    content="Effective Altruism Somalia — evidence-based ways to do good"
+    content="Effective Altruism Somalia logo and community message"
   >
 
-  <!-- X / Twitter -->
   <meta name="twitter:card" content="summary_large_image">
-  <meta
-    name="twitter:title"
-    content="Effective Altruism Somalia | Evidence-Based Impact"
-  >
+  <meta name="twitter:title" content="Effective Altruism Somalia">
   <meta
     name="twitter:description"
-    content="Explore evidence-based ways to do the most good through effective giving, global health, animal welfare, and AI safety."
+    content="Explore effective giving, global health, animal welfare, and AI safety with EA Somalia."
   >
   <meta
     name="twitter:image"
     content="https://easomalia.org/images/ea-somalia-social.png"
   >
 
-  <!-- Structured Data: Organization -->
+  <!-- Organization structured data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
@@ -69,26 +62,22 @@
     "name": "Effective Altruism Somalia",
     "alternateName": "EA Somalia",
     "url": "https://easomalia.org/",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://easomalia.org/images/logo.png"
-    },
-    "description": "A community of Somalis using evidence and careful reasoning to explore effective ways to tackle important problems in Somalia and beyond.",
+    "logo": "https://easomalia.org/images/logo.png",
     "email": "info@easomalia.org",
+    "description": "A community exploring evidence-based ways to do the most good in Somalia and beyond.",
     "sameAs": [
       "https://github.com/abdullahialih04-svg/EaSomalia"
     ]
   }
   </script>
 
-  <!-- Structured Data: Website -->
+  <!-- Website structured data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "WebSite",
     "@id": "https://easomalia.org/#website",
     "name": "Effective Altruism Somalia",
-    "alternateName": "EA Somalia",
     "url": "https://easomalia.org/",
     "inLanguage": "en",
     "publisher": {
@@ -97,7 +86,7 @@
   }
   </script>
 
-  <!-- Vercel Web Analytics -->
+  <!-- Vercel Analytics -->
   <script>
     window.va = window.va || function () {
       (window.vaq = window.vaq || []).push(arguments);
@@ -109,15 +98,302 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link
-    href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Source+Serif+4:wght@600;700&family=Caveat:wght@600&display=swap"
     rel="stylesheet"
   >
 
-  <!-- Main stylesheet -->
+  <!-- Styles -->
   <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Small visual and responsive enhancements -->
+  <style>
+    :root {
+      --ea-blue: #1d62ac;
+      --ea-blue-light: #3386d5;
+      --ea-ink: #14243a;
+      --ea-muted: #526174;
+      --ea-border: #e1e8f0;
+      --ea-white: #ffffff;
+      --ea-soft: #f5f8fc;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      scroll-padding-top: 90px;
+    }
+
+    body {
+      color: var(--ea-ink);
+      background: var(--ea-white);
+      font-family: "Inter", sans-serif;
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    img,
+    svg {
+      max-width: 100%;
+    }
+
+    img {
+      height: auto;
+    }
+
+    a {
+      text-underline-offset: 4px;
+    }
+
+    a:focus-visible,
+    button:focus-visible {
+      outline: 3px solid var(--ea-blue-light);
+      outline-offset: 4px;
+    }
+
+    .hero {
+      padding-top: clamp(3rem, 7vw, 6.5rem);
+      padding-bottom: clamp(3rem, 7vw, 6.5rem);
+      background:
+        radial-gradient(ellipse at 85% 15%, #eaf3ff 0, transparent 40%),
+        #ffffff;
+    }
+
+    .hero > .wrap {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      align-items: center;
+      gap: clamp(2rem, 5vw, 5rem);
+    }
+
+    .hero h1 {
+      max-width: 700px;
+      margin: 1rem 0;
+      color: var(--ea-ink);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: clamp(2.8rem, 6vw, 5rem);
+      font-weight: 700;
+      line-height: 1.08;
+      letter-spacing: -0.045em;
+    }
+
+    .hero h1 .under {
+      color: var(--ea-blue);
+      text-decoration-color: #9bc5f3;
+      text-decoration-thickness: 5px;
+      text-underline-offset: 8px;
+    }
+
+    .hero-content > p:not(.hand) {
+      max-width: 620px;
+      color: var(--ea-muted);
+      font-size: clamp(1rem, 1.6vw, 1.15rem);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 0.4rem 0.8rem;
+      border: 1px solid #d7e7fa;
+      border-radius: 999px;
+      background: #f0f6ff;
+      color: var(--ea-blue);
+      font-size: 0.82rem;
+      font-weight: 600;
+    }
+
+    .hand {
+      color: var(--ea-blue);
+      font-family: "Caveat", cursive;
+      font-size: 1.65rem;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.85rem;
+      margin-top: 1.5rem;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      padding: 0.75rem 1.2rem;
+      border: 1px solid var(--ea-blue);
+      border-radius: 8px;
+      background: var(--ea-blue);
+      color: #ffffff;
+      font-weight: 600;
+      text-align: center;
+      text-decoration: none;
+      transition: background 160ms ease, transform 160ms ease;
+    }
+
+    .btn:hover {
+      transform: translateY(-1px);
+      background: #164e8c;
+    }
+
+    .btn.ghost {
+      background: #ffffff;
+      color: var(--ea-blue);
+    }
+
+    .btn.ghost:hover {
+      background: #f0f6ff;
+    }
+
+    .chartcard {
+      min-width: 0;
+      padding: clamp(0.75rem, 2vw, 1.5rem);
+      overflow: hidden;
+      border: 1px solid var(--ea-border);
+      border-radius: 18px;
+      background: #ffffff;
+      box-shadow: 0 18px 55px rgba(24, 60, 100, 0.08);
+    }
+
+    .chartcard svg {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+
+    .section {
+      padding: clamp(3rem, 6vw, 5.5rem) 0;
+    }
+
+    .section.alt {
+      background: var(--ea-soft);
+    }
+
+    .section h2 {
+      margin-top: 0;
+      margin-bottom: 0.8rem;
+      color: var(--ea-ink);
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1.2;
+      letter-spacing: -0.025em;
+    }
+
+    .section > .wrap > p {
+      max-width: 760px;
+      margin-bottom: 2rem;
+      color: var(--ea-muted);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 1.1rem;
+      margin-top: 1.75rem;
+    }
+
+    .card {
+      min-width: 0;
+      padding: clamp(1.2rem, 2.5vw, 1.75rem);
+      border: 1px solid var(--ea-border);
+      border-radius: 14px;
+      background: #ffffff;
+      color: inherit;
+      text-decoration: none;
+      transition:
+        transform 180ms ease,
+        box-shadow 180ms ease,
+        border-color 180ms ease;
+    }
+
+    a.card:hover {
+      transform: translateY(-3px);
+      border-color: #b8d5f5;
+      box-shadow: 0 12px 30px rgba(24, 60, 100, 0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      margin-bottom: 0.55rem;
+      color: var(--ea-ink);
+      font-size: 1.15rem;
+      line-height: 1.4;
+    }
+
+    .card p {
+      margin-bottom: 0;
+      color: var(--ea-muted);
+    }
+
+    .soon {
+      background: #fbfcfe;
+    }
+
+    #community-heading {
+      margin-top: 0;
+    }
+
+    @media (max-width: 800px) {
+      .hero > .wrap {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .hero-content {
+        max-width: 700px;
+      }
+
+      .chartcard {
+        max-width: 560px;
+        width: 100%;
+        margin-inline: auto;
+      }
+    }
+
+    @media (max-width: 560px) {
+      .grid {
+        grid-template-columns: minmax(0, 1fr);
+      }
+
+      .actions {
+        align-items: stretch;
+      }
+
+      .actions .btn {
+        width: 100%;
+      }
+
+      .hero h1 {
+        font-size: clamp(2.55rem, 12vw, 3.5rem);
+      }
+
+      .hand {
+        font-size: 1.4rem;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      html {
+        scroll-behavior: auto;
+      }
+
+      *,
+      *::before,
+      *::after {
+        transition-duration: 0.01ms !important;
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+      }
+    }
+  </style>
 </head>
 
 <body>
+  <a
+    href="#main-content"
+    class="skip-link"
+    style="position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;"
+    onfocus="this.style.cssText='position:fixed;top:12px;left:12px;width:auto;height:auto;padding:12px;background:#fff;color:#14243a;border:2px solid #1d62ac;z-index:9999;'"
+    onblur="this.style.cssText='position:absolute;left:-9999px;top:auto;width:1px;height:1px;overflow:hidden;'"
+  >Skip to main content</a>
+
   <div id="site-nav"></div>
 
   <main id="main-content">
@@ -151,120 +427,78 @@
           </div>
         </div>
 
-        <!-- Illustrative impact comparison -->
+        <!-- Illustrative impact chart -->
         <div class="chartcard">
           <svg
             viewBox="0 0 440 380"
             role="img"
-            aria-labelledby="impact-chart-title impact-chart-desc"
+            aria-labelledby="impact-title impact-description"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <title id="impact-chart-title">Illustrative charity impact comparison</title>
-            <desc id="impact-chart-desc">
-              A conceptual illustration showing how the impact per dollar
-              could differ between three charities. The 1x, 10x, and 100x
-              values are illustrative, not measured results.
+            <title id="impact-title">Illustrative impact per dollar</title>
+            <desc id="impact-description">
+              A conceptual illustration of different potential charity impacts.
+              The 1x, 10x and 100x values are illustrative, not verified data.
             </desc>
 
-            <rect
-              x="22" y="22" width="112" height="52" rx="4"
-              fill="#ffffff" stroke="#4b5f78"
-            />
+            <rect x="22" y="22" width="112" height="52" rx="4"
+              fill="#ffffff" stroke="#4b5f78"/>
 
-            <text
-              x="34" y="44"
-              style="font-family:Inter,sans-serif;font-size:13px;font-weight:600;fill:#0f2440;letter-spacing:1px"
-            >IMPACT PER</text>
-
-            <text
-              x="34" y="62"
-              style="font-family:Inter,sans-serif;font-size:13px;font-weight:600;fill:#0f2440;letter-spacing:1px"
-            >DOLLAR</text>
+            <text x="34" y="44"
+              style="font-family:Inter,sans-serif;font-size:13px;font-weight:600;fill:#0f2440;letter-spacing:1px">IMPACT PER</text>
+            <text x="34" y="62"
+              style="font-family:Inter,sans-serif;font-size:13px;font-weight:600;fill:#0f2440;letter-spacing:1px">DOLLAR</text>
 
             <path
               d="M16 312 C140 310 250 304 320 285 C370 270 388 200 394 120 C396 80 398 56 398 36"
-              fill="none"
-              stroke="#3386d5"
-              stroke-width="4"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+              fill="none" stroke="#3386d5" stroke-width="4"
+              stroke-linecap="round" stroke-linejoin="round"/>
 
             <circle cx="120" cy="309" r="6" fill="#ffffff" stroke="#3386d5" stroke-width="3.5"/>
             <circle cx="320" cy="285" r="6" fill="#ffffff" stroke="#3386d5" stroke-width="3.5"/>
             <circle cx="398" cy="36" r="7" fill="#1d62ac"/>
 
-            <text
-              x="170" y="60"
-              style="font-family:Inter,sans-serif;font-size:12px;font-weight:500;fill:#4b5f78;letter-spacing:1.5px"
-            >CHARITY A</text>
+            <text x="170" y="60"
+              style="font-family:Inter,sans-serif;font-size:12px;font-weight:500;fill:#4b5f78;letter-spacing:1.5px">CHARITY A</text>
+            <text x="170" y="88"
+              style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;fill:#1d62ac">100x impact</text>
 
-            <text
-              x="170" y="88"
-              style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;fill:#1d62ac"
-            >100x impact</text>
+            <path d="M300 80 C340 82 370 66 388 44"
+              fill="none" stroke="#8db6e8" stroke-width="1.5"/>
+            <path d="M383 52 L389 43 L378 44"
+              fill="none" stroke="#8db6e8" stroke-width="1.5"/>
 
-            <path
-              d="M300 80 C340 82 370 66 388 44"
-              fill="none" stroke="#8db6e8" stroke-width="1.5"
-            />
-            <path
-              d="M383 52 L389 43 L378 44"
-              fill="none" stroke="#8db6e8" stroke-width="1.5"
-            />
+            <text x="150" y="170"
+              style="font-family:Inter,sans-serif;font-size:12px;font-weight:500;fill:#4b5f78;letter-spacing:1.5px">CHARITY B</text>
+            <text x="150" y="198"
+              style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;fill:#3386d5">10x impact</text>
 
-            <text
-              x="150" y="170"
-              style="font-family:Inter,sans-serif;font-size:12px;font-weight:500;fill:#4b5f78;letter-spacing:1.5px"
-            >CHARITY B</text>
+            <path d="M268 192 C298 192 312 224 316 268"
+              fill="none" stroke="#8db6e8" stroke-width="1.5"/>
+            <path d="M308 261 L316 271 L319 259"
+              fill="none" stroke="#8db6e8" stroke-width="1.5"/>
 
-            <text
-              x="150" y="198"
-              style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;fill:#3386d5"
-            >10x impact</text>
+            <text x="34" y="238"
+              style="font-family:Inter,sans-serif;font-size:12px;font-weight:500;fill:#4b5f78;letter-spacing:1.5px">CHARITY C</text>
+            <text x="34" y="266"
+              style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;fill:#3386d5">1x impact</text>
 
-            <path
-              d="M268 192 C298 192 312 224 316 268"
-              fill="none" stroke="#8db6e8" stroke-width="1.5"
-            />
-            <path
-              d="M308 261 L316 271 L319 259"
-              fill="none" stroke="#8db6e8" stroke-width="1.5"
-            />
+            <path d="M104 262 C114 266 120 279 120 295"
+              fill="none" stroke="#8db6e8" stroke-width="1.5"/>
+            <path d="M113 289 L120 298 L125 288"
+              fill="none" stroke="#8db6e8" stroke-width="1.5"/>
 
-            <text
-              x="34" y="238"
-              style="font-family:Inter,sans-serif;font-size:12px;font-weight:500;fill:#4b5f78;letter-spacing:1.5px"
-            >CHARITY C</text>
-
-            <text
-              x="34" y="266"
-              style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;fill:#3386d5"
-            >1x impact</text>
-
-            <path
-              d="M104 262 C114 266 120 279 120 295"
-              fill="none" stroke="#8db6e8" stroke-width="1.5"
-            />
-            <path
-              d="M113 289 L120 298 L125 288"
-              fill="none" stroke="#8db6e8" stroke-width="1.5"
-            />
-
-            <text
-              x="16" y="350"
-              style="font-family:Inter,sans-serif;font-size:11px;font-weight:400;fill:#4b5f78"
-            >Illustrative comparison, not measured charity data</text>
+            <text x="16" y="350"
+              style="font-family:Inter,sans-serif;font-size:11px;font-weight:400;fill:#4b5f78">Illustrative comparison, not measured charity data</text>
           </svg>
         </div>
       </div>
     </section>
 
-    <!-- Introduction to effective altruism -->
+    <!-- What is effective altruism? -->
     <section class="section" aria-labelledby="ea-heading">
       <div class="wrap">
         <h2 id="ea-heading">What is effective altruism?</h2>
-
         <p>
           Effective altruism combines evidence, reason, and a commitment
           to helping others to work out how we can do the most good.
@@ -310,7 +544,6 @@
     <section class="section alt" aria-labelledby="fellowships-heading">
       <div class="wrap">
         <h2 id="fellowships-heading">Learn with us</h2>
-
         <p>
           Our fellowships take you from first ideas to real action.
           The EA Fellowship is open now. Other fellowships are in development.
@@ -322,29 +555,17 @@
             <p>Open for applications.</p>
           </a>
 
-          <a
-            class="card soon"
-            href="/pages/animal-welfare-fellowship.html"
-            aria-label="Animal Welfare Fellowship — coming soon"
-          >
+          <a class="card soon" href="/pages/animal-welfare-fellowship.html">
             <h3>Animal Welfare Fellowship</h3>
             <p>Coming soon.</p>
           </a>
 
-          <a
-            class="card soon"
-            href="/pages/global-health-fellowship.html"
-            aria-label="Global Health Fellowship — coming soon"
-          >
+          <a class="card soon" href="/pages/global-health-fellowship.html">
             <h3>Global Health Fellowship</h3>
             <p>Coming soon.</p>
           </a>
 
-          <a
-            class="card soon"
-            href="/pages/ai-safety-governance-fellowship.html"
-            aria-label="AI Safety and Governance Fellowship — coming soon"
-          >
+          <a class="card soon" href="/pages/ai-safety-governance-fellowship.html">
             <h3>AI Safety / Governance Fellowship</h3>
             <p>Coming soon.</p>
           </a>
@@ -352,11 +573,10 @@
       </div>
     </section>
 
-    <!-- Explore opportunities -->
+    <!-- Opportunities -->
     <section class="section" aria-labelledby="opportunities-heading">
       <div class="wrap">
         <h2 id="opportunities-heading">Explore opportunities</h2>
-
         <p>
           Find practical ways to contribute, support effective work,
           and connect with the EA Somalia community.
@@ -386,11 +606,10 @@
       </div>
     </section>
 
-    <!-- Community call to action -->
+    <!-- Final call to action -->
     <section class="section alt" aria-labelledby="community-heading">
       <div class="wrap">
         <h2 id="community-heading">Help make a difference</h2>
-
         <p>
           Whether you're exploring effective altruism for the first time
           or already working on important problems, you're welcome to learn
