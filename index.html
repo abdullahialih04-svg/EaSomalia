@@ -1,80 +1,27 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en" data-theme="light">
 <head>
-  <meta charset="utf-8">
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <title>Effective Altruism Somalia | Do Good, Better</title>
+  <title>EA Somalia — Doing Good, Better</title>
 
   <meta
     name="description"
-    content="EA Somalia is a community exploring evidence-based ways to do the most good. Discover effective giving, global health, animal welfare, AI safety, and opportunities to make a difference in Somalia and beyond."
+    content="Effective Altruism Somalia brings people together to explore evidence-based ways to improve the world through effective giving, global health, animal welfare, and AI safety."
   >
-  <meta name="robots" content="index, follow">
-  <meta name="author" content="Effective Altruism Somalia">
   <meta name="theme-color" content="#1D62AC">
+  <meta name="robots" content="index, follow">
 
   <link rel="canonical" href="https://easomalia.org/">
 
-  <!-- Website favicon and mobile home-screen icon -->
-  <link rel="icon" type="image/png" href="/images/favicon-192.png">
-  <link rel="apple-touch-icon" href="/images/favicon-192.png">
+  <!-- Website favicon -->
+  <link rel="icon" type="image/png" sizes="192x192" href="/images/favicon-192.png">
   <link rel="shortcut icon" type="image/png" href="/images/favicon-192.png">
+  <link rel="apple-touch-icon" href="/images/favicon-192.png">
 
-  <!-- Social sharing -->
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Effective Altruism Somalia">
-  <meta property="og:url" content="https://easomalia.org/">
-  <meta property="og:title" content="Effective Altruism Somalia | Do Good, Better">
-  <meta
-    property="og:description"
-    content="A community using evidence and careful reasoning to tackle important problems in Somalia and beyond."
-  >
-  <meta
-    property="og:image"
-    content="https://easomalia.org/images/ea-somalia-social.png"
-  >
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Effective Altruism Somalia">
-  <meta
-    name="twitter:description"
-    content="Explore effective giving, global health, animal welfare, and AI safety with EA Somalia."
-  >
-  <meta
-    name="twitter:image"
-    content="https://easomalia.org/images/ea-somalia-social.png"
-  >
-
-  <!-- Organization structured data -->
-  <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "Effective Altruism Somalia",
-    "alternateName": "EA Somalia",
-    "url": "https://easomalia.org/",
-    "logo": "https://easomalia.org/images/logo.png",
-    "email": "info@easomalia.org",
-    "sameAs": [
-      "https://github.com/abdullahialih04-svg/EaSomalia"
-    ]
-  }
-  </script>
-
-  <!-- Restore the saved theme before the page renders -->
-  <script>
-    (function () {
-      try {
-        const savedTheme = localStorage.getItem("ea-somalia-theme");
-        document.documentElement.setAttribute(
-          "data-theme",
-          savedTheme === "dark" ? "dark" : "light"
-        );
-      } catch (error) {
-        document.documentElement.setAttribute("data-theme", "light");
-      }
-    })();
-  </script>
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="/css/style.css">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -84,192 +31,208 @@
     rel="stylesheet"
   >
 
-  <!-- Main website stylesheet -->
-  <link rel="stylesheet" href="/css/style.css">
+  <!-- Social sharing metadata -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="EA Somalia">
+  <meta property="og:url" content="https://easomalia.org/">
+  <meta property="og:title" content="EA Somalia — Doing Good, Better">
+  <meta
+    property="og:description"
+    content="Evidence. Compassion. Impact. Explore how we can do the most good for Somalia and the world."
+  >
+  <meta property="og:image" content="https://easomalia.org/images/logo.png">
+
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:title" content="EA Somalia — Doing Good, Better">
+  <meta
+    name="twitter:description"
+    content="Explore effective giving, global health, animal welfare, and AI safety with EA Somalia."
+  >
+  <meta name="twitter:image" content="https://easomalia.org/images/logo.png">
+
+  <!-- Restore saved theme -->
+  <script>
+    (function () {
+      try {
+        const theme = localStorage.getItem("ea-somalia-theme");
+        document.documentElement.setAttribute(
+          "data-theme",
+          theme === "dark" ? "dark" : "light"
+        );
+      } catch (error) {
+        document.documentElement.setAttribute("data-theme", "light");
+      }
+    })();
+  </script>
 </head>
 
 <body>
   <a class="skip-link" href="#main-content">Skip to main content</a>
 
-  <!-- Shared navigation -->
+  <!-- Navigation rendered by components.js -->
   <div id="site-nav"></div>
-
-  <!-- Dark-mode control -->
-  <button
-    type="button"
-    class="theme-toggle"
-    id="theme-toggle"
-    aria-label="Switch to dark mode"
-    aria-pressed="false"
-  >
-    <span class="theme-toggle-icon" id="theme-icon" aria-hidden="true">☾</span>
-    <span id="theme-label">Dark mode</span>
-  </button>
 
   <main id="main-content">
 
-    <!-- Hero section -->
-    <section class="hero" aria-labelledby="hero-title">
+    <!-- Hero -->
+    <section class="hero">
       <div class="wrap">
+
         <div class="hero-content">
           <span class="pill">Effective altruism in Somalia</span>
 
-          <h1 id="hero-title">
-            Do good. Do it <span class="under">well</span>.
+          <h1>
+            Doing good,<br>
+            <span class="under">better.</span>
           </h1>
 
           <p>
-            EA Somalia is a community of Somalis using evidence and careful
-            reasoning to find the best ways to tackle the world's biggest,
-            most neglected problems.
+            How can we make the greatest positive difference with the
+            resources we have? EA Somalia brings people together to explore
+            this question through evidence, reason, and compassion.
           </p>
 
-          <p class="hand">
-            Some ways of helping do far more good than others.
+          <p>
+            Discover important problems, learn what works, and find
+            practical ways to help people and animals in Somalia and
+            around the world.
           </p>
 
           <div class="actions">
             <a class="btn" href="/pages/ea-fellowship.html">
-              Join the EA Fellowship
+              Explore the EA Fellowship
             </a>
 
             <a class="btn ghost" href="/pages/connect.html">
-              Book a 1:1
+              Connect with us
             </a>
           </div>
         </div>
 
-        <!-- Illustrative impact graphic -->
         <div class="chartcard">
-          <svg
-            viewBox="0 0 440 380"
-            role="img"
-            aria-labelledby="impact-title impact-description"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <title id="impact-title">Illustrative impact per dollar</title>
-            <desc id="impact-description">
-              A conceptual illustration showing that different interventions
-              may achieve different levels of impact. These values are
-              illustrative, not measured results.
-            </desc>
+          <div class="chartcard-content">
+            <span class="eyebrow">OUR APPROACH</span>
 
-            <rect
-              x="22" y="22" width="112" height="52" rx="4"
-              fill="#ffffff" stroke="#4b5f78"
-            />
+            <h2>Evidence. Compassion. Impact.</h2>
 
-            <text
-              x="34" y="44"
-              style="font-family:Inter,sans-serif;font-size:13px;font-weight:600;fill:#0f2440"
-            >IMPACT PER</text>
+            <p>
+              We use evidence and careful reasoning to identify
+              opportunities to make a meaningful difference.
+            </p>
 
-            <text
-              x="34" y="62"
-              style="font-family:Inter,sans-serif;font-size:13px;font-weight:600;fill:#0f2440"
-            >DOLLAR</text>
+            <div class="pillars">
+              <div>
+                <span>01</span>
+                <h3>Understand</h3>
+                <p>Learn about the world's most pressing problems.</p>
+              </div>
 
-            <path
-              d="M16 312 C140 310 250 304 320 285 C370 270 388 200 394 120 C396 80 398 56 398 36"
-              fill="none"
-              stroke="#3386d5"
-              stroke-width="4"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            />
+              <div>
+                <span>02</span>
+                <h3>Evaluate</h3>
+                <p>Compare approaches using the best available evidence.</p>
+              </div>
 
-            <circle cx="120" cy="309" r="6" fill="#ffffff" stroke="#3386d5" stroke-width="3.5"/>
-            <circle cx="320" cy="285" r="6" fill="#ffffff" stroke="#3386d5" stroke-width="3.5"/>
-            <circle cx="398" cy="36" r="7" fill="#1d62ac"/>
-
-            <text
-              x="170" y="60"
-              style="font-family:Inter,sans-serif;font-size:12px;fill:#4b5f78;letter-spacing:1.5px"
-            >CHARITY A</text>
-
-            <text
-              x="170" y="88"
-              style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;fill:#1d62ac"
-            >100x impact</text>
-
-            <path d="M300 80 C340 82 370 66 388 44" fill="none" stroke="#8db6e8" stroke-width="1.5"/>
-            <path d="M383 52 L389 43 L378 44" fill="none" stroke="#8db6e8" stroke-width="1.5"/>
-
-            <text
-              x="150" y="170"
-              style="font-family:Inter,sans-serif;font-size:12px;fill:#4b5f78;letter-spacing:1.5px"
-            >CHARITY B</text>
-
-            <text
-              x="150" y="198"
-              style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;fill:#3386d5"
-            >10x impact</text>
-
-            <path d="M268 192 C298 192 312 224 316 268" fill="none" stroke="#8db6e8" stroke-width="1.5"/>
-            <path d="M308 261 L316 271 L319 259" fill="none" stroke="#8db6e8" stroke-width="1.5"/>
-
-            <text
-              x="34" y="238"
-              style="font-family:Inter,sans-serif;font-size:12px;fill:#4b5f78;letter-spacing:1.5px"
-            >CHARITY C</text>
-
-            <text
-              x="34" y="266"
-              style="font-family:'Source Serif 4',serif;font-size:26px;font-weight:700;fill:#3386d5"
-            >1x impact</text>
-
-            <path d="M104 262 C114 266 120 279 120 295" fill="none" stroke="#8db6e8" stroke-width="1.5"/>
-            <path d="M113 289 L120 298 L125 288" fill="none" stroke="#8db6e8" stroke-width="1.5"/>
-
-            <text
-              x="16" y="350"
-              style="font-family:Inter,sans-serif;font-size:11px;fill:#4b5f78"
-            >Illustrative comparison, not measured charity data</text>
-          </svg>
+              <div>
+                <span>03</span>
+                <h3>Take action</h3>
+                <p>Turn promising ideas into practical solutions.</p>
+              </div>
+            </div>
+          </div>
         </div>
+
       </div>
     </section>
 
-    <!-- Introduction to effective altruism -->
-    <section class="section" aria-labelledby="ea-heading">
+    <!-- About -->
+    <section class="section" id="about">
       <div class="wrap">
-        <h2 id="ea-heading">What is effective altruism?</h2>
+        <span class="eyebrow">ABOUT EFFECTIVE ALTRUISM</span>
+
+        <h2>Doing the most good we can</h2>
 
         <p>
-          Effective altruism combines evidence, reason, and a commitment to
-          helping others to work out how we can do the most good.
+          Effective altruism combines evidence, reason, and a commitment
+          to helping others to work out how we can do the most good.
+        </p>
+
+        <p>
+          At EA Somalia, we create opportunities to learn, discuss
+          important questions, build connections, and explore ways to
+          make a positive difference locally and globally.
         </p>
 
         <div class="grid">
           <article class="card">
-            <h3>Some help goes much further</h3>
+            <h3>Evidence first</h3>
             <p>
-              Different ways of helping can have very different results.
-              We look for opportunities to make a greater positive difference.
+              Ask what works, examine the available evidence, and remain
+              open to changing our minds.
             </p>
           </article>
 
           <article class="card">
-            <h3>Focus on neglected problems</h3>
+            <h3>Important problems</h3>
             <p>
-              We look for large problems where additional people, time,
-              and resources can make a meaningful difference.
+              Explore problems that affect many lives or cause severe
+              suffering, including problems that receive too little attention.
             </p>
           </article>
 
           <article class="card">
-            <h3>Think like a scientist</h3>
+            <h3>Collective learning</h3>
             <p>
-              We follow the best available evidence, stay humble, and
-              change course when we learn something new.
+              Learn alongside people who care about making a difference
+              and think carefully about how to do so.
+            </p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Cause areas -->
+    <section class="section alt" id="cause-areas">
+      <div class="wrap">
+        <span class="eyebrow">CAUSE AREAS</span>
+
+        <h2>Where can we make a difference?</h2>
+
+        <p>
+          We explore different cause areas and ask where additional
+          effort, funding, and talent could have the greatest impact.
+        </p>
+
+        <div class="grid">
+          <article class="card">
+            <h3>Global Health and Development</h3>
+            <p>
+              Explore evidence-based approaches to improving health,
+              reducing poverty, and expanding opportunity.
             </p>
           </article>
 
           <article class="card">
-            <h3>Work it out together</h3>
+            <h3>Animal Welfare</h3>
             <p>
-              Nobody figures this out alone. We explore ideas, learn
-              together, and turn promising insights into action.
+              Learn about animal suffering, welfare research, and
+              opportunities to improve the lives of animals.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>AI Safety and Governance</h3>
+            <p>
+              Explore how to develop and govern advanced AI systems
+              responsibly, including challenges affecting the Global South.
+            </p>
+          </article>
+
+          <article class="card">
+            <h3>Effective Giving</h3>
+            <p>
+              Learn how to direct donations toward organisations and
+              interventions that can achieve substantial impact.
             </p>
           </article>
         </div>
@@ -277,122 +240,157 @@
     </section>
 
     <!-- Fellowships -->
-    <section class="section alt" aria-labelledby="fellowships-heading">
+    <section class="section" id="fellowships">
       <div class="wrap">
-        <h2 id="fellowships-heading">Learn with us</h2>
+        <span class="eyebrow">LEARN WITH US</span>
+
+        <h2>Explore our fellowships</h2>
 
         <p>
-          Our fellowships take you from first ideas to real action.
-          The EA Fellowship is open now. Other fellowships are in development.
+          Build your understanding of important global challenges,
+          discuss evidence and ideas, and explore ways to put what
+          you learn into practice.
         </p>
 
         <div class="grid">
-          <a class="card" href="/pages/ea-fellowship.html">
+          <article class="card">
             <h3>EA Fellowship</h3>
-            <p>Open for applications.</p>
-          </a>
+            <p>
+              An introduction to effective altruism, cause prioritisation,
+              and evidence-based impact.
+            </p>
+            <a href="/pages/ea-fellowship.html">
+              Explore the fellowship →
+            </a>
+          </article>
 
-          <a class="card soon" href="/pages/animal-welfare-fellowship.html">
+          <article class="card">
             <h3>Animal Welfare Fellowship</h3>
-            <p>Coming soon.</p>
-          </a>
+            <p>
+              Explore animal welfare, ethics, and opportunities to reduce
+              animal suffering.
+            </p>
+            <a href="/pages/animal-welfare-fellowship.html">
+              Learn more →
+            </a>
+          </article>
 
-          <a class="card soon" href="/pages/global-health-fellowship.html">
+          <article class="card">
             <h3>Global Health Fellowship</h3>
-            <p>Coming soon.</p>
-          </a>
+            <p>
+              Learn about global health, development, and evidence-based
+              approaches to improving lives.
+            </p>
+            <a href="/pages/global-health-fellowship.html">
+              Learn more →
+            </a>
+          </article>
 
-          <a class="card soon" href="/pages/ai-safety-governance-fellowship.html">
-            <h3>AI Safety / Governance Fellowship</h3>
-            <p>Coming soon.</p>
-          </a>
+          <article class="card">
+            <h3>AI Safety and Governance Fellowship</h3>
+            <p>
+              Explore AI risks, safety research, and governance questions
+              relevant to our increasingly AI-enabled world.
+            </p>
+            <a href="/pages/ai-safety-governance-fellowship.html">
+              Learn more →
+            </a>
+          </article>
         </div>
       </div>
     </section>
 
     <!-- Opportunities -->
-    <section class="section" aria-labelledby="opportunities-heading">
+    <section class="section alt" id="opportunities">
       <div class="wrap">
-        <h2 id="opportunities-heading">Explore opportunities</h2>
+        <span class="eyebrow">GET INVOLVED</span>
+
+        <h2>Find your way to contribute</h2>
 
         <p>
-          Find practical ways to contribute, support effective work,
-          and connect with the EA Somalia community.
+          Whether you want to learn, find meaningful work, support
+          effective organisations, or develop a project, there are
+          different ways to get involved.
         </p>
 
         <div class="grid">
-          <a class="card" href="/pages/effective-giving.html">
-            <h3>Effective giving</h3>
-            <p>Explore how to support organisations doing evidence-based work.</p>
-          </a>
+          <article class="card">
+            <h3>Effective Giving</h3>
+            <p>
+              Explore opportunities to support high-impact work.
+            </p>
+            <a href="/pages/effective-giving.html">
+              Explore effective giving →
+            </a>
+          </article>
 
-          <a class="card" href="/pages/jobs.html">
-            <h3>Jobs</h3>
-            <p>Find career opportunities addressing important problems.</p>
-          </a>
+          <article class="card">
+            <h3>Career Opportunities</h3>
+            <p>
+              Discover roles and career paths focused on important problems.
+            </p>
+            <a href="/pages/jobs.html">
+              Explore jobs →
+            </a>
+          </article>
 
-          <a class="card" href="/pages/incubation.html">
-            <h3>Project incubation</h3>
-            <p>Explore ideas and initiatives that could create positive impact.</p>
-          </a>
+          <article class="card">
+            <h3>Project Incubation</h3>
+            <p>
+              Explore ideas for new initiatives that could create
+              meaningful positive impact.
+            </p>
+            <a href="/pages/incubation.html">
+              Explore projects →
+            </a>
+          </article>
 
-          <a class="card" href="/pages/connect.html">
-            <h3>Connect with us</h3>
-            <p>Meet the community and learn how you can get involved.</p>
-          </a>
+          <article class="card">
+            <h3>Community</h3>
+            <p>
+              Connect with people interested in doing good more effectively.
+            </p>
+            <a href="/pages/connect.html">
+              Get connected →
+            </a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- Final call to action -->
+    <section class="section" id="join">
+      <div class="wrap">
+        <div class="card">
+          <span class="eyebrow">START HERE</span>
+
+          <h2>Help us do good, better.</h2>
+
+          <p>
+            You don't need to have all the answers to get started.
+            Bring your curiosity, learn with others, and explore how
+            you can make a difference.
+          </p>
+
+          <div class="actions">
+            <a class="btn" href="/pages/ea-fellowship.html">
+              Start learning
+            </a>
+
+            <a class="btn ghost" href="/pages/connect.html">
+              Get in touch
+            </a>
+          </div>
         </div>
       </div>
     </section>
 
   </main>
 
-  <!-- Shared footer -->
+  <!-- Footer rendered by components.js -->
   <div id="site-footer"></div>
 
-  <!-- Shared site navigation, footer, and theme behavior -->
-  <script src="/js/components.js"></script>
-
-  <!-- Homepage theme toggle -->
-  <script>
-    (function () {
-      const toggle = document.getElementById("theme-toggle");
-      const icon = document.getElementById("theme-icon");
-      const label = document.getElementById("theme-label");
-      const root = document.documentElement;
-
-      if (!toggle || !icon || !label) return;
-
-      function updateThemeButton(theme) {
-        const isDark = theme === "dark";
-
-        icon.textContent = isDark ? "☀" : "☾";
-        label.textContent = isDark ? "Light mode" : "Dark mode";
-        toggle.setAttribute(
-          "aria-label",
-          isDark ? "Switch to light mode" : "Switch to dark mode"
-        );
-        toggle.setAttribute("aria-pressed", String(isDark));
-      }
-
-      function applyTheme(theme) {
-        root.setAttribute("data-theme", theme);
-
-        try {
-          localStorage.setItem("ea-somalia-theme", theme);
-        } catch (error) {
-          // The page can still change themes if storage is unavailable.
-        }
-
-        updateThemeButton(theme);
-      }
-
-      updateThemeButton(root.getAttribute("data-theme") || "light");
-
-      toggle.addEventListener("click", function () {
-        const currentTheme = root.getAttribute("data-theme");
-        applyTheme(currentTheme === "dark" ? "light" : "dark");
-      });
-    })();
-  </script>
+  <!-- Shared navigation and footer components -->
+  <script src="/js/components.js" defer></script>
 </body>
 </html>
