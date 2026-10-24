@@ -1,9 +1,7 @@
 
 {
-  "$schema": "https://openapi.vercel.sh/vercel.json",
   "cleanUrls": true,
   "trailingSlash": false,
-
   "redirects": [
     {
       "source": "/index.html",
@@ -11,83 +9,22 @@
       "permanent": true
     },
     {
-      "source": "/pages/ea-fellowship",
-      "destination": "/ea-fellowship",
+      "source": "/pages/:slug.html",
+      "destination": "/:slug",
       "permanent": true
     },
     {
-      "source": "/pages/jobs",
-      "destination": "/jobs",
-      "permanent": true
-    },
-    {
-      "source": "/pages/connect",
-      "destination": "/connect",
-      "permanent": true
-    },
-    {
-      "source": "/pages/effective-giving",
-      "destination": "/effective-giving",
-      "permanent": true
-    },
-    {
-      "source": "/pages/incubation",
-      "destination": "/incubation",
+      "source": "/pages/:slug",
+      "destination": "/:slug",
       "permanent": true
     }
   ],
-
   "rewrites": [
     {
-      "source": "/ea-fellowship",
-      "destination": "/pages/ea-fellowship"
-    },
-    {
-      "source": "/fellowship",
-      "destination": "/pages/ea-fellowship"
-    },
-    {
-      "source": "/animal-welfare-fellowship",
-      "destination": "/pages/animal-welfare-fellowship"
-    },
-    {
-      "source": "/global-health-fellowship",
-      "destination": "/pages/global-health-fellowship"
-    },
-    {
-      "source": "/ai-safety-governance-fellowship",
-      "destination": "/pages/ai-safety-governance-fellowship"
-    },
-    {
-      "source": "/effective-giving",
-      "destination": "/pages/effective-giving"
-    },
-    {
-      "source": "/giving",
-      "destination": "/pages/effective-giving"
-    },
-    {
-      "source": "/jobs",
-      "destination": "/pages/jobs"
-    },
-    {
-      "source": "/careers",
-      "destination": "/pages/jobs"
-    },
-    {
-      "source": "/incubation",
-      "destination": "/pages/incubation"
-    },
-    {
-      "source": "/connect",
-      "destination": "/pages/connect"
-    },
-    {
-      "source": "/contact",
-      "destination": "/pages/connect"
+      "source": "/:slug",
+      "destination": "/pages/:slug"
     }
   ],
-
   "headers": [
     {
       "source": "/(.*)",
