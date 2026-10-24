@@ -11,6 +11,76 @@
       "permanent": true
     },
     {
+      "source": "/pages/ea-fellowship",
+      "destination": "/ea-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/ea-fellowship.html",
+      "destination": "/ea-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/fellowship.html",
+      "destination": "/ea-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/animal-welfare-fellowship",
+      "destination": "/animal-welfare-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/animal-welfare-fellowship.html",
+      "destination": "/animal-welfare-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/global-health-fellowship",
+      "destination": "/global-health-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/global-health-fellowship.html",
+      "destination": "/global-health-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/ai-safety-governance-fellowship",
+      "destination": "/ai-safety-governance-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/ai-safety-governance-fellowship.html",
+      "destination": "/ai-safety-governance-fellowship",
+      "permanent": true
+    },
+    {
+      "source": "/pages/effective-giving",
+      "destination": "/effective-giving",
+      "permanent": true
+    },
+    {
+      "source": "/pages/effective-giving.html",
+      "destination": "/effective-giving",
+      "permanent": true
+    },
+    {
+      "source": "/pages/giving.html",
+      "destination": "/effective-giving",
+      "permanent": true
+    },
+    {
+      "source": "/pages/jobs",
+      "destination": "/jobs",
+      "permanent": true
+    },
+    {
+      "source": "/pages/jobs.html",
+      "destination": "/jobs",
+      "permanent": true
+    },
+    {
       "source": "/pages/career.html",
       "destination": "/jobs",
       "permanent": true
@@ -21,8 +91,13 @@
       "permanent": true
     },
     {
-      "source": "/pages/giving.html",
-      "destination": "/effective-giving",
+      "source": "/pages/connect",
+      "destination": "/connect",
+      "permanent": true
+    },
+    {
+      "source": "/pages/connect.html",
+      "destination": "/connect",
       "permanent": true
     },
     {
@@ -36,43 +111,8 @@
       "permanent": true
     },
     {
-      "source": "/pages/fellowship.html",
-      "destination": "/ea-fellowship",
-      "permanent": true
-    },
-    {
-      "source": "/pages/ea-fellowship.html",
-      "destination": "/ea-fellowship",
-      "permanent": true
-    },
-    {
-      "source": "/pages/animal-welfare-fellowship.html",
-      "destination": "/animal-welfare-fellowship",
-      "permanent": true
-    },
-    {
-      "source": "/pages/global-health-fellowship.html",
-      "destination": "/global-health-fellowship",
-      "permanent": true
-    },
-    {
-      "source": "/pages/ai-safety-governance-fellowship.html",
-      "destination": "/ai-safety-governance-fellowship",
-      "permanent": true
-    },
-    {
-      "source": "/pages/effective-giving.html",
-      "destination": "/effective-giving",
-      "permanent": true
-    },
-    {
-      "source": "/pages/jobs.html",
-      "destination": "/jobs",
-      "permanent": true
-    },
-    {
-      "source": "/pages/connect.html",
-      "destination": "/connect",
+      "source": "/pages/incubation",
+      "destination": "/incubation",
       "permanent": true
     },
     {
