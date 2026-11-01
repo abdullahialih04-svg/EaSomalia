@@ -1,82 +1,316 @@
-// Fetches open Somalia jobs from the ReliefWeb API and saves them to data/jobs.json.
-// Needs Node 18+ and an approved appname in the RELIEFWEB_APPNAME environment variable.
+
+/**
+ * EA SOMALIA — RELIEFWEB JOB FETCHER
+ *
+ * Fetches published Somalia jobs from ReliefWeb
+ * and saves them to data/jobs.json.
+ *
+ * Requirements:
+ * - Node.js 18+
+ * - Approved RELIEFWEB_APPNAME GitHub secret
+ */
+
 import { readFile, writeFile, mkdir } from "node:fs/promises";
 
+// ==========================================
+// 1. Configuration
+// ==========================================
+
 const APPNAME = process.env.RELIEFWEB_APPNAME;
+
 if (!APPNAME) {
-  console.error("Set RELIEFWEB_APPNAME first.");
+  console.error("ERROR: RELIEFWEB_APPNAME is missing.");
   process.exit(1);
 }
 
-// Leave empty for all Somalia jobs. To limit to selected organizations,
-// list their ReliefWeb short names, for example ["UNICEF", "WFP", "IOM"].
+const API_URL =
+  "https://api.reliefweb.int/v2/jobs?appname=" +
+  encodeURIComponent(APPNAME) +
+  "&verbose=1";
+
+const OUTPUT_FILE = "data/jobs.json";
+
+const LIMIT = 100;
+
+// Optional organization filter.
+// Leave empty to retrieve all Somalia jobs.
 const ORGS = [];
 
-const OUT = "data/jobs.json";
-const BASE = process.env.RELIEFWEB_BASE ?? "https://api.reliefweb.int"; // only changed for testing
+// ==========================================
+// 2. Build API request
+// ==========================================
 
-const conditions = [{ field: "country.iso3", value: "SOM" }];
-if (ORGS.length) {
-  conditions.push({ field: "source.shortname", value: ORGS, operator: "OR" });
+const conditions = [
+  {
+    field: "country.iso3",
+    value: "SOM"
+  }
+];
+
+if (ORGS.length > 0) {
+  conditions.push({
+    field: "source.shortname",
+    value: ORGS,
+    operator: "OR"
+  });
 }
 
-const body = {
-  filter: { operator: "AND", conditions },
-  fields: { include: ["title", "url", "source.name", "date.created", "date.closing", "city"] },
+const requestBody = {
+  preset: "latest",
+
+  profile: "list",
+
+  filter: {
+    operator: "AND",
+    conditions
+  },
+
+  fields: {
+    include: [
+      "title",
+      "url",
+      "source.name",
+      "date.created",
+      "date.closing",
+      "city.name",
+      "country.iso3",
+      "country.name"
+    ]
+  },
+
   sort: ["date.created:desc"],
-  limit: 100,
+
+  limit: LIMIT
 };
 
-const res = await fetch(`${BASE}/v2/jobs?appname=${encodeURIComponent(APPNAME)}`, {
-  method: "POST",
-  headers: { "Content-Type": "application/json" },
-  body: JSON.stringify(body),
-});
+// ==========================================
+// 3. Fetch jobs
+// ==========================================
 
-const text = await res.text();
-console.log(`ReliefWeb status: ${res.status}`);
+console.log("------------------------------------");
+console.log("EA SOMALIA — RELIEFWEB JOB FETCHER");
+console.log("------------------------------------");
 
-if (!res.ok) {
-  // Exit without touching the old file, so the site keeps showing the last good list.
-  console.error(text.slice(0, 600));
+console.log("Requesting Somalia jobs from ReliefWeb...");
+
+let response;
+
+try {
+  response = await fetch(API_URL, {
+    method: "POST",
+
+    headers: {
+      "Content-Type": "application/json",
+      "Accept": "application/json"
+    },
+
+    body: JSON.stringify(requestBody)
+  });
+} catch (error) {
+  console.error("ERROR: Could not connect to ReliefWeb.");
+  console.error(error.message);
   process.exit(1);
 }
 
-const json = JSON.parse(text);
-const data = json.data ?? [];
-console.log(`ReliefWeb returned ${data.length} jobs (totalCount: ${json.totalCount})`);
-if (!data.length) console.log(text.slice(0, 600));
+console.log("HTTP status:", response.status);
 
-// Some fields come back as plain text and some as objects with a name, so handle both.
-const label = (x) => (typeof x === "string" ? x : x?.name);
-const first = (x) => label(Array.isArray(x) ? x[0] : x);
+// ==========================================
+// 4. Handle API errors
+// ==========================================
+
+const responseText = await response.text();
+
+if (!response.ok) {
+  console.error("ReliefWeb API request failed.");
+  console.error(responseText.slice(0, 2000));
+
+  if (response.status === 403) {
+    console.error(
+      "Check whether your RELIEFWEB_APPNAME is approved."
+    );
+  }
+
+  if (response.status === 400) {
+    console.error(
+      "Check your API request parameters and filters."
+    );
+  }
+
+  process.exit(1);
+}
+
+// ==========================================
+// 5. Validate API response
+// ==========================================
+
+let json;
+
+try {
+  json = JSON.parse(responseText);
+} catch {
+  console.error("ERROR: ReliefWeb returned invalid JSON.");
+  console.error(responseText.slice(0, 1000));
+  process.exit(1);
+}
+
+if (!Array.isArray(json.data)) {
+  console.error("ERROR: Unexpected ReliefWeb response.");
+  console.error("Expected a data array.");
+  console.error(JSON.stringify(json, null, 2).slice(0, 2000));
+  process.exit(1);
+}
+
+console.log("Total matching jobs:", json.totalCount);
+console.log("Jobs returned:", json.data.length);
+
+// ==========================================
+// 6. Protect against unexpected empty results
+// ==========================================
+
+// Do not overwrite the existing file with an empty list.
+// Check the API query and GitHub Actions logs first.
+
+if (json.data.length === 0) {
+  console.error("------------------------------------");
+  console.error("WARNING: ReliefWeb returned zero jobs.");
+  console.error("The existing jobs.json will be preserved.");
+  console.error("------------------------------------");
+
+  console.error(
+    "Check the Somalia country filter, API appname, and API response."
+  );
+
+  process.exit(1);
+}
+
+// ==========================================
+// 7. Normalize ReliefWeb data
+// ==========================================
+
+function getName(value) {
+  if (!value) return "";
+
+  if (typeof value === "string") {
+    return value;
+  }
+
+  if (Array.isArray(value)) {
+    return getName(value[0]);
+  }
+
+  if (typeof value === "object") {
+    return value.name || "";
+  }
+
+  return "";
+}
 
 const now = Date.now();
-const jobs = data
-  .map((j) => ({
-    id: j.id,
-    title: j.fields.title,
-    org: first(j.fields.source),
-    city: first(j.fields.city),
-    posted: j.fields.date?.created ?? null,
-    closes: j.fields.date?.closing ?? null,
-    url: j.fields.url,
-  }))
-  // Keep only jobs that have not closed yet.
-  .filter((j) => !j.closes || new Date(j.closes).getTime() > now);
 
-console.log(`${jobs.length} of them are still open.`);
+const jobs = json.data
+  .map((item) => {
+    const fields = item.fields || {};
 
-// Only write when the list changed, so the repo does not get a commit every run.
-let previous = [];
+    return {
+      id: String(item.id),
+
+      title: fields.title || "",
+
+      url: fields.url || "",
+
+      org: getName(fields.source),
+
+      city: getName(fields.city),
+
+      country: getName(fields.country) || "Somalia",
+
+      posted: fields.date?.created || null,
+
+      closes: fields.date?.closing || null
+    };
+  })
+
+  // Validate required information.
+  .filter((job) => {
+    return (
+      job.id &&
+      job.title &&
+      job.url.startsWith("https://reliefweb.int/")
+    );
+  })
+
+  // Remove expired jobs.
+  .filter((job) => {
+    if (!job.closes) return true;
+
+    const closingDate = new Date(job.closes).getTime();
+
+    // Keep jobs with missing or invalid closing dates.
+    if (!Number.isFinite(closingDate)) return true;
+
+    return closingDate > now;
+  });
+
+// ==========================================
+// 8. Validate final results
+// ==========================================
+
+console.log("------------------------------------");
+console.log("Jobs returned:", json.data.length);
+console.log("Valid jobs:", jobs.length);
+console.log("------------------------------------");
+
+if (jobs.length === 0) {
+  console.error("ERROR: No valid open jobs were found.");
+  console.error("Existing jobs.json will not be overwritten.");
+  process.exit(1);
+}
+
+// ==========================================
+// 9. Compare with existing data
+// ==========================================
+
+let previousJobs = [];
+
 try {
-  previous = JSON.parse(await readFile(OUT, "utf8")).jobs ?? [];
-} catch {}
+  const previousFile = await readFile(OUTPUT_FILE, "utf8");
 
-if (JSON.stringify(previous) === JSON.stringify(jobs)) {
-  console.log("No changes to save.");
+  const previousData = JSON.parse(previousFile);
+
+  if (Array.isArray(previousData.jobs)) {
+    previousJobs = previousData.jobs;
+  }
+} catch {
+  console.log("No previous jobs file found.");
+}
+
+const previousJSON = JSON.stringify(previousJobs);
+const currentJSON = JSON.stringify(jobs);
+
+// ==========================================
+// 10. Save updated jobs
+// ==========================================
+
+await mkdir("data", { recursive: true });
+
+if (previousJSON === currentJSON) {
+  console.log("No changes to job listings.");
+  console.log("Existing jobs.json remains unchanged.");
 } else {
-  await mkdir("data", { recursive: true });
-  await writeFile(OUT, JSON.stringify({ updated: new Date().toISOString(), jobs }, null, 2) + "\n");
-  console.log(`Saved ${jobs.length} open jobs.`);
+  const output = {
+    updated: new Date().toISOString(),
+    jobs
+  };
+
+  await writeFile(
+    OUTPUT_FILE,
+    JSON.stringify(output, null, 2) + "\n",
+    "utf8"
+  );
+
+  console.log("------------------------------------");
+  console.log("SUCCESS: Jobs saved.");
+  console.log("Total saved:", jobs.length);
+  console.log("Output:", OUTPUT_FILE);
+  console.log("------------------------------------");
 }
