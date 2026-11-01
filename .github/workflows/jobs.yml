@@ -1,9 +1,10 @@
+
 name: Refresh Somalia jobs
 
 on:
   schedule:
-    - cron: "0 */6 * * *"   # every 6 hours
-  workflow_dispatch:         # lets you run it by hand from the Actions tab
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -16,6 +17,7 @@ jobs:
   refresh:
     runs-on: ubuntu-latest
     timeout-minutes: 5
+
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
@@ -25,16 +27,37 @@ jobs:
         with:
           node-version: 20
 
+      - name: Verify configuration
+        env:
+          RELIEFWEB_APPNAME: ${{ secrets.RELIEFWEB_APPNAME }}
+        run: |
+          if [ -z "$RELIEFWEB_APPNAME" ]; then
+            echo "::error::RELIEFWEB_APPNAME secret is missing."
+            exit 1
+          fi
+          echo "ReliefWeb appname is configured."
+
       - name: Fetch jobs from ReliefWeb
         run: node scripts/fetch-reliefweb.mjs
         env:
           RELIEFWEB_APPNAME: ${{ secrets.RELIEFWEB_APPNAME }}
 
+      - name: Verify output
+        run: |
+          if [ ! -f data/jobs.json ]; then
+            echo "::error::data/jobs.json was not generated."
+            exit 1
+          fi
+          echo "Jobs file generated."
+          node -e "const d=require('./data/jobs.json'); console.log('Jobs:', d.jobs.length);"
+
       - name: Save the list if it changed
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
           git add data/jobs.json
+
           if git diff --staged --quiet; then
             echo "Nothing to save."
           else
