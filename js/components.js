@@ -416,11 +416,185 @@
   }
 
   // ==========================================
+  // Somalia Jobs (jobs page only)
+  // ==========================================
+
+  function loadSomaliaJobs() {
+    const list = document.getElementById("somalia-jobs");
+    const note = document.getElementById("somalia-jobs-note");
+
+    // This script is shared across the site; only run on the Jobs page.
+    if (!list || !note) return;
+
+    const JOBS_URL = "/data/jobs.json";
+    const ALL_URL =
+      "https://reliefweb.int/jobs?list=Somalia%20Jobs&advanced-search=%28C216%29";
+
+    function formatDate(value) {
+      const date = new Date(value);
+      return Number.isNaN(date.getTime())
+        ? ""
+        : date.toLocaleDateString("en-GB", {
+            day: "numeric",
+            month: "short",
+            year: "numeric",
+          });
+    }
+
+    function isReliefWebUrl(value) {
+      try {
+        const url = new URL(value);
+        return (
+          url.protocol === "https:" &&
+          (url.hostname === "reliefweb.int" ||
+            url.hostname.endsWith(".reliefweb.int"))
+        );
+      } catch {
+        return false;
+      }
+    }
+
+    function showFallback(message) {
+      list.replaceChildren();
+      note.textContent = message + " ";
+
+      const link = document.createElement("a");
+      link.href = ALL_URL;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "See all Somalia jobs on ReliefWeb.";
+      note.appendChild(link);
+    }
+
+    function addJobCard(job) {
+      const card = document.createElement("div");
+      card.className = "card job";
+
+      const content = document.createElement("div");
+
+      const tag = document.createElement("span");
+      tag.textContent = job.city || job.country || "Somalia";
+      tag.style.cssText =
+        "display:inline-block;font-size:.8rem;padding:.1rem .55rem;" +
+        "border-radius:4px;background:rgba(127,127,127,.22);" +
+        "margin-bottom:.5rem";
+
+      const heading = document.createElement("h3");
+      heading.textContent = job.title;
+
+      const meta = document.createElement("p");
+      meta.style.cssText =
+        "display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;font-size:.9rem";
+
+      [
+        ["Organization", job.org],
+        ["Posted", job.posted ? formatDate(job.posted) : ""],
+        ["Closing date", job.closes ? formatDate(job.closes) : ""],
+      ].forEach(([label, value]) => {
+        if (!value) return;
+
+        const item = document.createElement("span");
+        const strong = document.createElement("strong");
+        strong.textContent = label + ": ";
+        item.appendChild(strong);
+        item.appendChild(document.createTextNode(value));
+        meta.appendChild(item);
+      });
+
+      content.appendChild(tag);
+      content.appendChild(heading);
+      content.appendChild(meta);
+
+      const link = document.createElement("a");
+      link.className = "btn ghost";
+      link.href = job.url;
+      link.target = "_blank";
+      link.rel = "noopener noreferrer";
+      link.textContent = "View on ReliefWeb";
+
+      card.appendChild(content);
+      card.appendChild(link);
+      list.appendChild(card);
+    }
+
+    async function fetchJobs() {
+      try {
+        note.textContent = "Loading open roles…";
+
+        const response = await fetch(JOBS_URL, { cache: "no-cache" });
+
+        if (!response.ok) {
+          throw new Error("Jobs endpoint returned HTTP " + response.status);
+        }
+
+        const data = await response.json();
+
+        if (!data || !Array.isArray(data.jobs)) {
+          throw new Error("Invalid jobs.json structure: expected a jobs array.");
+        }
+
+        const now = Date.now();
+        const seen = new Set();
+
+        const jobs = data.jobs.filter((job) => {
+          if (
+            !job ||
+            !job.id ||
+            !job.title ||
+            typeof job.title !== "string" ||
+            !isReliefWebUrl(job.url)
+          ) {
+            return false;
+          }
+
+          const id = String(job.id);
+
+          if (seen.has(id)) return false;
+          seen.add(id);
+
+          if (!job.closes) return true;
+
+          const closingTime = new Date(job.closes).getTime();
+
+          // Keep listings with missing or unparseable closing dates;
+          // exclude only listings with a confirmed past closing date.
+          return !Number.isFinite(closingTime) || closingTime > now;
+        });
+
+        list.replaceChildren();
+
+        if (!jobs.length) {
+          showFallback("No open roles are listed right now.");
+          return;
+        }
+
+        jobs.forEach(addJobCard);
+
+        note.textContent =
+          "Showing " +
+          jobs.length +
+          (jobs.length === 1 ? " open role" : " open roles") +
+          " from ReliefWeb" +
+          (data.updated
+            ? ", last refreshed on " + formatDate(data.updated)
+            : "") +
+          ". You apply on the employer’s page.";
+      } catch (error) {
+        console.error("Somalia jobs loading error:", error);
+        showFallback("We could not load the listings.");
+      }
+    }
+
+    fetchJobs();
+  }
+
+  // ==========================================
   // Initialize
   // ==========================================
 
   function initialize() {
     renderThemeToggle();
+    loadSomaliaJobs();
   }
 
   if (document.readyState === "loading") {
