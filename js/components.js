@@ -274,9 +274,19 @@
         isDark ? "Switch to light mode" : "Switch to dark mode"
       );
 
-      toggle.innerHTML = isDark
-        ? '<span aria-hidden="true">☀</span><span class="theme-label">Light mode</span>'
-        : '<span aria-hidden="true">☾</span><span class="theme-label">Dark mode</span>';
+      const icon = toggle.querySelector("#theme-icon");
+      const label = toggle.querySelector("#theme-label");
+
+      if (icon && label) {
+        // Preserve the homepage's existing elements and inline theme handler.
+        icon.textContent = isDark ? "☀" : "☾";
+        label.textContent = isDark ? "Light mode" : "Dark mode";
+      } else {
+        // Other pages use the shared toggle markup.
+        toggle.innerHTML = isDark
+          ? '<span aria-hidden="true">☀</span><span class="theme-label">Light mode</span>'
+          : '<span aria-hidden="true">☾</span><span class="theme-label">Dark mode</span>';
+      }
     }
   }
 
