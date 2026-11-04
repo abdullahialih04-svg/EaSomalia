@@ -9,7 +9,7 @@
 
   <meta
     name="description"
-    content="Explore jobs, fellowships, internships and funding opportunities through EA Somalia."
+    content="Explore jobs, fellowships, internships, programmes, courses and funding opportunities through EA Somalia."
   >
 
   <meta name="theme-color" content="#ffffff">
@@ -20,34 +20,45 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter:wght@400;500;600;800&family=Source+Serif+4:wght@600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter:wght@400;500;600;700;800&family=Source+Serif+4:wght@600;700&display=swap"
     rel="stylesheet"
   >
 
+  <!-- Main website styles -->
   <link rel="stylesheet" href="/css/style.css">
+
+  <!-- Opportunities page styles -->
   <link rel="stylesheet" href="/css/opportunities.css">
 </head>
 
 <body>
 
+  <!-- Shared navigation -->
   <div id="site-nav"></div>
 
   <main class="opp-page">
 
-    <!-- PAGE INTRO -->
+    <!-- ================================================
+         PAGE INTRODUCTION
+    ================================================= -->
+
     <section class="opp-head">
       <div class="wrap opp-head-inner">
 
         <div>
           <h1>Opportunities</h1>
+
           <p>
-            Explore jobs, fellowships and funding opportunities
-            to help you work on pressing problems.
+            Explore jobs, fellowships, internships and funding
+            opportunities to help you work on pressing problems.
           </p>
         </div>
 
         <aside class="opp-advisor">
-          <p>Get career advice matched to your background</p>
+
+          <p>
+            Get career advice matched to your background
+          </p>
 
           <a
             href="https://app.80000hours.org/?utm_source=80k_job_board&utm_medium=tab&flow=explore-jobs"
@@ -56,15 +67,21 @@
           >
             AI Career Advisor ↗
           </a>
+
         </aside>
 
       </div>
     </section>
 
-    <!-- OPPORTUNITY BOARD -->
+
+    <!-- ================================================
+         OPPORTUNITY BOARD
+    ================================================= -->
+
     <section class="opp-board">
       <div class="wrap">
 
+        <!-- Navigation tabs -->
         <div class="opp-tabs">
 
           <span class="opp-tab active">
@@ -82,10 +99,15 @@
 
         </div>
 
-        <!-- SEARCH AND FILTERS -->
-        <div class="opp-filter-card">
+
+        <!-- ============================================
+             SEARCH
+        ============================================= -->
+
+        <section class="opp-filter-card" aria-label="Search and filter opportunities">
 
           <div class="opp-search-row">
+
             <div class="opp-searchbox">
 
               <svg
@@ -109,14 +131,21 @@
                 type="search"
                 placeholder="Search by keyword, role or organisation"
                 aria-label="Search opportunities"
+                autocomplete="off"
               >
 
             </div>
+
           </div>
+
+
+          <!-- ==========================================
+               FILTERS
+          =========================================== -->
 
           <div class="opp-filters">
 
-            <select id="f-area" aria-label="Filter by area">
+            <select id="f-area" aria-label="Filter by cause area">
               <option value="all">All areas</option>
             </select>
 
@@ -145,25 +174,40 @@
             </select>
 
           </div>
-        </div>
 
-        <!-- RESULTS TOOLBAR -->
+        </section>
+
+
+        <!-- ============================================
+             RESULTS TOOLBAR
+        =========================================== -->
+
         <div class="opp-bar">
 
           <div class="opp-bar-left">
 
-            <strong id="opp-count" aria-live="polite">
-              0 opportunities
+            <strong
+              id="opp-count"
+              aria-live="polite"
+            >
+              Loading opportunities...
             </strong>
 
             <label class="opp-sort">
-              <span class="sr-only">Sort by</span>
 
-              <select id="f-sort" aria-label="Sort opportunities">
+              <span class="sr-only">
+                Sort opportunities
+              </span>
+
+              <select
+                id="f-sort"
+                aria-label="Sort opportunities"
+              >
                 <option value="newest">Newest first</option>
                 <option value="oldest">Oldest first</option>
                 <option value="deadline">Closing date</option>
               </select>
+
             </label>
 
           </div>
@@ -178,15 +222,21 @@
 
         </div>
 
-        <!-- OPPORTUNITY RESULTS -->
+
+        <!-- ============================================
+             OPPORTUNITY RESULTS
+        =========================================== -->
+
         <div
           id="job-list"
           aria-live="polite"
           aria-busy="true"
         >
+
           <div class="opp-empty">
-            Loading opportunities…
+            Loading opportunities...
           </div>
+
         </div>
 
       </div>
@@ -194,12 +244,13 @@
 
   </main>
 
-  <!-- =====================================================
+
+  <!-- ================================================
        OPPORTUNITY DATABASE
 
-       Add new opportunities by copying the article template.
+       Add new opportunities by copying an article record.
 
-       Category values:
+       CATEGORY VALUES:
        animal-welfare
        global-health
        ai-safety
@@ -209,7 +260,7 @@
        funding
        other
 
-       Type values:
+       TYPE VALUES:
        job
        internship
        fellowship
@@ -217,105 +268,168 @@
        course
        funding
 
-       Dates must use YYYY-MM-DD.
-       ===================================================== -->
+       DATE FORMAT:
+       YYYY-MM-DD
+
+       Do not put records inside HTML comments.
+  ================================================= -->
 
   <div id="jobs-data" hidden>
 
-    <!--
-    EXAMPLE OPPORTUNITY TEMPLATE
+
+    <!-- ==============================================
+         ACTIVE DEMONSTRATION OPPORTUNITY
+
+         This is a test listing, not a real vacancy.
+    =============================================== -->
 
     <article
       class="job-record"
-      data-title="AI Policy Researcher"
-      data-organization="Organisation Name"
+      data-title="AI Safety Research Opportunity"
+      data-organization="EA Somalia"
       data-area="ai-safety"
-      data-type="job"
+      data-type="programme"
       data-location="Remote"
-      data-source="Organisation Website"
-      data-closing="2026-12-15"
+      data-source="EA Somalia"
+      data-closing=""
       data-posted="2026-11-04"
-      data-highlight="false"
-      data-length=""
-      data-eligibility="Open to applicants worldwide"
+      data-highlight="true"
+      data-length="Self-paced"
+      data-eligibility="Open to learners interested in AI safety and responsible AI"
     >
 
       <p class="job-description">
-        Add a short description of the opportunity here.
+        Demonstration listing for the EA Somalia Opportunities
+        Board. Explore AI safety research, AI alignment,
+        governance and responsible AI development.
+
+        This is a demonstration record for testing the
+        opportunities board. It is not an open recruitment
+        or funding announcement.
       </p>
 
       <a
         class="job-apply"
-        href="https://example.org/apply"
+        href="https://easomalia.org/"
         target="_blank"
         rel="noopener noreferrer"
       >
-        Apply now
+        Visit EA Somalia
       </a>
 
     </article>
-    -->
+
+
+    <!-- ==============================================
+         ADD FUTURE OPPORTUNITIES BELOW THIS LINE
+
+         Copy the article structure above.
+         Replace all the details with verified information.
+
+    =============================================== -->
+
 
   </div>
 
+
+  <!-- Shared footer -->
   <div id="site-footer"></div>
 
-  <!-- SHARED WEBSITE COMPONENTS -->
+
+  <!-- ================================================
+       SHARED WEBSITE COMPONENTS
+  ================================================= -->
+
   <script src="/js/components.js"></script>
 
-  <!-- OPPORTUNITY BOARD FUNCTIONALITY -->
+
+  <!-- ================================================
+       OPPORTUNITY BOARD JAVASCRIPT
+  ================================================= -->
+
   <script>
   (() => {
+
     "use strict";
 
-    // =====================================================
+
+    // ================================================
     // PREVENT DUPLICATE INITIALIZATION
-    // =====================================================
+    // ================================================
 
-    if (window.__eaSomaliaJobsInitialized) return;
-    window.__eaSomaliaJobsInitialized = true;
-
-    // =====================================================
-    // ELEMENTS
-    // =====================================================
-
-    const searchInput = document.getElementById("opp-search");
-    const areaFilter = document.getElementById("f-area");
-    const typeFilter = document.getElementById("f-type");
-    const sourceFilter = document.getElementById("f-source");
-    const locationFilter = document.getElementById("f-location");
-    const orgFilter = document.getElementById("f-org");
-    const closingFilter = document.getElementById("f-closing");
-    const sortFilter = document.getElementById("f-sort");
-    const clearButton = document.getElementById("f-clear");
-    const resultContainer = document.getElementById("job-list");
-    const countElement = document.getElementById("opp-count");
-    const dataContainer = document.getElementById("jobs-data");
-
-    if (
-      !searchInput ||
-      !areaFilter ||
-      !typeFilter ||
-      !sourceFilter ||
-      !locationFilter ||
-      !orgFilter ||
-      !closingFilter ||
-      !sortFilter ||
-      !clearButton ||
-      !resultContainer ||
-      !countElement ||
-      !dataContainer
-    ) {
-      console.error("EA Somalia: Required opportunities page elements are missing.");
+    if (window.__eaSomaliaJobsInitialized) {
       return;
     }
 
-    // =====================================================
-    // SHARED CATEGORIES FROM COMPONENTS.JS
-    // =====================================================
+    window.__eaSomaliaJobsInitialized = true;
+
+
+    // ================================================
+    // GET PAGE ELEMENTS
+    // ================================================
+
+    const elements = {
+      search: document.getElementById("opp-search"),
+
+      area: document.getElementById("f-area"),
+      type: document.getElementById("f-type"),
+      source: document.getElementById("f-source"),
+      location: document.getElementById("f-location"),
+      organization: document.getElementById("f-org"),
+      closing: document.getElementById("f-closing"),
+      sort: document.getElementById("f-sort"),
+
+      clear: document.getElementById("f-clear"),
+
+      list: document.getElementById("job-list"),
+      count: document.getElementById("opp-count"),
+
+      database: document.getElementById("jobs-data")
+    };
+
+
+    // ================================================
+    // VALIDATE REQUIRED ELEMENTS
+    // ================================================
+
+    const missingElements = Object.entries(elements)
+      .filter(([, element]) => !element)
+      .map(([name]) => name);
+
+    if (missingElements.length) {
+
+      console.error(
+        "EA Somalia Jobs: Missing page elements:",
+        missingElements
+      );
+
+      const list = elements.list;
+
+      if (list) {
+        list.innerHTML = `
+          <div class="opp-empty">
+            <h3>Unable to load opportunities</h3>
+            <p>
+              Some required page elements are missing.
+              Please check the page HTML.
+            </p>
+          </div>
+        `;
+
+        list.setAttribute("aria-busy", "false");
+      }
+
+      return;
+    }
+
+
+    // ================================================
+    // CAUSE AREAS
+    // ================================================
 
     const CATEGORIES =
       window.EASomalia?.opportunityCategories || {
+
         "animal-welfare": "Animal Welfare",
         "global-health": "Global Health",
         "ai-safety": "AI Safety",
@@ -324,301 +438,496 @@
         society: "Societal Improvements",
         funding: "Funding",
         other: "Other Cause Areas"
+
       };
+
+
+    // ================================================
+    // OPPORTUNITY TYPES
+    // ================================================
 
     const TYPES =
       window.EASomalia?.opportunityTypes || {
+
         job: "Job",
         internship: "Internship",
         fellowship: "Fellowship",
         programme: "Programme",
         course: "Course",
         funding: "Funding"
+
       };
 
-    // =====================================================
-    // HELPERS
-    // =====================================================
+
+    // ================================================
+    // HELPER FUNCTIONS
+    // ================================================
 
     function escapeHTML(value = "") {
-      return String(value).replace(/[&<>"']/g, character => ({
-        "&": "&amp;",
-        "<": "&lt;",
-        ">": "&gt;",
-        '"': "&quot;",
-        "'": "&#39;"
-      })[character]);
+
+      return String(value).replace(
+        /[&<>"']/g,
+        character => ({
+          "&": "&amp;",
+          "<": "&lt;",
+          ">": "&gt;",
+          '"': "&quot;",
+          "'": "&#39;"
+        })[character]
+      );
+
     }
 
+
     function normalize(value = "") {
+
       return String(value)
         .trim()
         .toLowerCase()
         .replace(/\s+/g, " ");
+
     }
 
+
     function normalizeSlug(value = "") {
+
       return normalize(value)
         .replace(/&/g, "and")
         .replace(/[^a-z0-9]+/g, "-")
         .replace(/^-|-$/g, "");
+
     }
 
-    function getCategoryKey(value = "") {
-      const normalized = normalizeSlug(value);
-
-      if (Object.prototype.hasOwnProperty.call(CATEGORIES, normalized)) {
-        return normalized;
-      }
-
-      const match = Object.entries(CATEGORIES).find(
-        ([key, label]) => normalize(label) === normalize(value)
-      );
-
-      return match ? match[0] : normalized;
-    }
-
-    function formatDate(dateString) {
-      if (!isValidDate(dateString)) return "Not specified";
-
-      const [year, month, day] = dateString.split("-").map(Number);
-
-      return new Date(Date.UTC(year, month - 1, day))
-        .toLocaleDateString("en-GB", {
-          day: "numeric",
-          month: "short",
-          year: "numeric",
-          timeZone: "UTC"
-        });
-    }
 
     function isValidDate(value) {
+
       if (!/^\d{4}-\d{2}-\d{2}$/.test(value || "")) {
         return false;
       }
 
       const [year, month, day] = value.split("-").map(Number);
-      const date = new Date(Date.UTC(year, month - 1, day));
+
+      const date = new Date(
+        Date.UTC(year, month - 1, day)
+      );
 
       return (
         date.getUTCFullYear() === year &&
         date.getUTCMonth() === month - 1 &&
         date.getUTCDate() === day
       );
+
     }
 
-    function daysUntil(dateString) {
-      if (!isValidDate(dateString)) return null;
 
-      const [year, month, day] = dateString.split("-").map(Number);
+    function formatDate(value) {
 
-      const deadline = Date.UTC(year, month - 1, day);
-      const todayDate = new Date();
+      if (!isValidDate(value)) {
+        return "Not specified";
+      }
 
-      const today = Date.UTC(
-        todayDate.getFullYear(),
-        todayDate.getMonth(),
-        todayDate.getDate()
+      const [year, month, day] = value.split("-").map(Number);
+
+      return new Date(
+        Date.UTC(year, month - 1, day)
+      ).toLocaleDateString("en-GB", {
+        day: "numeric",
+        month: "short",
+        year: "numeric",
+        timeZone: "UTC"
+      });
+
+    }
+
+
+    function daysUntil(value) {
+
+      if (!isValidDate(value)) {
+        return null;
+      }
+
+      const [year, month, day] = value.split("-").map(Number);
+
+      const deadline = Date.UTC(
+        year,
+        month - 1,
+        day
       );
 
-      return Math.round((deadline - today) / 86400000);
+      const now = new Date();
+
+      const today = Date.UTC(
+        now.getFullYear(),
+        now.getMonth(),
+        now.getDate()
+      );
+
+      return Math.floor(
+        (deadline - today) / 86400000
+      );
+
     }
 
-    function safeApplicationURL(value) {
-      try {
-        const url = new URL(value, window.location.origin);
 
-        if (!["http:", "https:"].includes(url.protocol)) {
+    function safeApplicationURL(value) {
+
+      try {
+
+        const url = new URL(
+          value,
+          window.location.origin
+        );
+
+        if (
+          !["http:", "https:"].includes(url.protocol)
+        ) {
           return null;
         }
 
         return url.href;
+
       } catch (error) {
+
         return null;
+
       }
+
     }
 
-    function uniqueValues(records, property) {
-      return [...new Set(
-        records
-          .map(record => record[property])
-          .filter(Boolean)
-      )].sort((a, b) => a.localeCompare(b));
-    }
 
-    // =====================================================
-    // READ OPPORTUNITIES FROM HTML
-    // =====================================================
+    function getCategoryKey(value = "") {
 
-    function readOpportunities() {
-      const records = Array.from(
-        dataContainer.querySelectorAll(".job-record")
+      const normalized = normalizeSlug(value);
+
+      if (
+        Object.prototype.hasOwnProperty.call(
+          CATEGORIES,
+          normalized
+        )
+      ) {
+        return normalized;
+      }
+
+      const match = Object.entries(CATEGORIES).find(
+        ([key, label]) =>
+          normalize(label) === normalize(value)
       );
 
-      return records.map((element, index) => {
-        const data = element.dataset;
+      return match ? match[0] : normalized;
 
-        const applyLink = element.querySelector(".job-apply");
+    }
+
+
+    function uniqueValues(records, property) {
+
+      return [
+        ...new Set(
+          records
+            .map(record => record[property])
+            .filter(Boolean)
+        )
+      ].sort((a, b) => a.localeCompare(b));
+
+    }
+
+
+    // ================================================
+    // READ DATABASE RECORDS
+    // ================================================
+
+    function readOpportunities() {
+
+      const articles = Array.from(
+        elements.database.querySelectorAll(".job-record")
+      );
+
+      const records = [];
+
+      articles.forEach((article, index) => {
+
+        const data = article.dataset;
+
+        const applyLink = article.querySelector(".job-apply");
+
+        const title = (data.title || "").trim();
+
+        const organization = (
+          data.organization || ""
+        ).trim();
+
+        const url = safeApplicationURL(
+          applyLink?.getAttribute("href") || ""
+        );
+
+        // Required fields.
+        if (!title || !organization || !url) {
+
+          console.warn(
+            `EA Somalia Jobs: Record ${index + 1} skipped. Missing title, organisation or valid application URL.`,
+            article
+          );
+
+          return;
+
+        }
+
+        const rawType = normalizeSlug(
+          data.type || "job"
+        );
 
         const rawArea = data.area || "other";
-        const rawType = normalizeSlug(data.type || "job");
 
-        return {
+        const closing = isValidDate(data.closing)
+          ? data.closing
+          : "";
+
+        const posted = isValidDate(data.posted)
+          ? data.posted
+          : "";
+
+        records.push({
+
           id: index + 1,
-          title: (data.title || "").trim(),
-          organization: (data.organization || "").trim(),
+
+          title,
+
+          organization,
+
           area: getCategoryKey(rawArea),
+
           type: rawType,
-          location: (data.location || "Not specified").trim(),
-          source: (data.source || "Other").trim(),
-          closing: isValidDate(data.closing) ? data.closing : "",
-          posted: isValidDate(data.posted) ? data.posted : "",
-          highlight: data.highlight === "true",
-          length: (data.length || "").trim(),
-          eligibility: (data.eligibility || "").trim(),
-          description: (
-            element.querySelector(".job-description")?.textContent || ""
+
+          location: (
+            data.location || "Not specified"
           ).trim(),
-          url: safeApplicationURL(applyLink?.getAttribute("href") || "")
-        };
-      }).filter(record => {
-        return (
-          record.title &&
-          record.organization &&
-          record.url
-        );
+
+          source: (
+            data.source || "Other"
+          ).trim(),
+
+          closing,
+
+          posted,
+
+          highlight: (
+            data.highlight || ""
+          ).toLowerCase() === "true",
+
+          length: (
+            data.length || ""
+          ).trim(),
+
+          eligibility: (
+            data.eligibility || ""
+          ).trim(),
+
+          description: (
+            article.querySelector(".job-description")
+              ?.textContent || ""
+          ).trim(),
+
+          url
+
+        });
+
       });
+
+      return records;
+
     }
+
 
     const opportunities = readOpportunities();
 
-    // =====================================================
-    // POPULATE FILTERS
-    // =====================================================
 
-    function populateSelect(select, values, defaultLabel, labelMap = {}) {
+    // ================================================
+    // POPULATE FILTER OPTIONS
+    // ================================================
+
+    function populateSelect(
+      select,
+      values,
+      defaultLabel,
+      labelMap = {}
+    ) {
+
       select.innerHTML = "";
 
       const defaultOption = document.createElement("option");
+
       defaultOption.value = "all";
       defaultOption.textContent = defaultLabel;
 
       select.appendChild(defaultOption);
 
       values.forEach(value => {
+
         const option = document.createElement("option");
 
         option.value = value;
-        option.textContent = labelMap[value] || value;
+
+        option.textContent =
+          labelMap[value] || value;
 
         select.appendChild(option);
+
       });
+
     }
 
+
     function populateFilters() {
-      const availableAreas = uniqueValues(opportunities, "area");
+
+      const areas = uniqueValues(
+        opportunities,
+        "area"
+      );
 
       const areaLabels = {};
 
-      availableAreas.forEach(area => {
-        areaLabels[area] = CATEGORIES[area] || area;
+      areas.forEach(area => {
+        areaLabels[area] =
+          CATEGORIES[area] || area;
       });
 
       populateSelect(
-        areaFilter,
-        availableAreas,
+        elements.area,
+        areas,
         "All areas",
         areaLabels
       );
 
-      const availableTypes = uniqueValues(opportunities, "type");
+
+      const types = uniqueValues(
+        opportunities,
+        "type"
+      );
 
       const typeLabels = {};
 
-      availableTypes.forEach(type => {
-        typeLabels[type] = TYPES[type] || type;
+      types.forEach(type => {
+        typeLabels[type] =
+          TYPES[type] || type;
       });
 
       populateSelect(
-        typeFilter,
-        availableTypes,
+        elements.type,
+        types,
         "All types",
         typeLabels
       );
 
+
       populateSelect(
-        sourceFilter,
+        elements.source,
         uniqueValues(opportunities, "source"),
         "All sources"
       );
 
+
       populateSelect(
-        locationFilter,
+        elements.location,
         uniqueValues(opportunities, "location"),
         "All locations"
       );
 
+
       populateSelect(
-        orgFilter,
+        elements.organization,
         uniqueValues(opportunities, "organization"),
         "All organisations"
       );
+
     }
 
-    // =====================================================
-    // FILTER OPPORTUNITIES
-    // =====================================================
+
+    // ================================================
+    // SEARCH AND FILTER
+    // ================================================
 
     function getFilteredOpportunities() {
-      const searchTerm = normalize(searchInput.value);
 
-      const selectedArea = areaFilter.value;
-      const selectedType = typeFilter.value;
-      const selectedSource = sourceFilter.value;
-      const selectedLocation = locationFilter.value;
-      const selectedOrg = orgFilter.value;
-      const selectedClosing = closingFilter.value;
+      const searchTerm = normalize(
+        elements.search.value
+      );
+
+      const selectedArea = elements.area.value;
+      const selectedType = elements.type.value;
+      const selectedSource = elements.source.value;
+      const selectedLocation = elements.location.value;
+      const selectedOrganization = elements.organization.value;
+      const selectedClosing = elements.closing.value;
+
 
       return opportunities.filter(job => {
 
         // Hide expired opportunities.
-        if (job.closing && daysUntil(job.closing) < 0) {
+        if (
+          job.closing &&
+          daysUntil(job.closing) < 0
+        ) {
           return false;
         }
 
+
         // Keyword search.
         if (searchTerm) {
+
           const searchableText = normalize([
+
             job.title,
             job.organization,
+
             job.area,
             CATEGORIES[job.area] || "",
+
             job.type,
             TYPES[job.type] || "",
+
             job.location,
             job.source,
+
             job.description,
             job.eligibility,
             job.length
+
           ].join(" "));
 
           if (!searchableText.includes(searchTerm)) {
             return false;
           }
+
         }
 
-        if (selectedArea !== "all" && job.area !== selectedArea) {
+
+        // Cause area.
+        if (
+          selectedArea !== "all" &&
+          job.area !== selectedArea
+        ) {
           return false;
         }
 
-        if (selectedType !== "all" && job.type !== selectedType) {
+
+        // Opportunity type.
+        if (
+          selectedType !== "all" &&
+          job.type !== selectedType
+        ) {
           return false;
         }
 
-        if (selectedSource !== "all" && job.source !== selectedSource) {
+
+        // Source.
+        if (
+          selectedSource !== "all" &&
+          job.source !== selectedSource
+        ) {
           return false;
         }
 
+
+        // Location.
         if (
           selectedLocation !== "all" &&
           job.location !== selectedLocation
@@ -626,22 +935,32 @@
           return false;
         }
 
+
+        // Organisation.
         if (
-          selectedOrg !== "all" &&
-          job.organization !== selectedOrg
+          selectedOrganization !== "all" &&
+          job.organization !== selectedOrganization
         ) {
           return false;
         }
 
-        // Closing-date filter.
-        if (selectedClosing === "open" && job.closing) {
+
+        // Closing date.
+        if (
+          selectedClosing === "open" &&
+          job.closing
+        ) {
           return false;
         }
+
 
         if (
           ["7", "30", "60"].includes(selectedClosing)
         ) {
-          const remainingDays = daysUntil(job.closing);
+
+          const remainingDays = daysUntil(
+            job.closing
+          );
 
           if (
             remainingDays === null ||
@@ -650,27 +969,40 @@
           ) {
             return false;
           }
+
         }
 
         return true;
+
       });
+
     }
 
-    // =====================================================
+
+    // ================================================
     // SORT OPPORTUNITIES
-    // =====================================================
+    // ================================================
 
     function sortOpportunities(records) {
-      const sortBy = sortFilter.value;
+
+      const sortBy = elements.sort.value;
 
       return [...records].sort((a, b) => {
 
-        // Featured opportunities first.
+        // Featured opportunities always appear first.
         if (a.highlight !== b.highlight) {
-          return Number(b.highlight) - Number(a.highlight);
+
+          return (
+            Number(b.highlight) -
+            Number(a.highlight)
+          );
+
         }
 
+
+        // Newest first.
         if (sortBy === "newest") {
+
           if (a.posted && b.posted) {
             return b.posted.localeCompare(a.posted);
           }
@@ -678,10 +1010,12 @@
           if (a.posted) return -1;
           if (b.posted) return 1;
 
-          return a.title.localeCompare(b.title);
         }
 
+
+        // Oldest first.
         if (sortBy === "oldest") {
+
           if (a.posted && b.posted) {
             return a.posted.localeCompare(b.posted);
           }
@@ -689,10 +1023,12 @@
           if (a.posted) return -1;
           if (b.posted) return 1;
 
-          return a.title.localeCompare(b.title);
         }
 
+
+        // Earliest closing date.
         if (sortBy === "deadline") {
+
           if (!a.closing && !b.closing) {
             return a.title.localeCompare(b.title);
           }
@@ -701,25 +1037,37 @@
           if (!b.closing) return -1;
 
           return a.closing.localeCompare(b.closing);
+
         }
 
+
         return a.title.localeCompare(b.title);
+
       });
+
     }
 
-    // =====================================================
-    // RENDER OPPORTUNITY CARD
-    // =====================================================
+
+    // ================================================
+    // RENDER OPPORTUNITY CARDS
+    // ================================================
 
     function renderCard(job) {
-      const categoryLabel = CATEGORIES[job.area] || "Other Cause Areas";
-      const typeLabel = TYPES[job.type] || job.type;
 
+      const categoryLabel =
+        CATEGORIES[job.area] || "Other Cause Areas";
+
+      const typeLabel =
+        TYPES[job.type] || job.type;
+
+
+      // Deadline information.
       const deadlineDays = daysUntil(job.closing);
 
       let deadlineText = "No closing date specified";
 
       if (job.closing) {
+
         if (deadlineDays === 0) {
           deadlineText = "Closes today";
         } else if (deadlineDays === 1) {
@@ -727,68 +1075,123 @@
         } else {
           deadlineText = `Closes ${formatDate(job.closing)}`;
         }
+
       }
 
+
+      // Metadata.
       const metadata = [
+
         `<span class="job-meta">${escapeHTML(job.location)}</span>`,
+
         `<span class="job-meta">${escapeHTML(job.source)}</span>`
+
       ];
 
+
       if (job.length) {
+
         metadata.push(
           `<span class="job-meta">${escapeHTML(job.length)}</span>`
         );
+
       }
 
-      const highlightBadge = job.highlight
-        ? '<span class="job-featured">Featured</span>'
+
+      // Featured badge.
+      const featuredBadge = job.highlight
+        ? `<span class="job-featured">Featured</span>`
         : "";
 
+
+      // Eligibility.
       const eligibility = job.eligibility
-        ? `<p class="job-eligibility">${escapeHTML(job.eligibility)}</p>`
+        ? `
+          <p class="job-eligibility">
+            ${escapeHTML(job.eligibility)}
+          </p>
+        `
         : "";
 
+
+      // Description.
       const description = job.description
-        ? `<p class="job-description">${escapeHTML(job.description)}</p>`
+        ? `
+          <p class="job-description">
+            ${escapeHTML(job.description)}
+          </p>
+        `
         : "";
 
+
+      // Posted date.
       const postedText = job.posted
-        ? `<span>Posted ${escapeHTML(formatDate(job.posted))}</span>`
+        ? `
+          <span>
+            Posted ${escapeHTML(formatDate(job.posted))}
+          </span>
+        `
         : "";
+
 
       return `
+
         <article class="opp-card job-card">
 
           <div class="job-card-header">
+
             <div class="job-card-tags">
-              <span class="job-category">${escapeHTML(categoryLabel)}</span>
-              <span class="job-type">${escapeHTML(typeLabel)}</span>
-              ${highlightBadge}
+
+              <span class="job-category">
+                ${escapeHTML(categoryLabel)}
+              </span>
+
+              <span class="job-type">
+                ${escapeHTML(typeLabel)}
+              </span>
+
+              ${featuredBadge}
+
             </div>
+
           </div>
+
 
           <h2 class="job-title">
             ${escapeHTML(job.title)}
           </h2>
 
+
           <p class="job-organization">
             ${escapeHTML(job.organization)}
           </p>
 
+
           ${description}
 
+
           <div class="job-meta-list">
+
             ${metadata.join("")}
+
           </div>
 
+
           ${eligibility}
+
 
           <div class="job-card-footer">
 
             <div class="job-deadline">
-              <span>${escapeHTML(deadlineText)}</span>
+
+              <span>
+                ${escapeHTML(deadlineText)}
+              </span>
+
               ${postedText}
+
             </div>
+
 
             <a
               class="job-apply"
@@ -802,93 +1205,174 @@
           </div>
 
         </article>
+
       `;
+
     }
 
-    // =====================================================
+
+    // ================================================
     // RENDER RESULTS
-    // =====================================================
+    // ================================================
 
     function renderResults() {
+
       const filtered = getFilteredOpportunities();
+
       const sorted = sortOpportunities(filtered);
 
       const total = sorted.length;
 
-      countElement.textContent =
+
+      // Update result count.
+      elements.count.textContent =
         `${total} ${total === 1 ? "opportunity" : "opportunities"}`;
 
+
+      // Empty results.
       if (!total) {
-        resultContainer.innerHTML = `
+
+        elements.list.innerHTML = `
+
           <div class="opp-empty">
+
             <h3>No opportunities found</h3>
+
             <p>
               Try changing your search terms or filters.
               New opportunities will appear here when added.
             </p>
+
           </div>
+
         `;
 
-        resultContainer.setAttribute("aria-busy", "false");
+        elements.list.setAttribute(
+          "aria-busy",
+          "false"
+        );
+
         return;
+
       }
 
-      resultContainer.innerHTML = sorted
+
+      // Display opportunity cards.
+      elements.list.innerHTML = sorted
         .map(renderCard)
         .join("");
 
-      resultContainer.setAttribute("aria-busy", "false");
+
+      elements.list.setAttribute(
+        "aria-busy",
+        "false"
+      );
+
     }
 
-    // =====================================================
+
+    // ================================================
     // CLEAR FILTERS
-    // =====================================================
+    // ================================================
 
     function clearFilters() {
-      searchInput.value = "";
 
-      areaFilter.value = "all";
-      typeFilter.value = "all";
-      sourceFilter.value = "all";
-      locationFilter.value = "all";
-      orgFilter.value = "all";
-      closingFilter.value = "all";
+      elements.search.value = "";
 
-      sortFilter.value = "newest";
+      elements.area.value = "all";
+      elements.type.value = "all";
+      elements.source.value = "all";
+      elements.location.value = "all";
+      elements.organization.value = "all";
+      elements.closing.value = "all";
+
+      elements.sort.value = "newest";
 
       renderResults();
+
     }
 
-    // =====================================================
-    // EVENT LISTENERS
-    // =====================================================
 
-    searchInput.addEventListener("input", renderResults);
+    // ================================================
+    // EVENT LISTENERS
+    // ================================================
+
+    elements.search.addEventListener(
+      "input",
+      renderResults
+    );
+
 
     [
-      areaFilter,
-      typeFilter,
-      sourceFilter,
-      locationFilter,
-      orgFilter,
-      closingFilter,
-      sortFilter
+      elements.area,
+      elements.type,
+      elements.source,
+      elements.location,
+      elements.organization,
+      elements.closing,
+      elements.sort
+
     ].forEach(filter => {
-      filter.addEventListener("change", renderResults);
+
+      filter.addEventListener(
+        "change",
+        renderResults
+      );
+
     });
 
-    clearButton.addEventListener("click", clearFilters);
 
-    // =====================================================
-    // INITIALIZE
-    // =====================================================
-
-    populateFilters();
-    renderResults();
-
-    console.info(
-      `EA Somalia opportunities initialized: ${opportunities.length} records loaded.`
+    elements.clear.addEventListener(
+      "click",
+      clearFilters
     );
+
+
+    // ================================================
+    // INITIALIZE BOARD
+    // ================================================
+
+    try {
+
+      populateFilters();
+
+      renderResults();
+
+      console.info(
+        `EA Somalia opportunities initialized successfully: ${opportunities.length} valid records loaded.`
+      );
+
+    } catch (error) {
+
+      console.error(
+        "EA Somalia Jobs: Initialization failed.",
+        error
+      );
+
+      elements.count.textContent =
+        "Unable to load opportunities";
+
+      elements.list.innerHTML = `
+
+        <div class="opp-empty">
+
+          <h3>Something went wrong</h3>
+
+          <p>
+            The opportunities board could not be initialized.
+            Please refresh the page or try again later.
+          </p>
+
+        </div>
+
+      `;
+
+      elements.list.setAttribute(
+        "aria-busy",
+        "false"
+      );
+
+    }
 
   })();
   </script>
