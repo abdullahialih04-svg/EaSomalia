@@ -1419,6 +1419,70 @@ html[data-theme="dark"] .btn.ghost:hover {
   }
 }
 
+
+
+/* ---------- Shared page layout refinements ---------- */
+
+.hero-content,
+.hero .wrap > * {
+  min-width: 0;
+}
+
+.herophoto {
+  display: block;
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 1000 / 436;
+  object-fit: cover;
+  object-position: center;
+  border: 1px solid var(--brand-border);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+h1,
+h2,
+h3,
+h4,
+.card,
+.res,
+.job,
+.side {
+  overflow-wrap: anywhere;
+}
+
+.grid > *,
+.two > *,
+.pillars > *,
+.resgrid > *,
+.founders > * {
+  min-width: 0;
+}
+
+input,
+select,
+textarea {
+  max-width: 100%;
+  border-color: var(--brand-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.theme-toggle {
+  border-color: var(--brand-border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.theme-toggle-icon {
+  display: inline-grid;
+  width: 1.2em;
+  place-items: center;
+}
+
 /* ---------- 20. Reduced motion ---------- */
 
 @media (prefers-reduced-motion: reduce) {
