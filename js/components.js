@@ -194,11 +194,9 @@
               <h3>Learn</h3>
               <ul>
                 ${FELLOWS.map(
-                  (fellowship) => `
+                  ([name, href]) => `
                     <li>
-                      <a href="${fellowship[1]}">
-                        ${fellowship[0]}
-                      </a>
+                      <a href="${href}">${name}</a>
                     </li>
                   `
                 ).join("")}
@@ -234,7 +232,11 @@
                   </a>
                 </li>
                 <li>
-                  <a href="https://calendly.com/easomalia/30min">
+                  <a
+                    href="https://calendly.com/easomalia/30min"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                  >
                     Book a 1:1
                   </a>
                 </li>
@@ -265,10 +267,11 @@
         return savedTheme;
       }
     } catch (error) {
-      // Continue with system preference if storage is unavailable.
+      // Use system preference if storage is unavailable.
     }
 
-    return window.matchMedia("(prefers-color-scheme: dark)").matches
+    return window.matchMedia &&
+      window.matchMedia("(prefers-color-scheme: dark)").matches
       ? "dark"
       : "light";
   }
@@ -303,55 +306,62 @@
     try {
       localStorage.setItem(THEME_KEY, theme);
     } catch (error) {
-      // Theme still applies for the current page.
+      // Theme still applies to the current page.
     }
   }
 
   function renderThemeToggle() {
-    if (document.querySelector(".theme-toggle")) return;
+    let toggle = document.querySelector(".theme-toggle");
 
-    const toggle = document.createElement("button");
+    if (!toggle) {
+      toggle = document.createElement("button");
+      toggle.className = "theme-toggle";
+      toggle.type = "button";
 
-    toggle.className = "theme-toggle";
-    toggle.type = "button";
+      toggle.style.cssText = `
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        z-index: 999;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        padding: 11px 15px;
+        border: 1px solid var(--border, #d8e1eb);
+        border-radius: 999px;
+        background: var(--card, #ffffff);
+        color: var(--text, #0f2440);
+        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        cursor: pointer;
+        font: inherit;
+        font-size: 14px;
+      `;
 
-    toggle.style.cssText = `
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      z-index: 999;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 11px 15px;
-      border: 1px solid var(--border, #d8e1eb);
-      border-radius: 999px;
-      background: var(--card, #ffffff);
-      color: var(--text, #0f2440);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-      cursor: pointer;
-      font: inherit;
-      font-size: 14px;
-    `;
+      document.body.appendChild(toggle);
+    }
 
-    toggle.addEventListener("click", function () {
-      const currentTheme =
-        document.documentElement.getAttribute("data-theme") || "light";
+    // Prevent duplicate click listeners.
+    if (toggle.dataset.initialized !== "true") {
+      toggle.addEventListener("click", function () {
+        const currentTheme =
+          document.documentElement.getAttribute("data-theme") || "light";
 
-      const nextTheme = currentTheme === "dark" ? "light" : "dark";
+        const nextTheme =
+          currentTheme === "dark" ? "light" : "dark";
 
-      applyTheme(nextTheme);
-      saveTheme(nextTheme);
-    });
+        applyTheme(nextTheme);
+        saveTheme(nextTheme);
+      });
 
-    document.body.appendChild(toggle);
+      toggle.dataset.initialized = "true";
+    }
 
     applyTheme(getPreferredTheme());
   }
 
   // ==========================================
-  // Mobile Navigation Toggle
+  // Mobile Navigation
   // ==========================================
 
   function initializeMobileNavigation() {
@@ -359,6 +369,13 @@
     const menu = document.querySelector(".menu");
 
     if (!burger || !menu) return;
+
+    function closeMenu() {
+      menu.classList.remove("show");
+      burger.setAttribute("aria-expanded", "false");
+      burger.setAttribute("aria-label", "Open navigation menu");
+      burger.textContent = "☰";
+    }
 
     burger.addEventListener("click", function () {
       const isOpen = menu.classList.toggle("show");
@@ -371,6 +388,29 @@
       );
 
       burger.textContent = isOpen ? "✕" : "☰";
+    });
+
+    // Close menu after selecting a navigation link.
+    menu.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", closeMenu);
+    });
+
+    // Close menu with Escape.
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") {
+        closeMenu();
+      }
+    });
+
+    // Close menu when clicking outside it.
+    document.addEventListener("click", function (event) {
+      if (
+        menu.classList.contains("show") &&
+        !menu.contains(event.target) &&
+        !burger.contains(event.target)
+      ) {
+        closeMenu();
+      }
     });
   }
 
@@ -453,12 +493,12 @@
   // ==========================================
 
   function initialize() {
-    // Shared website elements only.
     renderNavigation();
     renderFooter();
     renderThemeToggle();
 
-    // No jobs fetching or jobs rendering in this file.
+    // Jobs data is handled separately by /js/Jobs.js.
+    // No ReliefWeb integration or external jobs API here.
   }
 
   if (document.readyState === "loading") {
