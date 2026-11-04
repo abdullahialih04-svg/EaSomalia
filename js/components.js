@@ -1,5 +1,14 @@
 
-(function () {
+(() => {
+  "use strict";
+
+  // ==========================================
+  // Prevent Duplicate Initialization
+  // ==========================================
+
+  if (window.__eaSomaliaComponentsInitialized) return;
+  window.__eaSomaliaComponentsInitialized = true;
+
   // ==========================================
   // Vercel Web Analytics
   // ==========================================
@@ -33,34 +42,35 @@
 
   const path = location.pathname.replace(/\/$/, "") || "/";
 
-  const cur = (href) =>
+  const isCurrentPage = (href) =>
     path === href ||
-    (href === "/" && (path === "/" || path === "/index.html"))
-      ? ' aria-current="page"'
-      : "";
+    (href === "/" && (path === "/" || path === "/index.html"));
+
+  const currentAttribute = (href) =>
+    isCurrentPage(href) ? ' aria-current="page"' : "";
 
   // ==========================================
   // Fellowship Dropdown Links
   // ==========================================
 
-  const drop = FELLOWS.map((fellowship) => {
-    const [name, href, comingSoon] = fellowship;
-
-    return `
-      <a href="${href}"${cur(href)}>
+  const fellowshipDropdownLinks = FELLOWS.map(
+    ([name, href, comingSoon]) => `
+      <a href="${href}"${currentAttribute(href)}>
         ${name}
         ${comingSoon ? '<span class="tag">Coming soon</span>' : ""}
       </a>
-    `;
-  }).join("");
+    `
+  ).join("");
 
   // ==========================================
   // Main Navigation
   // ==========================================
 
-  const siteNav = document.getElementById("site-nav");
+  function renderNavigation() {
+    const siteNav = document.getElementById("site-nav");
 
-  if (siteNav) {
+    if (!siteNav) return;
+
     siteNav.outerHTML = `
       <header class="nav">
         <div class="wrap">
@@ -84,8 +94,9 @@
           </button>
 
           <ul class="menu">
+
             <li>
-              <a href="/"${cur("/")}>Home</a>
+              <a href="/"${currentAttribute("/")}>Home</a>
             </li>
 
             <li class="has-drop">
@@ -99,34 +110,42 @@
               </button>
 
               <div class="drop">
-                ${drop}
+                ${fellowshipDropdownLinks}
               </div>
             </li>
 
             <li>
-              <a href="/pages/effective-giving.html"${cur(
-                "/pages/effective-giving.html"
-              )}>
+              <a
+                href="/pages/effective-giving.html"
+                ${currentAttribute("/pages/effective-giving.html").trim()}
+              >
                 Effective giving
               </a>
             </li>
 
             <li>
-              <a href="/pages/jobs.html"${cur("/pages/jobs.html")}>
+              <a
+                href="/pages/jobs.html"
+                ${currentAttribute("/pages/jobs.html").trim()}
+              >
                 Jobs
               </a>
             </li>
 
             <li>
-              <a href="/pages/incubation.html"${cur(
-                "/pages/incubation.html"
-              )}>
+              <a
+                href="/pages/incubation.html"
+                ${currentAttribute("/pages/incubation.html").trim()}
+              >
                 Incubation
               </a>
             </li>
 
             <li>
-              <a href="/pages/connect.html"${cur("/pages/connect.html")}>
+              <a
+                href="/pages/connect.html"
+                ${currentAttribute("/pages/connect.html").trim()}
+              >
                 Connect
               </a>
             </li>
@@ -140,19 +159,25 @@
                 Join the EA Fellowship
               </a>
             </li>
+
           </ul>
         </div>
       </header>
     `;
+
+    initializeMobileNavigation();
+    initializeFellowshipDropdown();
   }
 
   // ==========================================
   // Website Footer
   // ==========================================
 
-  const siteFooter = document.getElementById("site-footer");
+  function renderFooter() {
+    const siteFooter = document.getElementById("site-footer");
 
-  if (siteFooter) {
+    if (!siteFooter) return;
+
     siteFooter.outerHTML = `
       <footer>
         <div class="wrap">
@@ -219,7 +244,7 @@
           </div>
 
           <p class="small">
-            © 2026 Effective Altruism Somalia
+            © ${new Date().getFullYear()} Effective Altruism Somalia
           </p>
         </div>
       </footer>
@@ -253,35 +278,34 @@
 
     const toggle = document.querySelector(".theme-toggle");
 
-    if (toggle) {
-      const isDark = theme === "dark";
+    if (!toggle) return;
 
-      toggle.setAttribute("aria-pressed", String(isDark));
-      toggle.setAttribute(
-        "aria-label",
-        isDark ? "Switch to light mode" : "Switch to dark mode"
-      );
-      toggle.setAttribute(
-        "title",
-        isDark ? "Switch to light mode" : "Switch to dark mode"
-      );
+    const isDark = theme === "dark";
 
-      toggle.innerHTML = isDark
-        ? '<span aria-hidden="true">☀</span><span class="theme-label">Light mode</span>'
-        : '<span aria-hidden="true">☾</span><span class="theme-label">Dark mode</span>';
-    }
+    toggle.setAttribute("aria-pressed", String(isDark));
+
+    toggle.setAttribute(
+      "aria-label",
+      isDark ? "Switch to light mode" : "Switch to dark mode"
+    );
+
+    toggle.setAttribute(
+      "title",
+      isDark ? "Switch to light mode" : "Switch to dark mode"
+    );
+
+    toggle.innerHTML = isDark
+      ? '<span aria-hidden="true">☀</span><span class="theme-label">Light mode</span>'
+      : '<span aria-hidden="true">☾</span><span class="theme-label">Dark mode</span>';
   }
 
   function saveTheme(theme) {
     try {
       localStorage.setItem(THEME_KEY, theme);
     } catch (error) {
-      // Theme still applies for the current page if storage is unavailable.
+      // Theme still applies for the current page.
     }
   }
-
-  // Apply the saved or preferred theme before creating the toggle.
-  applyTheme(getPreferredTheme());
 
   function renderThemeToggle() {
     if (document.querySelector(".theme-toggle")) return;
@@ -290,7 +314,6 @@
 
     toggle.className = "theme-toggle";
     toggle.type = "button";
-    toggle.setAttribute("aria-pressed", "false");
 
     toggle.style.cssText = `
       position: fixed;
@@ -323,6 +346,7 @@
     });
 
     document.body.appendChild(toggle);
+
     applyTheme(getPreferredTheme());
   }
 
@@ -330,14 +354,17 @@
   // Mobile Navigation Toggle
   // ==========================================
 
-  const burger = document.querySelector(".burger");
-  const menu = document.querySelector(".menu");
+  function initializeMobileNavigation() {
+    const burger = document.querySelector(".burger");
+    const menu = document.querySelector(".menu");
 
-  if (burger && menu) {
+    if (!burger || !menu) return;
+
     burger.addEventListener("click", function () {
       const isOpen = menu.classList.toggle("show");
 
       burger.setAttribute("aria-expanded", String(isOpen));
+
       burger.setAttribute(
         "aria-label",
         isOpen ? "Close navigation menu" : "Open navigation menu"
@@ -351,26 +378,32 @@
   // Fellowship Dropdown Behaviour
   // ==========================================
 
-  const dropdown = document.querySelector(".has-drop");
+  function initializeFellowshipDropdown() {
+    const dropdown = document.querySelector(".has-drop");
 
-  if (dropdown) {
+    if (!dropdown) return;
+
     const dropdownButton = dropdown.querySelector("button");
+
+    if (!dropdownButton) return;
+
     const hoverMode = window.matchMedia(
       "(hover: hover) and (min-width: 901px)"
     );
 
     let closeTimer;
 
-    const openDropdown = function () {
+    function openDropdown() {
       clearTimeout(closeTimer);
       dropdown.classList.add("open");
       dropdownButton.setAttribute("aria-expanded", "true");
-    };
+    }
 
-    const closeDropdown = function () {
+    function closeDropdown() {
+      clearTimeout(closeTimer);
       dropdown.classList.remove("open");
       dropdownButton.setAttribute("aria-expanded", "false");
-    };
+    }
 
     dropdown.addEventListener("mouseenter", function () {
       if (hoverMode.matches) openDropdown();
@@ -384,10 +417,10 @@
     });
 
     dropdownButton.addEventListener("click", function () {
-      if (!hoverMode.matches || !dropdown.classList.contains("open")) {
-        openDropdown();
-      } else {
+      if (dropdown.classList.contains("open")) {
         closeDropdown();
+      } else {
+        openDropdown();
       }
     });
 
@@ -416,190 +449,24 @@
   }
 
   // ==========================================
-  // Somalia Jobs (jobs page only)
-  // ==========================================
-
-  function loadSomaliaJobs() {
-    const list = document.getElementById("somalia-jobs");
-    const note = document.getElementById("somalia-jobs-note");
-
-    // This script is shared across the site; only run on the Jobs page.
-    if (!list || !note) return;
-
-    const JOBS_URL = "/data/jobs.json";
-    const ALL_URL =
-      "https://reliefweb.int/jobs?list=Somalia%20Jobs&advanced-search=%28C216%29";
-
-    function formatDate(value) {
-      const date = new Date(value);
-      return Number.isNaN(date.getTime())
-        ? ""
-        : date.toLocaleDateString("en-GB", {
-            day: "numeric",
-            month: "short",
-            year: "numeric",
-          });
-    }
-
-    function isReliefWebUrl(value) {
-      try {
-        const url = new URL(value);
-        return (
-          url.protocol === "https:" &&
-          (url.hostname === "reliefweb.int" ||
-            url.hostname.endsWith(".reliefweb.int"))
-        );
-      } catch {
-        return false;
-      }
-    }
-
-    function showFallback(message) {
-      list.replaceChildren();
-      note.textContent = message + " ";
-
-      const link = document.createElement("a");
-      link.href = ALL_URL;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = "See all Somalia jobs on ReliefWeb.";
-      note.appendChild(link);
-    }
-
-    function addJobCard(job) {
-      const card = document.createElement("div");
-      card.className = "card job";
-
-      const content = document.createElement("div");
-
-      const tag = document.createElement("span");
-      tag.textContent = job.city || job.country || "Somalia";
-      tag.style.cssText =
-        "display:inline-block;font-size:.8rem;padding:.1rem .55rem;" +
-        "border-radius:4px;background:rgba(127,127,127,.22);" +
-        "margin-bottom:.5rem";
-
-      const heading = document.createElement("h3");
-      heading.textContent = job.title;
-
-      const meta = document.createElement("p");
-      meta.style.cssText =
-        "display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;font-size:.9rem";
-
-      [
-        ["Organization", job.org],
-        ["Posted", job.posted ? formatDate(job.posted) : ""],
-        ["Closing date", job.closes ? formatDate(job.closes) : ""],
-      ].forEach(([label, value]) => {
-        if (!value) return;
-
-        const item = document.createElement("span");
-        const strong = document.createElement("strong");
-        strong.textContent = label + ": ";
-        item.appendChild(strong);
-        item.appendChild(document.createTextNode(value));
-        meta.appendChild(item);
-      });
-
-      content.appendChild(tag);
-      content.appendChild(heading);
-      content.appendChild(meta);
-
-      const link = document.createElement("a");
-      link.className = "btn ghost";
-      link.href = job.url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = "View on ReliefWeb";
-
-      card.appendChild(content);
-      card.appendChild(link);
-      list.appendChild(card);
-    }
-
-    async function fetchJobs() {
-      try {
-        note.textContent = "Loading open roles…";
-
-        const response = await fetch(JOBS_URL, { cache: "no-cache" });
-
-        if (!response.ok) {
-          throw new Error("Jobs endpoint returned HTTP " + response.status);
-        }
-
-        const data = await response.json();
-
-        if (!data || !Array.isArray(data.jobs)) {
-          throw new Error("Invalid jobs.json structure: expected a jobs array.");
-        }
-
-        const now = Date.now();
-        const seen = new Set();
-
-        const jobs = data.jobs.filter((job) => {
-          if (
-            !job ||
-            !job.id ||
-            !job.title ||
-            typeof job.title !== "string" ||
-            !isReliefWebUrl(job.url)
-          ) {
-            return false;
-          }
-
-          const id = String(job.id);
-
-          if (seen.has(id)) return false;
-          seen.add(id);
-
-          if (!job.closes) return true;
-
-          const closingTime = new Date(job.closes).getTime();
-
-          // Keep listings with missing or unparseable closing dates;
-          // exclude only listings with a confirmed past closing date.
-          return !Number.isFinite(closingTime) || closingTime > now;
-        });
-
-        list.replaceChildren();
-
-        if (!jobs.length) {
-          showFallback("No open roles are listed right now.");
-          return;
-        }
-
-        jobs.forEach(addJobCard);
-
-        note.textContent =
-          "Showing " +
-          jobs.length +
-          (jobs.length === 1 ? " open role" : " open roles") +
-          " from ReliefWeb" +
-          (data.updated
-            ? ", last refreshed on " + formatDate(data.updated)
-            : "") +
-          ". You apply on the employer’s page.";
-      } catch (error) {
-        console.error("Somalia jobs loading error:", error);
-        showFallback("We could not load the listings.");
-      }
-    }
-
-    fetchJobs();
-  }
-
-  // ==========================================
-  // Initialize
+  // Initialize Shared Website Components
   // ==========================================
 
   function initialize() {
+    // Shared website elements only.
+    renderNavigation();
+    renderFooter();
     renderThemeToggle();
-    loadSomaliaJobs();
+
+    // No jobs fetching or jobs rendering in this file.
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initialize);
+    document.addEventListener("DOMContentLoaded", initialize, {
+      once: true
+    });
   } else {
     initialize();
   }
+
 })();
