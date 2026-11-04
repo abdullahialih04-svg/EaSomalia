@@ -34,6 +34,7 @@
 
   <main class="opp-page">
 
+    <!-- PAGE INTRO -->
     <section class="opp-head">
       <div class="wrap opp-head-inner">
 
@@ -60,6 +61,7 @@
       </div>
     </section>
 
+    <!-- OPPORTUNITY BOARD -->
     <section class="opp-board">
       <div class="wrap">
 
@@ -80,6 +82,7 @@
 
         </div>
 
+        <!-- SEARCH AND FILTERS -->
         <div class="opp-filter-card">
 
           <div class="opp-search-row">
@@ -142,9 +145,9 @@
             </select>
 
           </div>
-
         </div>
 
+        <!-- RESULTS TOOLBAR -->
         <div class="opp-bar">
 
           <div class="opp-bar-left">
@@ -175,10 +178,11 @@
 
         </div>
 
+        <!-- OPPORTUNITY RESULTS -->
         <div
           id="job-list"
           aria-live="polite"
-          aria-busy="false"
+          aria-busy="true"
         >
           <div class="opp-empty">
             Loading opportunities…
@@ -190,44 +194,52 @@
 
   </main>
 
-  <!--
-    OPPORTUNITY DATABASE
+  <!-- =====================================================
+       OPPORTUNITY DATABASE
 
-    Add, edit or remove opportunities in this section.
-    Do not add jobs to jobs.json anymore.
+       Add new opportunities by copying the article template.
 
-    Required data attributes:
-    data-title
-    data-organization
-    data-area
-    data-type
-    data-location
-    data-source
-    data-closing
-    data-posted
+       Category values:
+       animal-welfare
+       global-health
+       ai-safety
+       biosecurity
+       climate-change
+       society
+       funding
+       other
 
-    Use YYYY-MM-DD for dates.
-  -->
+       Type values:
+       job
+       internship
+       fellowship
+       programme
+       course
+       funding
+
+       Dates must use YYYY-MM-DD.
+       ===================================================== -->
 
   <div id="jobs-data" hidden>
 
     <!--
-    EXAMPLE ENTRY TEMPLATE
-
-    Copy this article for each real opportunity.
-    Replace all example details and the application URL.
+    EXAMPLE OPPORTUNITY TEMPLATE
 
     <article
       class="job-record"
       data-title="AI Policy Researcher"
       data-organization="Organisation Name"
-      data-area="AI Safety"
-      data-type="Full-time"
+      data-area="ai-safety"
+      data-type="job"
       data-location="Remote"
       data-source="Organisation Website"
       data-closing="2026-12-15"
       data-posted="2026-11-04"
+      data-highlight="false"
+      data-length=""
+      data-eligibility="Open to applicants worldwide"
     >
+
       <p class="job-description">
         Add a short description of the opportunity here.
       </p>
@@ -240,6 +252,7 @@
       >
         Apply now
       </a>
+
     </article>
     -->
 
@@ -247,8 +260,638 @@
 
   <div id="site-footer"></div>
 
+  <!-- SHARED WEBSITE COMPONENTS -->
   <script src="/js/components.js"></script>
-  <script src="/js/Jobs.js?v=3" defer></script>
+
+  <!-- OPPORTUNITY BOARD FUNCTIONALITY -->
+  <script>
+  (() => {
+    "use strict";
+
+    // =====================================================
+    // PREVENT DUPLICATE INITIALIZATION
+    // =====================================================
+
+    if (window.__eaSomaliaJobsInitialized) return;
+    window.__eaSomaliaJobsInitialized = true;
+
+    // =====================================================
+    // ELEMENTS
+    // =====================================================
+
+    const searchInput = document.getElementById("opp-search");
+    const areaFilter = document.getElementById("f-area");
+    const typeFilter = document.getElementById("f-type");
+    const sourceFilter = document.getElementById("f-source");
+    const locationFilter = document.getElementById("f-location");
+    const orgFilter = document.getElementById("f-org");
+    const closingFilter = document.getElementById("f-closing");
+    const sortFilter = document.getElementById("f-sort");
+    const clearButton = document.getElementById("f-clear");
+    const resultContainer = document.getElementById("job-list");
+    const countElement = document.getElementById("opp-count");
+    const dataContainer = document.getElementById("jobs-data");
+
+    if (
+      !searchInput ||
+      !areaFilter ||
+      !typeFilter ||
+      !sourceFilter ||
+      !locationFilter ||
+      !orgFilter ||
+      !closingFilter ||
+      !sortFilter ||
+      !clearButton ||
+      !resultContainer ||
+      !countElement ||
+      !dataContainer
+    ) {
+      console.error("EA Somalia: Required opportunities page elements are missing.");
+      return;
+    }
+
+    // =====================================================
+    // SHARED CATEGORIES FROM COMPONENTS.JS
+    // =====================================================
+
+    const CATEGORIES =
+      window.EASomalia?.opportunityCategories || {
+        "animal-welfare": "Animal Welfare",
+        "global-health": "Global Health",
+        "ai-safety": "AI Safety",
+        biosecurity: "Biosecurity",
+        "climate-change": "Climate Change",
+        society: "Societal Improvements",
+        funding: "Funding",
+        other: "Other Cause Areas"
+      };
+
+    const TYPES =
+      window.EASomalia?.opportunityTypes || {
+        job: "Job",
+        internship: "Internship",
+        fellowship: "Fellowship",
+        programme: "Programme",
+        course: "Course",
+        funding: "Funding"
+      };
+
+    // =====================================================
+    // HELPERS
+    // =====================================================
+
+    function escapeHTML(value = "") {
+      return String(value).replace(/[&<>"']/g, character => ({
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      })[character]);
+    }
+
+    function normalize(value = "") {
+      return String(value)
+        .trim()
+        .toLowerCase()
+        .replace(/\s+/g, " ");
+    }
+
+    function normalizeSlug(value = "") {
+      return normalize(value)
+        .replace(/&/g, "and")
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/^-|-$/g, "");
+    }
+
+    function getCategoryKey(value = "") {
+      const normalized = normalizeSlug(value);
+
+      if (Object.prototype.hasOwnProperty.call(CATEGORIES, normalized)) {
+        return normalized;
+      }
+
+      const match = Object.entries(CATEGORIES).find(
+        ([key, label]) => normalize(label) === normalize(value)
+      );
+
+      return match ? match[0] : normalized;
+    }
+
+    function formatDate(dateString) {
+      if (!isValidDate(dateString)) return "Not specified";
+
+      const [year, month, day] = dateString.split("-").map(Number);
+
+      return new Date(Date.UTC(year, month - 1, day))
+        .toLocaleDateString("en-GB", {
+          day: "numeric",
+          month: "short",
+          year: "numeric",
+          timeZone: "UTC"
+        });
+    }
+
+    function isValidDate(value) {
+      if (!/^\d{4}-\d{2}-\d{2}$/.test(value || "")) {
+        return false;
+      }
+
+      const [year, month, day] = value.split("-").map(Number);
+      const date = new Date(Date.UTC(year, month - 1, day));
+
+      return (
+        date.getUTCFullYear() === year &&
+        date.getUTCMonth() === month - 1 &&
+        date.getUTCDate() === day
+      );
+    }
+
+    function daysUntil(dateString) {
+      if (!isValidDate(dateString)) return null;
+
+      const [year, month, day] = dateString.split("-").map(Number);
+
+      const deadline = Date.UTC(year, month - 1, day);
+      const todayDate = new Date();
+
+      const today = Date.UTC(
+        todayDate.getFullYear(),
+        todayDate.getMonth(),
+        todayDate.getDate()
+      );
+
+      return Math.round((deadline - today) / 86400000);
+    }
+
+    function safeApplicationURL(value) {
+      try {
+        const url = new URL(value, window.location.origin);
+
+        if (!["http:", "https:"].includes(url.protocol)) {
+          return null;
+        }
+
+        return url.href;
+      } catch (error) {
+        return null;
+      }
+    }
+
+    function uniqueValues(records, property) {
+      return [...new Set(
+        records
+          .map(record => record[property])
+          .filter(Boolean)
+      )].sort((a, b) => a.localeCompare(b));
+    }
+
+    // =====================================================
+    // READ OPPORTUNITIES FROM HTML
+    // =====================================================
+
+    function readOpportunities() {
+      const records = Array.from(
+        dataContainer.querySelectorAll(".job-record")
+      );
+
+      return records.map((element, index) => {
+        const data = element.dataset;
+
+        const applyLink = element.querySelector(".job-apply");
+
+        const rawArea = data.area || "other";
+        const rawType = normalizeSlug(data.type || "job");
+
+        return {
+          id: index + 1,
+          title: (data.title || "").trim(),
+          organization: (data.organization || "").trim(),
+          area: getCategoryKey(rawArea),
+          type: rawType,
+          location: (data.location || "Not specified").trim(),
+          source: (data.source || "Other").trim(),
+          closing: isValidDate(data.closing) ? data.closing : "",
+          posted: isValidDate(data.posted) ? data.posted : "",
+          highlight: data.highlight === "true",
+          length: (data.length || "").trim(),
+          eligibility: (data.eligibility || "").trim(),
+          description: (
+            element.querySelector(".job-description")?.textContent || ""
+          ).trim(),
+          url: safeApplicationURL(applyLink?.getAttribute("href") || "")
+        };
+      }).filter(record => {
+        return (
+          record.title &&
+          record.organization &&
+          record.url
+        );
+      });
+    }
+
+    const opportunities = readOpportunities();
+
+    // =====================================================
+    // POPULATE FILTERS
+    // =====================================================
+
+    function populateSelect(select, values, defaultLabel, labelMap = {}) {
+      select.innerHTML = "";
+
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "all";
+      defaultOption.textContent = defaultLabel;
+
+      select.appendChild(defaultOption);
+
+      values.forEach(value => {
+        const option = document.createElement("option");
+
+        option.value = value;
+        option.textContent = labelMap[value] || value;
+
+        select.appendChild(option);
+      });
+    }
+
+    function populateFilters() {
+      const availableAreas = uniqueValues(opportunities, "area");
+
+      const areaLabels = {};
+
+      availableAreas.forEach(area => {
+        areaLabels[area] = CATEGORIES[area] || area;
+      });
+
+      populateSelect(
+        areaFilter,
+        availableAreas,
+        "All areas",
+        areaLabels
+      );
+
+      const availableTypes = uniqueValues(opportunities, "type");
+
+      const typeLabels = {};
+
+      availableTypes.forEach(type => {
+        typeLabels[type] = TYPES[type] || type;
+      });
+
+      populateSelect(
+        typeFilter,
+        availableTypes,
+        "All types",
+        typeLabels
+      );
+
+      populateSelect(
+        sourceFilter,
+        uniqueValues(opportunities, "source"),
+        "All sources"
+      );
+
+      populateSelect(
+        locationFilter,
+        uniqueValues(opportunities, "location"),
+        "All locations"
+      );
+
+      populateSelect(
+        orgFilter,
+        uniqueValues(opportunities, "organization"),
+        "All organisations"
+      );
+    }
+
+    // =====================================================
+    // FILTER OPPORTUNITIES
+    // =====================================================
+
+    function getFilteredOpportunities() {
+      const searchTerm = normalize(searchInput.value);
+
+      const selectedArea = areaFilter.value;
+      const selectedType = typeFilter.value;
+      const selectedSource = sourceFilter.value;
+      const selectedLocation = locationFilter.value;
+      const selectedOrg = orgFilter.value;
+      const selectedClosing = closingFilter.value;
+
+      return opportunities.filter(job => {
+
+        // Hide expired opportunities.
+        if (job.closing && daysUntil(job.closing) < 0) {
+          return false;
+        }
+
+        // Keyword search.
+        if (searchTerm) {
+          const searchableText = normalize([
+            job.title,
+            job.organization,
+            job.area,
+            CATEGORIES[job.area] || "",
+            job.type,
+            TYPES[job.type] || "",
+            job.location,
+            job.source,
+            job.description,
+            job.eligibility,
+            job.length
+          ].join(" "));
+
+          if (!searchableText.includes(searchTerm)) {
+            return false;
+          }
+        }
+
+        if (selectedArea !== "all" && job.area !== selectedArea) {
+          return false;
+        }
+
+        if (selectedType !== "all" && job.type !== selectedType) {
+          return false;
+        }
+
+        if (selectedSource !== "all" && job.source !== selectedSource) {
+          return false;
+        }
+
+        if (
+          selectedLocation !== "all" &&
+          job.location !== selectedLocation
+        ) {
+          return false;
+        }
+
+        if (
+          selectedOrg !== "all" &&
+          job.organization !== selectedOrg
+        ) {
+          return false;
+        }
+
+        // Closing-date filter.
+        if (selectedClosing === "open" && job.closing) {
+          return false;
+        }
+
+        if (
+          ["7", "30", "60"].includes(selectedClosing)
+        ) {
+          const remainingDays = daysUntil(job.closing);
+
+          if (
+            remainingDays === null ||
+            remainingDays < 0 ||
+            remainingDays > Number(selectedClosing)
+          ) {
+            return false;
+          }
+        }
+
+        return true;
+      });
+    }
+
+    // =====================================================
+    // SORT OPPORTUNITIES
+    // =====================================================
+
+    function sortOpportunities(records) {
+      const sortBy = sortFilter.value;
+
+      return [...records].sort((a, b) => {
+
+        // Featured opportunities first.
+        if (a.highlight !== b.highlight) {
+          return Number(b.highlight) - Number(a.highlight);
+        }
+
+        if (sortBy === "newest") {
+          if (a.posted && b.posted) {
+            return b.posted.localeCompare(a.posted);
+          }
+
+          if (a.posted) return -1;
+          if (b.posted) return 1;
+
+          return a.title.localeCompare(b.title);
+        }
+
+        if (sortBy === "oldest") {
+          if (a.posted && b.posted) {
+            return a.posted.localeCompare(b.posted);
+          }
+
+          if (a.posted) return -1;
+          if (b.posted) return 1;
+
+          return a.title.localeCompare(b.title);
+        }
+
+        if (sortBy === "deadline") {
+          if (!a.closing && !b.closing) {
+            return a.title.localeCompare(b.title);
+          }
+
+          if (!a.closing) return 1;
+          if (!b.closing) return -1;
+
+          return a.closing.localeCompare(b.closing);
+        }
+
+        return a.title.localeCompare(b.title);
+      });
+    }
+
+    // =====================================================
+    // RENDER OPPORTUNITY CARD
+    // =====================================================
+
+    function renderCard(job) {
+      const categoryLabel = CATEGORIES[job.area] || "Other Cause Areas";
+      const typeLabel = TYPES[job.type] || job.type;
+
+      const deadlineDays = daysUntil(job.closing);
+
+      let deadlineText = "No closing date specified";
+
+      if (job.closing) {
+        if (deadlineDays === 0) {
+          deadlineText = "Closes today";
+        } else if (deadlineDays === 1) {
+          deadlineText = "Closes tomorrow";
+        } else {
+          deadlineText = `Closes ${formatDate(job.closing)}`;
+        }
+      }
+
+      const metadata = [
+        `<span class="job-meta">${escapeHTML(job.location)}</span>`,
+        `<span class="job-meta">${escapeHTML(job.source)}</span>`
+      ];
+
+      if (job.length) {
+        metadata.push(
+          `<span class="job-meta">${escapeHTML(job.length)}</span>`
+        );
+      }
+
+      const highlightBadge = job.highlight
+        ? '<span class="job-featured">Featured</span>'
+        : "";
+
+      const eligibility = job.eligibility
+        ? `<p class="job-eligibility">${escapeHTML(job.eligibility)}</p>`
+        : "";
+
+      const description = job.description
+        ? `<p class="job-description">${escapeHTML(job.description)}</p>`
+        : "";
+
+      const postedText = job.posted
+        ? `<span>Posted ${escapeHTML(formatDate(job.posted))}</span>`
+        : "";
+
+      return `
+        <article class="opp-card job-card">
+
+          <div class="job-card-header">
+            <div class="job-card-tags">
+              <span class="job-category">${escapeHTML(categoryLabel)}</span>
+              <span class="job-type">${escapeHTML(typeLabel)}</span>
+              ${highlightBadge}
+            </div>
+          </div>
+
+          <h2 class="job-title">
+            ${escapeHTML(job.title)}
+          </h2>
+
+          <p class="job-organization">
+            ${escapeHTML(job.organization)}
+          </p>
+
+          ${description}
+
+          <div class="job-meta-list">
+            ${metadata.join("")}
+          </div>
+
+          ${eligibility}
+
+          <div class="job-card-footer">
+
+            <div class="job-deadline">
+              <span>${escapeHTML(deadlineText)}</span>
+              ${postedText}
+            </div>
+
+            <a
+              class="job-apply"
+              href="${escapeHTML(job.url)}"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Apply now ↗
+            </a>
+
+          </div>
+
+        </article>
+      `;
+    }
+
+    // =====================================================
+    // RENDER RESULTS
+    // =====================================================
+
+    function renderResults() {
+      const filtered = getFilteredOpportunities();
+      const sorted = sortOpportunities(filtered);
+
+      const total = sorted.length;
+
+      countElement.textContent =
+        `${total} ${total === 1 ? "opportunity" : "opportunities"}`;
+
+      if (!total) {
+        resultContainer.innerHTML = `
+          <div class="opp-empty">
+            <h3>No opportunities found</h3>
+            <p>
+              Try changing your search terms or filters.
+              New opportunities will appear here when added.
+            </p>
+          </div>
+        `;
+
+        resultContainer.setAttribute("aria-busy", "false");
+        return;
+      }
+
+      resultContainer.innerHTML = sorted
+        .map(renderCard)
+        .join("");
+
+      resultContainer.setAttribute("aria-busy", "false");
+    }
+
+    // =====================================================
+    // CLEAR FILTERS
+    // =====================================================
+
+    function clearFilters() {
+      searchInput.value = "";
+
+      areaFilter.value = "all";
+      typeFilter.value = "all";
+      sourceFilter.value = "all";
+      locationFilter.value = "all";
+      orgFilter.value = "all";
+      closingFilter.value = "all";
+
+      sortFilter.value = "newest";
+
+      renderResults();
+    }
+
+    // =====================================================
+    // EVENT LISTENERS
+    // =====================================================
+
+    searchInput.addEventListener("input", renderResults);
+
+    [
+      areaFilter,
+      typeFilter,
+      sourceFilter,
+      locationFilter,
+      orgFilter,
+      closingFilter,
+      sortFilter
+    ].forEach(filter => {
+      filter.addEventListener("change", renderResults);
+    });
+
+    clearButton.addEventListener("click", clearFilters);
+
+    // =====================================================
+    // INITIALIZE
+    // =====================================================
+
+    populateFilters();
+    renderResults();
+
+    console.info(
+      `EA Somalia opportunities initialized: ${opportunities.length} records loaded.`
+    );
+
+  })();
+  </script>
 
 </body>
 </html>
