@@ -1297,7 +1297,7 @@ Object.keys(filters).forEach(key => {
     });
 
 
-   /* JOB METADATA — NO FULL-TIME BADGE */
+ /* JOB METADATA — AREA + LEVEL ONLY */
 
 const footer = element("div", "jb-foot");
 const metaGroup = element("div", "jb-meta-group");
@@ -1315,6 +1315,8 @@ if (job.level) {
 }
 
 footer.appendChild(metaGroup);
+
+/* POSTING DATE — DISPLAY ONLY ONCE */
 
 if (job.posted) {
   footer.appendChild(
