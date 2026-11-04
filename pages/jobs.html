@@ -17,7 +17,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
   <link
-    href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter:wght@400;500;600&family=Source+Serif+4:wght@600;700&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter:wght@400;500;600;800&family=Source+Serif+4:wght@600;700&display=swap"
     rel="stylesheet"
   >
 
@@ -30,36 +30,33 @@
   <!-- Navigation -->
   <div id="site-nav"></div>
 
-  <main>
+  <main class="opp-page">
 
-    <!-- Compact hero -->
-    <section class="hero single hero-compact">
-      <div class="wrap">
+    <!-- Header -->
+    <section class="opp-head">
+      <div class="wrap opp-head-inner">
+
         <div>
-          <span class="pill">Take action</span>
-
           <h1>Opportunities</h1>
-
-          <p>
-            Jobs, fellowships and funding to help you work on pressing problems.
-            Search the open opportunities below, or talk to the AI Career Advisor
-            about roles that fit your background.
-          </p>
+          <p>Jobs, fellowships and funding to help you work on pressing problems.</p>
         </div>
 
-        <a
-          class="btn"
-          href="https://app.80000hours.org/?utm_source=80k_job_board&utm_medium=tab&flow=explore-jobs"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          AI Career Advisor ↗
-        </a>
+        <aside class="opp-advisor">
+          <p>Get career advice matched to your background</p>
+          <a
+            href="https://app.80000hours.org/?utm_source=80k_job_board&utm_medium=tab&flow=explore-jobs"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            AI Career Advisor ↗
+          </a>
+        </aside>
+
       </div>
     </section>
 
-    <!-- Opportunities board -->
-    <section class="section opp-section">
+    <!-- Board -->
+    <section class="opp-board">
       <div class="wrap">
 
         <!-- Tabs -->
@@ -76,39 +73,63 @@
           </a>
         </div>
 
-        <div class="opp-panel">
+        <!-- Search and filters -->
+        <div class="opp-filter-card">
 
-          <input
-            id="opp-search"
-            class="opp-input"
-            type="search"
-            placeholder="Search by keyword, organisation or location"
-            aria-label="Search opportunities"
-          >
+          <div class="opp-search-row">
+            <div class="opp-searchbox">
+              <svg class="opp-search-icon" width="20" height="20" viewBox="0 0 24 24"
+                   fill="none" stroke="currentColor" stroke-width="2"
+                   stroke-linecap="round" aria-hidden="true">
+                <circle cx="11" cy="11" r="7"></circle>
+                <path d="M20 20l-3.5-3.5"></path>
+              </svg>
+              <input
+                id="opp-search"
+                class="opp-input"
+                type="search"
+                placeholder="Keywords"
+                aria-label="Search opportunities"
+              >
+            </div>
+
+            <a
+              class="btn"
+              href="mailto:info@easomalia.org?subject=Opportunity%20to%20share"
+            >
+              Share an opportunity
+            </a>
+          </div>
 
           <div class="opp-filters">
             <select id="f-area" aria-label="Area"></select>
             <select id="f-type" aria-label="Type"></select>
             <select id="f-source" aria-label="Source"></select>
-            <button id="f-clear" class="opp-clear" type="button">
-              Clear filters
-            </button>
+            <select id="f-location" aria-label="Location"></select>
+            <select id="f-org" aria-label="Organisation"></select>
+            <select id="f-closing" aria-label="Closing date"></select>
           </div>
-
-          <div class="opp-count">
-            <strong id="opp-count">0</strong> opportunities · Closing soonest first
-          </div>
-
-          <div id="job-list">
-            <div class="opp-empty">Loading opportunities…</div>
-          </div>
-
-          <p class="opp-share">
-            Have an opportunity to share?
-            <a href="mailto:info@easomalia.org?subject=Opportunity%20to%20share">Email us</a>
-          </p>
 
         </div>
+
+        <!-- Count and sort -->
+        <div class="opp-bar">
+          <div class="opp-bar-left">
+            <strong id="opp-count">0 opportunities</strong>
+            <label class="opp-sort">
+              <span class="sr-only">Sort by</span>
+              <select id="f-sort" aria-label="Sort by"></select>
+            </label>
+          </div>
+
+          <button id="f-clear" class="opp-clear" type="button">Clear filters</button>
+        </div>
+
+        <!-- List -->
+        <div id="job-list">
+          <div class="opp-empty">Loading opportunities…</div>
+        </div>
+
       </div>
     </section>
 
