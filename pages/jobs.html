@@ -1296,8 +1296,7 @@ Object.keys(filters).forEach(key => {
 
     });
 
-
- /* JOB METADATA — AREA + LEVEL ONLY */
+/* JOB METADATA — AREA + LEVEL ONLY */
 
 const footer = element("div", "jb-foot");
 const metaGroup = element("div", "jb-meta-group");
@@ -1316,27 +1315,13 @@ if (job.level) {
 
 footer.appendChild(metaGroup);
 
-/* POSTING DATE — DISPLAY ONLY ONCE */
+/* POSTING DATE — ONLY ONCE */
 
-
-const postedLabel = job.posted ? ago(job.posted) : "";
-
-if (postedLabel) {
+if (job.posted) {
   footer.appendChild(
-    element("span", "jb-when", postedLabel)
+    element("span", "jb-when", ago(job.posted))
   );
 }
-
-
-    /* POSTING DATE */
-
-    if (job.posted) {
-
-      footer.appendChild(
-        element("span", "jb-when", ago(job.posted))
-      );
-
-    }
 
 
     /* =====================================================
