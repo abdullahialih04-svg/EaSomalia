@@ -55,7 +55,7 @@
       </div>
     </section>
 
-    <!-- Board -->
+    <!-- Opportunities Board -->
     <section class="opp-board">
       <div class="wrap">
 
@@ -73,17 +73,27 @@
           </a>
         </div>
 
-        <!-- Search and filters -->
+        <!-- Search and Filters -->
         <div class="opp-filter-card">
 
           <div class="opp-search-row">
             <div class="opp-searchbox">
-              <svg class="opp-search-icon" width="20" height="20" viewBox="0 0 24 24"
-                   fill="none" stroke="currentColor" stroke-width="2"
-                   stroke-linecap="round" aria-hidden="true">
+
+              <svg
+                class="opp-search-icon"
+                width="20"
+                height="20"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                aria-hidden="true"
+              >
                 <circle cx="11" cy="11" r="7"></circle>
                 <path d="M20 20l-3.5-3.5"></path>
               </svg>
+
               <input
                 id="opp-search"
                 class="opp-input"
@@ -91,6 +101,7 @@
                 placeholder="Keywords"
                 aria-label="Search opportunities"
               >
+
             </div>
           </div>
 
@@ -105,20 +116,29 @@
 
         </div>
 
-        <!-- Count and sort -->
+        <!-- Count and Sort -->
         <div class="opp-bar">
+
           <div class="opp-bar-left">
             <strong id="opp-count">0 opportunities</strong>
+
             <label class="opp-sort">
               <span class="sr-only">Sort by</span>
               <select id="f-sort" aria-label="Sort by"></select>
             </label>
           </div>
 
-          <button id="f-clear" class="opp-clear" type="button">Clear filters</button>
+          <button
+            id="f-clear"
+            class="opp-clear"
+            type="button"
+          >
+            Clear filters
+          </button>
+
         </div>
 
-        <!-- List -->
+        <!-- Opportunity List -->
         <div id="job-list">
           <div class="opp-empty">Loading opportunities…</div>
         </div>
@@ -133,7 +153,7 @@
 
   <!-- Shared JavaScript -->
   <script src="/js/components.js"></script>
-  <script src="/js/jobs.js"></script>
+  <script src="/js/Jobs.js"></script>
 
 </body>
 </html>
