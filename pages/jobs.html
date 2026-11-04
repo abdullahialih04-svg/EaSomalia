@@ -30,7 +30,7 @@
 
   <style>
     /* =========================================
-       HEADER
+       PAGE HEADER
     ========================================= */
 
     .jb-head {
@@ -296,8 +296,9 @@
     }
 
     /* =========================================
-       FIXED JOB METADATA
-       AREA + LEVEL + TYPE IN ONE ROW
+       JOB METADATA
+       AREA + LEVEL ONLY
+       NO FULL-TIME BADGE
     ========================================= */
 
     .jb-foot {
@@ -313,8 +314,6 @@
       scrollbar-width: thin;
     }
 
-    /* Dedicated wrapper for all three labels */
-
     .jb-meta-group {
       display: inline-flex !important;
       flex: 0 0 auto !important;
@@ -327,8 +326,6 @@
       min-width: max-content !important;
       white-space: nowrap !important;
     }
-
-    /* Reset conflicting global styles */
 
     .jb-chip {
       display: inline-flex !important;
@@ -356,12 +353,6 @@
     .jb-chip.level {
       background: #e5ebff;
       color: #2c3e8f;
-    }
-
-    .jb-chip.type {
-      border: 1px solid var(--brand-border);
-      background: var(--bg-soft);
-      color: var(--text-secondary);
     }
 
     .jb-when {
@@ -508,6 +499,7 @@
     ========================================= */
 
     @media (max-width: 560px) {
+
       .jb-card {
         gap: 12px;
         padding: 15px;
@@ -565,8 +557,11 @@
         <div class="jb-alert-box">
           Want roles matched to your background?
           <br>
-          <a href="mailto:info@easomalia.org?subject=Job%20alerts">
-            Get in touch →
+
+          <a href="https://app.80000hours.org/?utm_source=80k_job_board&amp;utm_medium=tab&amp;flow=explore-jobs"
+             target="_blank"
+             rel="noopener noreferrer">
+            ✨ AI Career Advisor →
           </a>
         </div>
 
@@ -610,8 +605,6 @@
               autocomplete="off">
 
           </label>
-
-          <!-- AI CAREER ADVISOR -->
 
           <a class="btn"
              href="https://app.80000hours.org/?utm_source=80k_job_board&amp;utm_medium=tab&amp;flow=explore-jobs"
@@ -669,9 +662,7 @@
             id="jb-clear"
             type="button"
             hidden>
-
             Clear filters
-
           </button>
 
           &nbsp;&nbsp;
@@ -679,10 +670,8 @@
           <a
             href="https://reliefweb.int/jobs?list=Somalia%20Jobs&amp;advanced-search=%28C216%29"
             target="_blank"
-            rel="noopener">
-
+            rel="noopener noreferrer">
             Somalia jobs on ReliefWeb ↗
-
           </a>
 
         </span>
@@ -719,7 +708,12 @@
             <h3>EA Opportunities Board</h3>
             <p>Jobs, fellowships, internships and volunteering from the effective altruism community.</p>
           </div>
-          <a class="btn ghost" href="https://www.effectivealtruism.org/opportunities" target="_blank" rel="noopener">Browse opportunities</a>
+          <a class="btn ghost"
+             href="https://www.effectivealtruism.org/opportunities"
+             target="_blank"
+             rel="noopener noreferrer">
+            Browse opportunities
+          </a>
         </div>
 
         <div class="card job">
@@ -727,7 +721,12 @@
             <h3>80,000 Hours Job Board</h3>
             <p>Curated roles across global health, animal welfare, AI safety and more.</p>
           </div>
-          <a class="btn ghost" href="https://jobs.80000hours.org" target="_blank" rel="noopener">Browse jobs</a>
+          <a class="btn ghost"
+             href="https://jobs.80000hours.org"
+             target="_blank"
+             rel="noopener noreferrer">
+            Browse jobs
+          </a>
         </div>
 
         <div class="card job">
@@ -735,7 +734,12 @@
             <h3>Probably Good Job Board</h3>
             <p>Impactful roles across many cause areas, with a broad view of what counts as impact.</p>
           </div>
-          <a class="btn ghost" href="https://www.probablygood.org" target="_blank" rel="noopener">Visit site</a>
+          <a class="btn ghost"
+             href="https://www.probablygood.org"
+             target="_blank"
+             rel="noopener noreferrer">
+            Visit site
+          </a>
         </div>
 
         <div class="card job">
@@ -743,7 +747,12 @@
             <h3>Animal Advocacy Careers</h3>
             <p>Jobs and career support for people working to help animals.</p>
           </div>
-          <a class="btn ghost" href="https://www.animaladvocacycareers.org" target="_blank" rel="noopener">Visit site</a>
+          <a class="btn ghost"
+             href="https://www.animaladvocacycareers.org"
+             target="_blank"
+             rel="noopener noreferrer">
+            Visit site
+          </a>
         </div>
 
         <div class="card job">
@@ -751,7 +760,10 @@
             <h3>Have a role to share?</h3>
             <p>Hiring for a high-impact role? Send it to us and we will pass it on to the community.</p>
           </div>
-          <a class="btn" href="mailto:info@easomalia.org?subject=Job%20to%20share">Email us</a>
+          <a class="btn"
+             href="mailto:info@easomalia.org?subject=Job%20to%20share">
+            Email us
+          </a>
         </div>
 
       </div>
@@ -805,7 +817,7 @@ const JOBS = [
   {
     title: "Data Specialist (NO-C) – UN Resident Coordinator System",
     org: "United Nations",
-    description: "A data-focused role supporting the UN Resident Coordinator System. The work is expected to involve making data and analysis useful for coordination, planning and evidence-informed decisions. Consult the UN vacancy for the precise duties and technical requirements.",
+    description: "A data-focused role supporting the UN Resident Coordinator System. The work involves making data and analysis useful for coordination, planning and evidence-informed decisions. Consult the UN vacancy for the precise duties and technical requirements.",
     locations: ["Somalia"],
     area: "Data & research",
     type: "Full-time",
@@ -840,7 +852,7 @@ const JOBS = [
   {
     title: "Legal Advisor",
     org: "International Committee of the Red Cross (ICRC)",
-    description: "A legal advisory position with the ICRC in Mogadishu. The role concerns providing legal expertise in support of the organisation’s work. The official vacancy contains the detailed subject areas, responsibilities and qualification criteria.",
+    description: "A legal advisory position with the ICRC in Mogadishu. The role concerns providing legal expertise in support of the organisation's work. The official vacancy contains the detailed subject areas, responsibilities and qualification criteria.",
     locations: ["Mogadishu, Somalia"],
     area: "Policy & governance",
     type: "Full-time",
@@ -864,7 +876,7 @@ const JOBS = [
   {
     title: "Project Manager",
     org: "AVA International",
-    description: "A project management role at AVA International. The position is broadly focused on coordinating projects, keeping activities organised and supporting delivery across the organisation. Review the employer’s listing for the specific portfolio, experience and application details.",
+    description: "A project management role at AVA International. The position is broadly focused on coordinating projects, keeping activities organised and supporting delivery across the organisation. Review the employer's listing for the specific portfolio, experience and application details.",
     locations: ["Remote, Global"],
     area: "Community building",
     type: "Full-time",
@@ -888,7 +900,7 @@ const JOBS = [
   {
     title: "AI Security Researcher",
     org: "RAND Corporation",
-    description: "A research role focused on AI security. The work relates to understanding and reducing security risks associated with advanced AI systems. Consult RAND’s vacancy for the research agenda, required expertise and location or work-arrangement details.",
+    description: "A research role focused on AI security. The work relates to understanding and reducing security risks associated with advanced AI systems. Consult RAND's vacancy for the research agenda, required expertise and location or work-arrangement details.",
     locations: ["Remote, Global", "Washington, DC, USA"],
     area: "AI safety & policy",
     type: "Full-time",
@@ -914,7 +926,7 @@ const JOBS = [
   {
     title: "Operations Associate",
     org: "Animal Advocacy Careers",
-    description: "An operations role at Animal Advocacy Careers, supporting the organisation’s day-to-day work and internal processes. Check the employer’s page for the specific responsibilities, experience requirements and application process.",
+    description: "An operations role at Animal Advocacy Careers, supporting the organisation's day-to-day work and internal processes. Check the employer's page for the specific responsibilities, experience requirements and application process.",
     locations: ["Remote, Global"],
     area: "Animal welfare",
     type: "Full-time",
@@ -938,7 +950,7 @@ const JOBS = [
   {
     title: "Head of Strategic Projects",
     org: "Africa Jobs Fund",
-    description: "A senior leadership role focused on strategic projects at Africa Jobs Fund. The position is broadly concerned with shaping and coordinating important projects that advance the organisation’s objectives. Refer to the official opportunity page for the exact scope, experience expectations and application details.",
+    description: "A senior leadership role focused on strategic projects at Africa Jobs Fund. The position is broadly concerned with shaping and coordinating important projects that advance the organisation's objectives. Refer to the official opportunity page for the exact scope, experience expectations and application details.",
     locations: ["Remote, Global"],
     area: "Global development",
     type: "Full-time",
@@ -1034,7 +1046,9 @@ const ORG_LOGOS = {
   };
 
 
-  /* HELPERS */
+  /* =========================================
+     HELPERS
+  ========================================= */
 
   function country(location) {
     const parts = String(location).split(",");
@@ -1093,23 +1107,36 @@ const ORG_LOGOS = {
   }
 
 
-  /* POPULATE FILTERS */
+  /* =========================================
+     POPULATE FILTERS
+     FULL-TIME EXCLUDED
+  ========================================= */
 
   Object.keys(filters).forEach(key => {
 
     const filter = filters[key];
 
-    const values = unique(
+    let values = unique(
       JOBS.flatMap(job => {
         const value = filter.get(job);
         return Array.isArray(value) ? value : [value];
       })
     );
 
+    // Remove Full-time from role-type filter
+    if (key === "type") {
+      values = values.filter(
+        value => value.toLowerCase() !== "full-time"
+      );
+    }
+
     values.forEach(value => {
+
       const option = element("option", "", value);
       option.value = value;
+
       filter.el.appendChild(option);
+
     });
 
     filter.el.addEventListener("change", render);
@@ -1117,12 +1144,16 @@ const ORG_LOGOS = {
   });
 
 
-  /* SEARCH */
+  /* =========================================
+     SEARCH
+  ========================================= */
 
   search.addEventListener("input", render);
 
 
-  /* CLEAR FILTERS */
+  /* =========================================
+     CLEAR FILTERS
+  ========================================= */
 
   clearBtn.addEventListener("click", () => {
 
@@ -1137,7 +1168,9 @@ const ORG_LOGOS = {
   });
 
 
-  /* SEARCH AND FILTER MATCHING */
+  /* =========================================
+     SEARCH AND FILTER MATCHING
+  ========================================= */
 
   function matches(job) {
 
@@ -1156,6 +1189,7 @@ const ORG_LOGOS = {
       ].join(" ").toLowerCase();
 
       if (!text.includes(term)) return false;
+
     }
 
     return Object.values(filters).every(filter => {
@@ -1175,7 +1209,9 @@ const ORG_LOGOS = {
   }
 
 
-  /* ORGANISATION LOGO */
+  /* =========================================
+     ORGANISATION LOGO
+  ========================================= */
 
   function createLogo(org) {
 
@@ -1279,9 +1315,8 @@ const ORG_LOGOS = {
 
     /* =====================================================
        JOB METADATA
-
-       The three labels are placed inside jb-meta-group.
-       This guarantees they stay together in one row.
+       ONLY AREA + LEVEL
+       FULL-TIME IS NOT DISPLAYED
     ===================================================== */
 
     const footer = element("div", "jb-foot");
@@ -1302,15 +1337,6 @@ const ORG_LOGOS = {
 
       metaGroup.appendChild(
         element("span", "jb-chip level", job.level)
-      );
-
-    }
-
-
-    if (job.type) {
-
-      metaGroup.appendChild(
-        element("span", "jb-chip type", job.type)
       );
 
     }
@@ -1341,9 +1367,7 @@ const ORG_LOGOS = {
     toggle.type = "button";
 
     toggle.setAttribute("aria-expanded", "false");
-
     toggle.setAttribute("aria-controls", detailsId);
-
 
     const toggleText = element(
       "span",
@@ -1363,19 +1387,15 @@ const ORG_LOGOS = {
     const details = element("div", "jb-details");
 
     details.id = detailsId;
-
     details.hidden = true;
-
 
     details.appendChild(
       element("p", "jb-detail-label", "JOB DESCRIPTION")
     );
 
-
     details.appendChild(
       element("p", "jb-description", job.description)
     );
-
 
     details.appendChild(
       element(
@@ -1392,7 +1412,6 @@ const ORG_LOGOS = {
 
     const actions = element("div", "jb-actions");
 
-
     const action = element(
       "a",
       "jb-apply",
@@ -1405,7 +1424,6 @@ const ORG_LOGOS = {
     action.target = "_blank";
     action.rel = "noopener noreferrer";
 
-
     const original = element(
       "a",
       "jb-external",
@@ -1415,7 +1433,6 @@ const ORG_LOGOS = {
     original.href = safeUrl(job.url);
     original.target = "_blank";
     original.rel = "noopener noreferrer";
-
 
     actions.append(action, original);
 
@@ -1431,17 +1448,14 @@ const ORG_LOGOS = {
       const isOpen =
         toggle.getAttribute("aria-expanded") === "true";
 
-
       toggle.setAttribute(
         "aria-expanded",
         String(!isOpen)
       );
 
-
       details.hidden = isOpen;
 
       card.classList.toggle("expanded", !isOpen);
-
 
       toggleText.textContent = isOpen
         ? "Click to view job description"
@@ -1500,7 +1514,6 @@ const ORG_LOGOS = {
         new Date(b.posted || 0) - new Date(a.posted || 0)
       );
 
-
     list.replaceChildren();
 
 
@@ -1552,7 +1565,9 @@ const ORG_LOGOS = {
   }
 
 
-  /* INITIALISE */
+  /* =========================================
+     INITIALISE
+  ========================================= */
 
   render();
 
