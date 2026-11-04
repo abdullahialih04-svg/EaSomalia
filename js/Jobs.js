@@ -167,24 +167,6 @@
       .join("");
   }
 
-  // ---------- Tabs (third tab is a normal external link) ----------
-
-  document.querySelectorAll("button.opp-tab").forEach((tab) => {
-    tab.addEventListener("click", () => {
-      document.querySelectorAll("button.opp-tab").forEach((t) => {
-        t.classList.remove("active");
-        t.setAttribute("aria-selected", "false");
-      });
-
-      tab.classList.add("active");
-      tab.setAttribute("aria-selected", "true");
-
-      ["panel-search", "panel-boards"].forEach((id) => {
-        $(id).hidden = id !== tab.dataset.panel;
-      });
-    });
-  });
-
   // ---------- Load data ----------
 
   fetch("/data/jobs.json", { cache: "no-cache" })
