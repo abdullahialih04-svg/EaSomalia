@@ -1,4 +1,3 @@
-
 <!doctype html>
 <html lang="en" data-theme="light">
 <head>
@@ -15,7 +14,7 @@
   <meta name="theme-color" content="#ffffff">
   <link rel="canonical" href="https://easomalia.org/">
 
-  <!-- Favicon: upload these files into the repository's /images folder -->
+  <!-- Favicon -->
   <link rel="icon" href="/images/favicon.ico" sizes="any">
   <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32.png">
   <link rel="icon" type="image/png" sizes="48x48" href="/images/favicon-48.png">
@@ -64,9 +63,7 @@
     "logo": "https://easomalia.org/images/logo.png",
     "email": "info@easomalia.org",
     "description": "A community exploring evidence-based ways to do the most good in Somalia and beyond.",
-    "sameAs": [
-      "https://github.com/abdullahialih04-svg/EaSomalia"
-    ]
+    "sameAs": []
   }
   </script>
 
@@ -100,7 +97,7 @@
     })();
   </script>
 
-  <!-- Vercel Analytics for static HTML -->
+  <!-- Vercel Analytics -->
   <script>
     window.va = window.va || function () {
       (window.vaq = window.vaq || []).push(arguments);
@@ -116,10 +113,8 @@
     rel="stylesheet"
   >
 
-  <!-- Main site stylesheet -->
   <link rel="stylesheet" href="/css/style.css">
 
-  <!-- Homepage refinements and dark mode -->
   <style>
     :root {
       color-scheme: light;
@@ -203,7 +198,6 @@
       top: 12px;
     }
 
-    /* Homepage hero */
     .hero {
       padding: clamp(3rem, 7vw, 6.5rem) 0;
       background:
@@ -305,7 +299,6 @@
       background: var(--ea-soft);
     }
 
-    /* Keep primary CTA readable in both themes */
     html[data-theme="dark"] .btn {
       background: #2d75bd;
       border-color: #2d75bd;
@@ -338,7 +331,6 @@
       height: auto;
     }
 
-    /* Sections and cards */
     .section {
       padding: clamp(3rem, 6vw, 5.5rem) 0;
       background: var(--ea-bg);
@@ -379,25 +371,20 @@
       background: var(--ea-surface);
       color: var(--ea-ink);
       text-decoration: none;
-      transition:
-        transform 180ms ease,
-        box-shadow 180ms ease,
-        border-color 180ms ease,
-        background-color 180ms ease;
+      transition: transform 160ms ease, box-shadow 160ms ease;
     }
 
-    a.card:hover {
+    .card:hover {
       transform: translateY(-3px);
-      border-color: var(--ea-blue-light);
       box-shadow: var(--ea-shadow);
     }
 
     .card h3 {
       margin-top: 0;
-      margin-bottom: 0.55rem;
+      margin-bottom: 0.5rem;
       color: var(--ea-ink);
-      font-size: 1.15rem;
-      line-height: 1.4;
+      font-family: "Source Serif 4", Georgia, serif;
+      font-size: 1.35rem;
     }
 
     .card p {
@@ -405,162 +392,91 @@
       color: var(--ea-muted);
     }
 
-    .soon {
-      background: var(--ea-surface);
+    .card.soon {
+      cursor: default;
     }
 
-    /* Floating theme control */
-    .theme-toggle {
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      z-index: 9998;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      min-height: 46px;
-      padding: 10px 15px;
-      border: 1px solid #d7e0ea;
-      border-radius: 999px;
-      background: #ffffff;
-      color: #14243a;
-      box-shadow: 0 4px 18px rgba(0, 0, 0, 0.12);
-      font: 600 14px/1.2 "Inter", sans-serif;
-      cursor: pointer;
-      transition: background-color 180ms ease, color 180ms ease;
+    .card.soon:hover {
+      transform: none;
+      box-shadow: none;
     }
 
-    .theme-toggle:hover {
-      border-color: #3386d5;
-    }
-
-    .theme-toggle-icon {
-      font-size: 18px;
-      line-height: 1;
-    }
-
-    html[data-theme="dark"] .theme-toggle {
-      background: #1b2739;
-      border-color: #52647b;
-      color: #f3f6fb;
-    }
-
-    /* Shared navigation and footer dark-mode compatibility */
-    html[data-theme="dark"] #site-nav,
-    html[data-theme="dark"] #site-footer {
-      color: #e5e7eb;
-    }
-
-    html[data-theme="dark"] #site-nav a,
-    html[data-theme="dark"] #site-footer a {
-      color: inherit;
-    }
-
-    html[data-theme="dark"] #site-nav > *,
-    html[data-theme="dark"] #site-footer > * {
-      border-color: var(--ea-border);
+    .wrap {
+      width: min(1120px, calc(100% - 40px));
+      margin-inline: auto;
     }
 
     @media (max-width: 800px) {
       .hero > .wrap {
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: 1fr;
       }
 
-      .hero-content {
-        max-width: 700px;
-      }
-
-      .chartcard {
-        width: 100%;
-        max-width: 560px;
-        margin-inline: auto;
+      .hero {
+        padding: 3.5rem 0;
       }
     }
 
-    @media (max-width: 560px) {
+    @media (max-width: 600px) {
       .grid {
-        grid-template-columns: minmax(0, 1fr);
+        grid-template-columns: 1fr;
       }
 
-      .actions {
-        align-items: stretch;
+      .wrap {
+        width: min(100% - 32px, 1120px);
       }
 
       .actions .btn {
         width: 100%;
-        box-sizing: border-box;
-      }
-
-      .hero h1 {
-        font-size: clamp(2.55rem, 12vw, 3.5rem);
-      }
-
-      .hand {
-        font-size: 1.4rem;
-      }
-
-      .theme-toggle {
-        right: 12px;
-        bottom: 12px;
-        min-height: 44px;
-        padding: 10px 13px;
       }
     }
 
     @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
       *,
       *::before,
       *::after {
+        scroll-behavior: auto !important;
         transition-duration: 0.01ms !important;
         animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
       }
     }
   </style>
 </head>
 
 <body>
-  <a class="skip-link" href="#main-content">Skip to main content</a>
+  <a class="skip-link" href="#main-content">Skip to content</a>
 
-  <!-- Theme toggle -->
-  <button
-    type="button"
-    class="theme-toggle"
-    id="theme-toggle"
-    aria-label="Switch to dark mode"
-    aria-pressed="false"
-  >
-    <span class="theme-toggle-icon" id="theme-icon" aria-hidden="true">☾</span>
-    <span id="theme-label">Dark mode</span>
-  </button>
+  <!-- Navigation is loaded from /js/components.js -->
+  <div id="site-header"></div>
 
-  <!-- Shared navigation -->
-  <div id="site-nav"></div>
+  <noscript>
+    <nav class="wrap" aria-label="Main navigation">
+      <a href="/">Home</a>
+      <a href="/pages/ea-fellowship.html">EA Fellowship</a>
+      <a href="/pages/effective-giving.html">Effective Giving</a>
+      <a href="/pages/jobs.html">Jobs</a>
+      <a href="/pages/connect.html">Connect</a>
+    </nav>
+  </noscript>
 
   <main id="main-content">
-    <!-- Hero -->
-    <section class="hero" aria-labelledby="hero-title">
+    <!-- Hero section -->
+    <section class="hero">
       <div class="wrap">
         <div class="hero-content">
-          <span class="pill">Effective altruism in Somalia</span>
+          <span class="pill">Effective Altruism Somalia</span>
 
-          <h1 id="hero-title">
-            Do good. Do it <span class="under">well</span>.
+          <h1>
+            Do good.<br>
+            <span class="under">Better.</span>
           </h1>
 
-          <p>
-            EA Somalia is a community of Somalis using evidence and careful
-            reasoning to find the best ways to tackle the world's biggest,
-            most neglected problems.
-          </p>
+          <p class="hand">Evidence. Reason. Impact.</p>
 
-          <p class="hand">
-            Some ways of helping do far more good than others.
+          <p>
+            Effective Altruism Somalia is building and incubating Somali
+            talent, ideas, and organizations that can create meaningful impact.
+            We use evidence to identify and pursue high-impact opportunities
+            in Somalia and beyond.
           </p>
 
           <div class="actions">
@@ -776,6 +692,14 @@
 
   <!-- Shared footer -->
   <div id="site-footer"></div>
+
+  <noscript>
+    <footer class="wrap" aria-label="Site information">
+      <p>Effective Altruism Somalia</p>
+      <p>Explore evidence-based ways to tackle important problems in Somalia and beyond.</p>
+      <p><a href="/pages/connect.html">Contact EA Somalia</a></p>
+    </footer>
+  </noscript>
 
   <!-- Shared navigation and footer -->
   <script src="/js/components.js"></script>
