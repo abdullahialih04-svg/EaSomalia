@@ -23,8 +23,36 @@
 
   "rewrites": [
     {
-      "source": "/:slug",
-      "destination": "/pages/:slug"
+      "source": "/connect",
+      "destination": "/pages/connect.html"
+    },
+    {
+      "source": "/ea-fellowship",
+      "destination": "/pages/ea-fellowship.html"
+    },
+    {
+      "source": "/effective-giving",
+      "destination": "/pages/effective-giving.html"
+    },
+    {
+      "source": "/incubation",
+      "destination": "/pages/incubation.html"
+    },
+    {
+      "source": "/jobs",
+      "destination": "/pages/jobs.html"
+    },
+    {
+      "source": "/ai-safety-governance-fellowship",
+      "destination": "/pages/ai-safety-governance-fellowship.html"
+    },
+    {
+      "source": "/animal-welfare-fellowship",
+      "destination": "/pages/animal-welfare-fellowship.html"
+    },
+    {
+      "source": "/global-health-fellowship",
+      "destination": "/pages/global-health-fellowship.html"
     }
   ],
 
@@ -52,6 +80,15 @@
     },
     {
       "source": "/js/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/css/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
