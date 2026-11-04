@@ -7,71 +7,123 @@
   // ==========================================
 
   if (window.__eaSomaliaComponentsInitialized) return;
+
   window.__eaSomaliaComponentsInitialized = true;
 
   // ==========================================
-  // Vercel Web Analytics
+  // Configuration
   // ==========================================
 
-  if (!document.querySelector('script[src="/_vercel/insights/script.js"]')) {
-    window.va = window.va || function () {
-      (window.vaq = window.vaq || []).push(arguments);
-    };
-
-    const analyticsScript = document.createElement("script");
-    analyticsScript.defer = true;
-    analyticsScript.src = "/_vercel/insights/script.js";
-
-    document.head.appendChild(analyticsScript);
-  }
-
-  // ==========================================
-  // Fellowship Navigation Data
-  // ==========================================
+  const CONFIG = {
+    themeKey: "ea-somalia-theme",
+    mobileBreakpoint: 900,
+    analyticsPath: "/_vercel/insights/script.js"
+  };
 
   const FELLOWS = [
-    ["EA Fellowship", "/pages/ea-fellowship.html", false],
-    ["Animal Welfare Fellowship", "/pages/animal-welfare-fellowship.html", true],
-    ["Global Health Fellowship", "/pages/global-health-fellowship.html", true],
-    ["AI Safety / Governance Fellowship", "/pages/ai-safety-governance-fellowship.html", true]
+    [ "EA Fellowship", "/pages/ea-fellowship.html", false ],
+    [ "Animal Welfare Fellowship", "/pages/animal-welfare-fellowship.html", true ],
+    [ "Global Health Fellowship", "/pages/global-health-fellowship.html", true ],
+    [ "AI Safety / Governance Fellowship", "/pages/ai-safety-governance-fellowship.html", true ]
   ];
+
+  // ==========================================
+  // Safe HTML Helpers
+  // ==========================================
+
+  function escapeHTML(value) {
+    return String(value).replace(/[&<>"']/g, character => ({
+      "&": "&amp;",
+      "<": "&lt;",
+      ">": "&gt;",
+      '"': "&quot;",
+      "'": "&#39;"
+    })[character]);
+  }
 
   // ==========================================
   // Current Page Detection
   // ==========================================
 
-  const path = location.pathname.replace(/\/$/, "") || "/";
+  function getCurrentPath() {
+    let path = window.location.pathname;
 
-  const isCurrentPage = (href) =>
-    path === href ||
-    (href === "/" && (path === "/" || path === "/index.html"));
+    if (path.endsWith("/")) {
+      path = path.slice(0, -1);
+    }
 
-  const currentAttribute = (href) =>
-    isCurrentPage(href) ? ' aria-current="page"' : "";
+    // Support clean URLs and .html URLs.
+    if (path.endsWith(".html")) {
+      path = path.slice(0, -5);
+    }
+
+    return path || "/";
+  }
+
+  const currentPath = getCurrentPath();
+
+  function isCurrentPage(href) {
+    let normalizedHref = href.replace(/\/$/, "");
+
+    if (normalizedHref.endsWith(".html")) {
+      normalizedHref = normalizedHref.slice(0, -5);
+    }
+
+    return currentPath === (normalizedHref || "/");
+  }
+
+  function currentAttribute(href) {
+    return isCurrentPage(href) ? ' aria-current="page"' : "";
+  }
 
   // ==========================================
-  // Fellowship Dropdown Links
+  // Vercel Analytics
   // ==========================================
 
-  const fellowshipDropdownLinks = FELLOWS.map(
-    ([name, href, comingSoon]) => `
-      <a href="${href}"${currentAttribute(href)}>
-        ${name}
-        ${comingSoon ? '<span class="tag">Coming soon</span>' : ""}
-      </a>
-    `
-  ).join("");
+  function initializeAnalytics() {
+    if (
+      document.querySelector(
+        `script[src="${CONFIG.analyticsPath}"]`
+      )
+    ) {
+      return;
+    }
+
+    window.va = window.va || function () {
+      (window.vaq = window.vaq || []).push(arguments);
+    };
+
+    const script = document.createElement("script");
+
+    script.src = CONFIG.analyticsPath;
+    script.defer = true;
+
+    document.head.appendChild(script);
+  }
 
   // ==========================================
-  // Main Navigation
+  // Navigation Rendering
   // ==========================================
 
   function renderNavigation() {
-    const siteNav = document.getElementById("site-nav");
+    const placeholder = document.getElementById("site-nav");
 
-    if (!siteNav) return;
+    if (!placeholder) return;
 
-    siteNav.outerHTML = `
+    const fellowshipLinks = FELLOWS.map(
+      ([name, href, comingSoon]) => `
+        <a href="${href}"${currentAttribute(href)}>
+          ${escapeHTML(name)}
+          ${
+            comingSoon
+              ? '<span class="tag">Coming soon</span>'
+              : ""
+          }
+        </a>
+      `
+    ).join("");
+
+    placeholder.outerHTML = `
       <header class="nav">
         <div class="wrap">
 
@@ -86,20 +138,22 @@
 
           <button
             class="burger"
+            type="button"
             aria-label="Open navigation menu"
             aria-expanded="false"
-            type="button"
+            aria-controls="main-menu"
           >
             ☰
           </button>
 
-          <ul class="menu">
+          <ul class="menu" id="main-menu">
 
             <li>
               <a href="/"${currentAttribute("/")}>Home</a>
             </li>
 
             <li class="has-drop">
+
               <button
                 type="button"
                 aria-haspopup="true"
@@ -110,14 +164,15 @@
               </button>
 
               <div class="drop">
-                ${fellowshipDropdownLinks}
+                ${fellowshipLinks}
               </div>
+
             </li>
 
             <li>
               <a
                 href="/pages/effective-giving.html"
-                ${currentAttribute("/pages/effective-giving.html").trim()}
+                ${currentAttribute("/pages/effective-giving.html")}
               >
                 Effective giving
               </a>
@@ -126,7 +181,7 @@
             <li>
               <a
                 href="/pages/jobs.html"
-                ${currentAttribute("/pages/jobs.html").trim()}
+                ${currentAttribute("/pages/jobs.html")}
               >
                 Jobs
               </a>
@@ -135,7 +190,7 @@
             <li>
               <a
                 href="/pages/incubation.html"
-                ${currentAttribute("/pages/incubation.html").trim()}
+                ${currentAttribute("/pages/incubation.html")}
               >
                 Incubation
               </a>
@@ -144,7 +199,7 @@
             <li>
               <a
                 href="/pages/connect.html"
-                ${currentAttribute("/pages/connect.html").trim()}
+                ${currentAttribute("/pages/connect.html")}
               >
                 Connect
               </a>
@@ -161,6 +216,7 @@
             </li>
 
           </ul>
+
         </div>
       </header>
     `;
@@ -170,17 +226,28 @@
   }
 
   // ==========================================
-  // Website Footer
+  // Footer Rendering
   // ==========================================
 
   function renderFooter() {
-    const siteFooter = document.getElementById("site-footer");
+    const placeholder = document.getElementById("site-footer");
 
-    if (!siteFooter) return;
+    if (!placeholder) return;
 
-    siteFooter.outerHTML = `
+    const year = new Date().getFullYear();
+
+    const fellowshipFooterLinks = FELLOWS.map(
+      ([name, href]) => `
+        <li>
+          <a href="${href}">${escapeHTML(name)}</a>
+        </li>
+      `
+    ).join("");
+
+    placeholder.outerHTML = `
       <footer>
         <div class="wrap">
+
           <div class="cols">
 
             <div>
@@ -193,13 +260,7 @@
             <div>
               <h3>Learn</h3>
               <ul>
-                ${FELLOWS.map(
-                  ([name, href]) => `
-                    <li>
-                      <a href="${href}">${name}</a>
-                    </li>
-                  `
-                ).join("")}
+                ${fellowshipFooterLinks}
               </ul>
             </div>
 
@@ -246,68 +307,73 @@
           </div>
 
           <p class="small">
-            © ${new Date().getFullYear()} Effective Altruism Somalia
+            © ${year} Effective Altruism Somalia
           </p>
+
         </div>
       </footer>
     `;
   }
 
   // ==========================================
-  // Dark Mode
+  // Theme Management
   // ==========================================
-
-  const THEME_KEY = "ea-somalia-theme";
 
   function getPreferredTheme() {
     try {
-      const savedTheme = localStorage.getItem(THEME_KEY);
+      const saved = localStorage.getItem(CONFIG.themeKey);
 
-      if (savedTheme === "light" || savedTheme === "dark") {
-        return savedTheme;
+      if (saved === "light" || saved === "dark") {
+        return saved;
       }
     } catch (error) {
-      // Use system preference if storage is unavailable.
+      // Storage may be unavailable.
     }
 
-    return window.matchMedia &&
+    if (
+      window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+    ) {
+      return "dark";
+    }
+
+    return "light";
+  }
+
+  function saveTheme(theme) {
+    try {
+      localStorage.setItem(CONFIG.themeKey, theme);
+    } catch (error) {
+      // Continue without persistence.
+    }
   }
 
   function applyTheme(theme) {
-    document.documentElement.setAttribute("data-theme", theme);
+    const selectedTheme = theme === "dark" ? "dark" : "light";
+
+    document.documentElement.setAttribute(
+      "data-theme",
+      selectedTheme
+    );
 
     const toggle = document.querySelector(".theme-toggle");
 
     if (!toggle) return;
 
-    const isDark = theme === "dark";
+    const dark = selectedTheme === "dark";
 
-    toggle.setAttribute("aria-pressed", String(isDark));
+    toggle.setAttribute("aria-pressed", String(dark));
 
     toggle.setAttribute(
       "aria-label",
-      isDark ? "Switch to light mode" : "Switch to dark mode"
+      dark ? "Switch to light mode" : "Switch to dark mode"
     );
 
-    toggle.setAttribute(
-      "title",
-      isDark ? "Switch to light mode" : "Switch to dark mode"
-    );
+    toggle.title = dark ? "Switch to light mode" : "Switch to dark mode";
 
-    toggle.innerHTML = isDark
+    toggle.innerHTML = dark
       ? '<span aria-hidden="true">☀</span><span class="theme-label">Light mode</span>'
       : '<span aria-hidden="true">☾</span><span class="theme-label">Dark mode</span>';
-  }
-
-  function saveTheme(theme) {
-    try {
-      localStorage.setItem(THEME_KEY, theme);
-    } catch (error) {
-      // Theme still applies to the current page.
-    }
   }
 
   function renderThemeToggle() {
@@ -315,6 +381,7 @@
 
     if (!toggle) {
       toggle = document.createElement("button");
+
       toggle.className = "theme-toggle";
       toggle.type = "button";
 
@@ -332,7 +399,7 @@
         border-radius: 999px;
         background: var(--card, #ffffff);
         color: var(--text, #0f2440);
-        box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 4px 16px rgba(0,0,0,.12);
         cursor: pointer;
         font: inherit;
         font-size: 14px;
@@ -341,17 +408,15 @@
       document.body.appendChild(toggle);
     }
 
-    // Prevent duplicate click listeners.
     if (toggle.dataset.initialized !== "true") {
-      toggle.addEventListener("click", function () {
-        const currentTheme =
+      toggle.addEventListener("click", () => {
+        const current =
           document.documentElement.getAttribute("data-theme") || "light";
 
-        const nextTheme =
-          currentTheme === "dark" ? "light" : "dark";
+        const next = current === "dark" ? "light" : "dark";
 
-        applyTheme(nextTheme);
-        saveTheme(nextTheme);
+        applyTheme(next);
+        saveTheme(next);
       });
 
       toggle.dataset.initialized = "true";
@@ -372,12 +437,14 @@
 
     function closeMenu() {
       menu.classList.remove("show");
+
       burger.setAttribute("aria-expanded", "false");
       burger.setAttribute("aria-label", "Open navigation menu");
+
       burger.textContent = "☰";
     }
 
-    burger.addEventListener("click", function () {
+    function toggleMenu() {
       const isOpen = menu.classList.toggle("show");
 
       burger.setAttribute("aria-expanded", String(isOpen));
@@ -388,22 +455,21 @@
       );
 
       burger.textContent = isOpen ? "✕" : "☰";
-    });
+    }
 
-    // Close menu after selecting a navigation link.
+    burger.addEventListener("click", toggleMenu);
+
     menu.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", closeMenu);
     });
 
-    // Close menu with Escape.
-    document.addEventListener("keydown", function (event) {
+    document.addEventListener("keydown", event => {
       if (event.key === "Escape") {
         closeMenu();
       }
     });
 
-    // Close menu when clicking outside it.
-    document.addEventListener("click", function (event) {
+    document.addEventListener("click", event => {
       if (
         menu.classList.contains("show") &&
         !menu.contains(event.target) &&
@@ -415,7 +481,7 @@
   }
 
   // ==========================================
-  // Fellowship Dropdown Behaviour
+  // Fellowship Dropdown
   // ==========================================
 
   function initializeFellowshipDropdown() {
@@ -423,40 +489,43 @@
 
     if (!dropdown) return;
 
-    const dropdownButton = dropdown.querySelector("button");
+    const button = dropdown.querySelector("button");
 
-    if (!dropdownButton) return;
+    if (!button) return;
 
-    const hoverMode = window.matchMedia(
-      "(hover: hover) and (min-width: 901px)"
-    );
+    const hoverMode = window.matchMedia
+      ? window.matchMedia("(hover: hover) and (min-width: 901px)")
+      : { matches: false };
 
     let closeTimer;
 
     function openDropdown() {
       clearTimeout(closeTimer);
+
       dropdown.classList.add("open");
-      dropdownButton.setAttribute("aria-expanded", "true");
+      button.setAttribute("aria-expanded", "true");
     }
 
     function closeDropdown() {
       clearTimeout(closeTimer);
+
       dropdown.classList.remove("open");
-      dropdownButton.setAttribute("aria-expanded", "false");
+      button.setAttribute("aria-expanded", "false");
     }
 
-    dropdown.addEventListener("mouseenter", function () {
-      if (hoverMode.matches) openDropdown();
+    dropdown.addEventListener("mouseenter", () => {
+      if (hoverMode.matches) {
+        openDropdown();
+      }
     });
 
-    dropdown.addEventListener("mouseleave", function () {
+    dropdown.addEventListener("mouseleave", () => {
       if (hoverMode.matches) {
-        clearTimeout(closeTimer);
         closeTimer = setTimeout(closeDropdown, 200);
       }
     });
 
-    dropdownButton.addEventListener("click", function () {
+    button.addEventListener("click", () => {
       if (dropdown.classList.contains("open")) {
         closeDropdown();
       } else {
@@ -464,20 +533,19 @@
       }
     });
 
-    dropdown.addEventListener("focusout", function (event) {
+    dropdown.addEventListener("focusout", event => {
       if (!dropdown.contains(event.relatedTarget)) {
         closeDropdown();
       }
     });
 
-    document.addEventListener("keydown", function (event) {
+    document.addEventListener("keydown", event => {
       if (event.key === "Escape") {
         closeDropdown();
-        dropdownButton.blur();
       }
     });
 
-    document.addEventListener("click", function (event) {
+    document.addEventListener("click", event => {
       if (!dropdown.contains(event.target)) {
         closeDropdown();
       }
@@ -489,16 +557,17 @@
   }
 
   // ==========================================
-  // Initialize Shared Website Components
+  // Initialize Website Components
   // ==========================================
 
   function initialize() {
+    initializeAnalytics();
     renderNavigation();
     renderFooter();
     renderThemeToggle();
 
-    // Jobs data is handled separately by /js/Jobs.js.
-    // No ReliefWeb integration or external jobs API here.
+    // Jobs.js independently handles the embedded jobs in jobs.html.
+    // No JSON fetching and no ReliefWeb API integration here.
   }
 
   if (document.readyState === "loading") {
