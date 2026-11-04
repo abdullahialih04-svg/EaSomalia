@@ -2,24 +2,21 @@
 /* ==========================================================
    EA SOMALIA — SHARED WEBSITE COMPONENTS
    ----------------------------------------------------------
-   Handles:
+   Responsibilities:
    - Vercel Web Analytics
    - Shared navigation
    - Fellowship dropdown
    - Shared footer
    - Dark / light theme
    - Mobile navigation
-   - Central opportunity categories and types
+   - Shared opportunity categories and types
 
    IMPORTANT:
-   Jobs and opportunities are handled separately by the
-   opportunities page script in pages/jobs.html.
+   Opportunity data, filtering, searching, sorting and
+   opportunity rendering are handled separately by the
+   opportunities page (pages/jobs.html).
 
-   This file does NOT:
-   - Fetch jobs JSON
-   - Read opportunity records
-   - Filter opportunities
-   - Render opportunity cards
+   This file does not fetch jobs JSON or render job cards.
    ========================================================== */
 
 (() => {
@@ -37,11 +34,16 @@
   // Configuration
   // ========================================================
 
-  const THEME_KEY = "ea-somalia-theme";
-  const MOBILE_BREAKPOINT = 900;
+  const CONFIG = Object.freeze({
+    themeStorageKey: "ea-somalia-theme",
+    mobileBreakpoint: 900,
+    analyticsScript: "/_vercel/insights/script.js",
+    logo: "/images/logo.png",
+    home: "/"
+  });
 
   // ========================================================
-  // Shared Opportunity Categories
+  // Shared Opportunity Categories and Types
   // ========================================================
 
   const OPPORTUNITY_CATEGORIES = Object.freeze({
@@ -64,69 +66,43 @@
     funding: "Funding"
   });
 
-  // Expose shared constants to other scripts.
-  // The opportunities page can use these without duplicating them.
-
+  // Expose shared configuration for other scripts.
   window.EASomalia = window.EASomalia || {};
 
-  window.EASomalia.opportunityCategories = OPPORTUNITY_CATEGORIES;
-  window.EASomalia.opportunityTypes = OPPORTUNITY_TYPES;
+  window.EASomalia.opportunityCategories =
+    OPPORTUNITY_CATEGORIES;
+
+  window.EASomalia.opportunityTypes =
+    OPPORTUNITY_TYPES;
 
   // ========================================================
-  // Fellowship Information
+  // Fellowship Configuration
   // ========================================================
 
   const FELLOWSHIPS = Object.freeze([
     {
       title: "EA Fellowship",
       url: "/ea-fellowship",
-      status: "Open",
+      status: "Explore",
       active: true
     },
     {
       title: "Animal Welfare Fellowship",
-      url: "/animal-welfare-fellowship",
+      url: null,
       status: "Coming soon",
       active: false
     },
     {
       title: "Global Health Fellowship",
-      url: "/global-health-fellowship",
+      url: null,
       status: "Coming soon",
       active: false
     },
     {
       title: "AI Safety / Governance Fellowship",
-      url: "/ai-safety-governance-fellowship",
+      url: null,
       status: "Coming soon",
       active: false
-    }
-  ]);
-
-  // ========================================================
-  // Navigation Configuration
-  // ========================================================
-
-  const NAV_LINKS = Object.freeze([
-    {
-      label: "Home",
-      url: "/"
-    },
-    {
-      label: "Effective Giving",
-      url: "/effective-giving"
-    },
-    {
-      label: "Jobs",
-      url: "/jobs"
-    },
-    {
-      label: "Incubation",
-      url: "/incubation"
-    },
-    {
-      label: "Connect",
-      url: "/connect"
     }
   ]);
 
@@ -138,54 +114,61 @@
     parent.querySelector(selector);
 
   const $$ = (selector, parent = document) =>
-    [...parent.querySelectorAll(selector)];
-
-  // ========================================================
-  // HTML Escaping
-  // ========================================================
+    Array.from(parent.querySelectorAll(selector));
 
   function escapeHTML(value = "") {
-    return String(value).replace(/[&<>"']/g, character => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#39;"
-    })[character]);
+    return String(value).replace(/[&<>"']/g, character => {
+      const entities = {
+        "&": "&amp;",
+        "<": "&lt;",
+        ">": "&gt;",
+        '"': "&quot;",
+        "'": "&#39;"
+      };
+
+      return entities[character];
+    });
   }
 
   // ========================================================
-  // URL and Path Helpers
+  // URL and Route Helpers
   // ========================================================
 
   /**
-   * Converts different URL formats into a common path.
+   * Normalize URLs so these routes are treated equally:
    *
-   * Examples:
-   * /jobs                 -> /jobs
-   * /jobs/                -> /jobs
-   * /pages/jobs.html      -> /jobs
-   * /pages/jobs           -> /jobs
-   * /index.html           -> /
+   * /jobs
+   * /jobs/
+   * /jobs.html
+   * /pages/jobs.html
+   *
+   * This is useful when the website uses Vercel rewrites.
    */
-
   function normalizePath(path = "/") {
-    let normalized = String(path || "/")
+    let normalized = String(path)
       .split("?")[0]
       .split("#")[0]
       .replace(/\/+/g, "/");
 
-    // Normalize homepage.
-    normalized = normalized.replace(/\/index\.html$/i, "");
+    normalized = normalized.replace(
+      /\/index\.html$/i,
+      ""
+    );
 
-    // Remove .html extensions.
-    normalized = normalized.replace(/\.html$/i, "");
+    normalized = normalized.replace(
+      /\.html$/i,
+      ""
+    );
 
-    // Treat /pages/example as /example.
-    normalized = normalized.replace(/^\/pages(?=\/)/i, "");
+    normalized = normalized.replace(
+      /^\/pages(?=\/)/i,
+      ""
+    );
 
-    // Remove trailing slash, except for homepage.
-    normalized = normalized.replace(/\/+$/, "");
+    normalized = normalized.replace(
+      /\/+$/,
+      ""
+    );
 
     return normalized || "/";
   }
@@ -196,14 +179,19 @@
 
   function isCurrentPage(url) {
     try {
-      const target = new URL(url, window.location.origin);
+      const target = new URL(
+        url,
+        window.location.origin
+      );
 
-      return getCurrentPath() === normalizePath(target.pathname);
+      return (
+        getCurrentPath() ===
+        normalizePath(target.pathname)
+      );
     } catch (error) {
       console.warn(
-        "EA Somalia: Could not compare navigation URL:",
-        url,
-        error
+        "EA Somalia: Invalid navigation URL:",
+        url
       );
 
       return false;
@@ -232,43 +220,33 @@
   }
 
   // ========================================================
-  // Safe Component Initialization
-  // ========================================================
-
-  function runSafely(name, callback) {
-    try {
-      callback();
-    } catch (error) {
-      console.error(
-        `EA Somalia: Failed to initialize ${name}:`,
-        error
-      );
-    }
-  }
-
-  // ========================================================
   // Vercel Web Analytics
   // ========================================================
 
   function initializeAnalytics() {
-    const scriptPath = "/_vercel/insights/script.js";
+    const scriptPath = CONFIG.analyticsScript;
 
-    // Do not insert the analytics script more than once.
-    const existingScript = $(
-      'script[src="/_vercel/insights/script.js"]'
-    );
+    const existingScript = $$("script").some(script => {
+      try {
+        return (
+          new URL(script.src, window.location.origin).pathname ===
+          scriptPath
+        );
+      } catch (error) {
+        return false;
+      }
+    });
 
     if (existingScript) return;
 
-    // Initialize the Vercel analytics queue.
     window.va = window.va || function () {
       (window.vaq = window.vaq || []).push(arguments);
     };
 
     const script = document.createElement("script");
 
-    script.defer = true;
     script.src = scriptPath;
+    script.defer = true;
 
     script.onerror = () => {
       console.warn(
@@ -280,22 +258,52 @@
   }
 
   // ========================================================
-  // Fellowship Navigation Markup
+  // Navigation Data
+  // ========================================================
+
+  const NAVIGATION_LINKS = Object.freeze([
+    {
+      label: "Home",
+      url: "/"
+    },
+    {
+      label: "Effective Giving",
+      url: "/effective-giving"
+    },
+    {
+      label: "Jobs",
+      url: "/jobs"
+    },
+    {
+      label: "Incubation",
+      url: "/incubation"
+    },
+    {
+      label: "Connect",
+      url: "/connect"
+    }
+  ]);
+
+  // ========================================================
+  // Fellowship Navigation Rendering
   // ========================================================
 
   function renderFellowshipLinks() {
-    return FELLOWSHIPS.map(fellow => {
-      // Coming-soon items are not links.
-      if (!fellow.active) {
+    return FELLOWSHIPS.map(fellowship => {
+      const title = escapeHTML(fellowship.title);
+      const status = escapeHTML(fellowship.status);
+
+      // Coming-soon items are spans, not disabled links.
+      if (!fellowship.active || !fellowship.url) {
         return `
           <span
             class="fellowship-dropdown-link coming-soon"
             aria-disabled="true"
           >
-            <span>${escapeHTML(fellow.title)}</span>
+            <span>${title}</span>
 
             <span class="fellowship-status">
-              ${escapeHTML(fellow.status)}
+              ${status}
             </span>
           </span>
         `;
@@ -304,9 +312,9 @@
       return `
         <a
           class="fellowship-dropdown-link active"
-          href="${escapeHTML(fellow.url)}"
+          href="${escapeHTML(fellowship.url)}"
         >
-          <span>${escapeHTML(fellow.title)}</span>
+          <span>${title}</span>
 
           <span class="fellowship-status active">
             Explore
@@ -317,11 +325,11 @@
   }
 
   // ========================================================
-  // Main Navigation Markup
+  // Regular Navigation Rendering
   // ========================================================
 
-  function renderRegularNavigationLinks() {
-    return NAV_LINKS.map(link => {
+  function renderNavigationLinks() {
+    return NAVIGATION_LINKS.map(link => {
       const active = isCurrentPage(link.url);
 
       return `
@@ -336,29 +344,37 @@
     }).join("");
   }
 
+  // ========================================================
+  // Main Navigation
+  // ========================================================
+
   function renderNavigation() {
     const container = $("#site-nav");
 
     if (!container) return;
 
-    const regularLinks = renderRegularNavigationLinks();
-    const fellowshipLinks = renderFellowshipLinks();
+    // Prevent accidental duplicate rendering.
+    if (container.dataset.initialized === "true") {
+      return;
+    }
+
+    container.dataset.initialized = "true";
 
     container.innerHTML = `
-      <nav class="navbar" aria-label="Main navigation">
-
+      <nav
+        class="navbar"
+        aria-label="Main navigation"
+      >
         <div class="nav-container">
-
-          <!-- Brand -->
 
           <a
             class="nav-brand"
-            href="/"
+            href="${CONFIG.home}"
             aria-label="EA Somalia home"
           >
             <img
-              src="/images/logo.png"
-              alt=""
+              src="${CONFIG.logo}"
+              alt="EA Somalia"
               class="nav-logo"
             >
 
@@ -366,8 +382,6 @@
               EA Somalia
             </span>
           </a>
-
-          <!-- Mobile Navigation Toggle -->
 
           <button
             class="nav-toggle"
@@ -381,13 +395,12 @@
             <span></span>
           </button>
 
-          <!-- Navigation Menu -->
+          <div
+            class="menu"
+            id="main-menu"
+          >
 
-          <div class="menu" id="main-menu">
-
-            ${regularLinks}
-
-            <!-- Fellowship Dropdown -->
+            ${renderNavigationLinks()}
 
             <div class="nav-dropdown fellowship-dropdown">
 
@@ -412,12 +425,10 @@
                 class="dropdown-menu fellowship-menu"
                 id="fellowship-menu"
               >
-                ${fellowshipLinks}
+                ${renderFellowshipLinks()}
               </div>
 
             </div>
-
-            <!-- Fellowship Call to Action -->
 
             <a
               class="nav-cta"
@@ -425,8 +436,6 @@
             >
               Join the EA Fellowship
             </a>
-
-            <!-- Theme Toggle -->
 
             <button
               class="theme-toggle"
@@ -448,9 +457,7 @@
             </button>
 
           </div>
-
         </div>
-
       </nav>
     `;
 
@@ -464,16 +471,18 @@
   // ========================================================
 
   function renderFooterFellowships() {
-    return FELLOWSHIPS.map(fellow => {
-      if (!fellow.active) {
+    return FELLOWSHIPS.map(fellowship => {
+      const title = escapeHTML(fellowship.title);
+
+      if (!fellowship.active || !fellowship.url) {
         return `
           <li>
             <span
               class="footer-coming-soon"
               aria-disabled="true"
             >
-              ${escapeHTML(fellow.title)}
-              <small>(${escapeHTML(fellow.status)})</small>
+              ${title}
+              <small>Coming soon</small>
             </span>
           </li>
         `;
@@ -481,8 +490,8 @@
 
       return `
         <li>
-          <a href="${escapeHTML(fellow.url)}">
-            ${escapeHTML(fellow.title)}
+          <a href="${escapeHTML(fellowship.url)}">
+            ${title}
           </a>
         </li>
       `;
@@ -494,26 +503,28 @@
 
     if (!container) return;
 
+    if (container.dataset.initialized === "true") {
+      return;
+    }
+
+    container.dataset.initialized = "true";
+
     const currentYear = new Date().getFullYear();
-    const fellowshipLinks = renderFooterFellowships();
 
     container.innerHTML = `
       <footer class="site-footer">
 
         <div class="footer-container">
 
-          <!-- Footer Brand -->
-
           <div class="footer-brand">
 
             <a
               href="/"
               class="footer-logo"
-              aria-label="EA Somalia home"
             >
               <img
-                src="/images/logo.png"
-                alt=""
+                src="${CONFIG.logo}"
+                alt="EA Somalia"
               >
 
               <span>EA Somalia</span>
@@ -525,19 +536,15 @@
 
           </div>
 
-          <!-- Learn -->
-
           <div class="footer-column">
 
             <h3>Learn</h3>
 
             <ul>
-              ${fellowshipLinks}
+              ${renderFooterFellowships()}
             </ul>
 
           </div>
-
-          <!-- More -->
 
           <div class="footer-column">
 
@@ -571,8 +578,6 @@
 
           </div>
 
-          <!-- Contact -->
-
           <div class="footer-column">
 
             <h3>Contact</h3>
@@ -599,12 +604,11 @@
 
         </div>
 
-        <!-- Copyright -->
-
         <div class="footer-bottom">
 
           <p>
-            &copy; ${currentYear} EA Somalia. All rights reserved.
+            &copy; ${currentYear} EA Somalia.
+            All rights reserved.
           </p>
 
         </div>
@@ -618,7 +622,9 @@
   // ========================================================
 
   function getPreferredTheme() {
-    const savedTheme = safeStorageGet(THEME_KEY);
+    const savedTheme = safeStorageGet(
+      CONFIG.themeStorageKey
+    );
 
     if (savedTheme === "dark" || savedTheme === "light") {
       return savedTheme;
@@ -640,7 +646,11 @@
 
     const root = document.documentElement;
 
-    root.setAttribute("data-theme", selectedTheme);
+    root.setAttribute(
+      "data-theme",
+      selectedTheme
+    );
+
     root.style.colorScheme = selectedTheme;
 
     const toggle = $(".theme-toggle");
@@ -650,43 +660,43 @@
     const icon = $(".theme-icon", toggle);
     const label = $(".theme-label", toggle);
 
+    const darkMode = selectedTheme === "dark";
+
     if (icon) {
-      icon.textContent =
-        selectedTheme === "dark" ? "☀" : "◐";
+      icon.textContent = darkMode ? "☀" : "◐";
     }
 
     if (label) {
-      label.textContent =
-        selectedTheme === "dark" ? "Light mode" : "Dark mode";
+      label.textContent = darkMode
+        ? "Light mode"
+        : "Dark mode";
     }
 
     toggle.setAttribute(
       "aria-label",
-      selectedTheme === "dark"
+      darkMode
         ? "Switch to light mode"
         : "Switch to dark mode"
     );
 
     toggle.setAttribute(
       "aria-pressed",
-      String(selectedTheme === "dark")
+      String(darkMode)
     );
   }
 
   function initializeThemeToggle(parent = document) {
     const toggle = $(".theme-toggle", parent);
 
-    if (!toggle || toggle.dataset.initialized === "true") {
+    if (!toggle) return;
+
+    if (toggle.dataset.initialized === "true") {
       return;
     }
 
     toggle.dataset.initialized = "true";
 
-    // Apply the current theme to the newly rendered toggle.
-    applyTheme(
-      document.documentElement.getAttribute("data-theme") ||
-      getPreferredTheme()
-    );
+    applyTheme(getPreferredTheme());
 
     toggle.addEventListener("click", () => {
       const currentTheme =
@@ -696,7 +706,11 @@
       const nextTheme =
         currentTheme === "dark" ? "light" : "dark";
 
-      safeStorageSet(THEME_KEY, nextTheme);
+      safeStorageSet(
+        CONFIG.themeStorageKey,
+        nextTheme
+      );
+
       applyTheme(nextTheme);
     });
   }
@@ -711,7 +725,9 @@
 
     if (!toggle || !menu) return;
 
-    if (toggle.dataset.initialized === "true") return;
+    if (toggle.dataset.initialized === "true") {
+      return;
+    }
 
     toggle.dataset.initialized = "true";
 
@@ -719,7 +735,11 @@
       menu.classList.remove("show");
       toggle.classList.remove("active");
 
-      toggle.setAttribute("aria-expanded", "false");
+      toggle.setAttribute(
+        "aria-expanded",
+        "false"
+      );
+
       toggle.setAttribute(
         "aria-label",
         "Open navigation menu"
@@ -730,14 +750,17 @@
       menu.classList.add("show");
       toggle.classList.add("active");
 
-      toggle.setAttribute("aria-expanded", "true");
+      toggle.setAttribute(
+        "aria-expanded",
+        "true"
+      );
+
       toggle.setAttribute(
         "aria-label",
         "Close navigation menu"
       );
     }
 
-    // Toggle the mobile menu.
     toggle.addEventListener("click", () => {
       const isOpen = menu.classList.contains("show");
 
@@ -753,7 +776,7 @@
       link.addEventListener("click", closeMenu);
     });
 
-    // Close with Escape.
+    // Close on Escape.
     document.addEventListener("keydown", event => {
       if (event.key === "Escape") {
         closeMenu();
@@ -767,9 +790,9 @@
       }
     });
 
-    // Close when switching back to desktop layout.
+    // Close when switching to desktop layout.
     window.addEventListener("resize", () => {
-      if (window.innerWidth > MOBILE_BREAKPOINT) {
+      if (window.innerWidth > CONFIG.mobileBreakpoint) {
         closeMenu();
       }
     });
@@ -789,21 +812,30 @@
 
     if (!button || !menu) return;
 
-    if (button.dataset.initialized === "true") return;
+    if (button.dataset.initialized === "true") {
+      return;
+    }
 
     button.dataset.initialized = "true";
 
     function closeDropdown() {
       dropdown.classList.remove("open");
-      button.setAttribute("aria-expanded", "false");
+
+      button.setAttribute(
+        "aria-expanded",
+        "false"
+      );
     }
 
     function openDropdown() {
       dropdown.classList.add("open");
-      button.setAttribute("aria-expanded", "true");
+
+      button.setAttribute(
+        "aria-expanded",
+        "true"
+      );
     }
 
-    // Click to open or close.
     button.addEventListener("click", event => {
       event.stopPropagation();
 
@@ -818,18 +850,18 @@
 
     // Desktop hover support.
     dropdown.addEventListener("mouseenter", () => {
-      if (window.innerWidth > MOBILE_BREAKPOINT) {
+      if (window.innerWidth > CONFIG.mobileBreakpoint) {
         openDropdown();
       }
     });
 
     dropdown.addEventListener("mouseleave", () => {
-      if (window.innerWidth > MOBILE_BREAKPOINT) {
+      if (window.innerWidth > CONFIG.mobileBreakpoint) {
         closeDropdown();
       }
     });
 
-    // Close when clicking outside.
+    // Close when clicking elsewhere.
     document.addEventListener("click", event => {
       if (!dropdown.contains(event.target)) {
         closeDropdown();
@@ -844,7 +876,7 @@
       }
     });
 
-    // Close when focus leaves the dropdown.
+    // Close when focus moves outside the dropdown.
     dropdown.addEventListener("focusout", event => {
       if (!dropdown.contains(event.relatedTarget)) {
         closeDropdown();
@@ -853,37 +885,27 @@
   }
 
   // ========================================================
-  // Initialize Shared Components
+  // Initialize Shared Website Components
   // ========================================================
 
   function initialize() {
-    // Apply the preferred theme before rendering navigation.
-    runSafely("theme", () => {
-      applyTheme(getPreferredTheme());
-    });
+    initializeAnalytics();
 
-    runSafely("analytics", initializeAnalytics);
-    runSafely("navigation", renderNavigation);
-    runSafely("footer", renderFooter);
+    renderNavigation();
 
-    // Public API for other website scripts.
-    window.EASomalia = window.EASomalia || {};
-
-    window.EASomalia.getCurrentPath = getCurrentPath;
-    window.EASomalia.isCurrentPage = isCurrentPage;
-    window.EASomalia.normalizePath = normalizePath;
-
-    window.EASomalia.initialized = true;
+    renderFooter();
   }
 
   // ========================================================
-  // DOM Ready
+  // Document Ready
   // ========================================================
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initialize, {
-      once: true
-    });
+    document.addEventListener(
+      "DOMContentLoaded",
+      initialize,
+      { once: true }
+    );
   } else {
     initialize();
   }
