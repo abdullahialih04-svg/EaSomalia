@@ -11,8 +11,15 @@
    - Mobile navigation
    - Central opportunity categories and types
 
-   Jobs and opportunities are handled separately by Jobs.js.
-   No jobs JSON fetching or opportunity rendering here.
+   IMPORTANT:
+   Jobs and opportunities are handled separately by the
+   opportunities page script in pages/jobs.html.
+
+   This file does NOT:
+   - Fetch jobs JSON
+   - Read opportunity records
+   - Filter opportunities
+   - Render opportunity cards
    ========================================================== */
 
 (() => {
@@ -23,6 +30,7 @@
   // ========================================================
 
   if (window.__eaSomaliaComponentsInitialized) return;
+
   window.__eaSomaliaComponentsInitialized = true;
 
   // ========================================================
@@ -30,6 +38,7 @@
   // ========================================================
 
   const THEME_KEY = "ea-somalia-theme";
+  const MOBILE_BREAKPOINT = 900;
 
   // ========================================================
   // Shared Opportunity Categories
@@ -55,7 +64,9 @@
     funding: "Funding"
   });
 
-  // Expose shared constants for other scripts, including Jobs.js.
+  // Expose shared constants to other scripts.
+  // The opportunities page can use these without duplicating them.
+
   window.EASomalia = window.EASomalia || {};
 
   window.EASomalia.opportunityCategories = OPPORTUNITY_CATEGORIES;
@@ -65,35 +76,62 @@
   // Fellowship Information
   // ========================================================
 
-  const FELLOWS = [
+  const FELLOWSHIPS = Object.freeze([
     {
       title: "EA Fellowship",
-      url: "/pages/ea-fellowship.html",
+      url: "/ea-fellowship",
       status: "Open",
       active: true
     },
     {
       title: "Animal Welfare Fellowship",
-      url: "/pages/animal-welfare-fellowship.html",
+      url: "/animal-welfare-fellowship",
       status: "Coming soon",
       active: false
     },
     {
       title: "Global Health Fellowship",
-      url: "/pages/global-health-fellowship.html",
+      url: "/global-health-fellowship",
       status: "Coming soon",
       active: false
     },
     {
       title: "AI Safety / Governance Fellowship",
-      url: "/pages/ai-safety-governance-fellowship.html",
+      url: "/ai-safety-governance-fellowship",
       status: "Coming soon",
       active: false
     }
-  ];
+  ]);
 
   // ========================================================
-  // Helpers
+  // Navigation Configuration
+  // ========================================================
+
+  const NAV_LINKS = Object.freeze([
+    {
+      label: "Home",
+      url: "/"
+    },
+    {
+      label: "Effective Giving",
+      url: "/effective-giving"
+    },
+    {
+      label: "Jobs",
+      url: "/jobs"
+    },
+    {
+      label: "Incubation",
+      url: "/incubation"
+    },
+    {
+      label: "Connect",
+      url: "/connect"
+    }
+  ]);
+
+  // ========================================================
+  // DOM Helpers
   // ========================================================
 
   const $ = (selector, parent = document) =>
@@ -102,54 +140,79 @@
   const $$ = (selector, parent = document) =>
     [...parent.querySelectorAll(selector)];
 
-  const escapeHTML = (value = "") =>
-    String(value).replace(/[&<>"']/g, character => ({
+  // ========================================================
+  // HTML Escaping
+  // ========================================================
+
+  function escapeHTML(value = "") {
+    return String(value).replace(/[&<>"']/g, character => ({
       "&": "&amp;",
       "<": "&lt;",
       ">": "&gt;",
       '"': "&quot;",
       "'": "&#39;"
     })[character]);
+  }
+
+  // ========================================================
+  // URL and Path Helpers
+  // ========================================================
+
+  /**
+   * Converts different URL formats into a common path.
+   *
+   * Examples:
+   * /jobs                 -> /jobs
+   * /jobs/                -> /jobs
+   * /pages/jobs.html      -> /jobs
+   * /pages/jobs           -> /jobs
+   * /index.html           -> /
+   */
+
+  function normalizePath(path = "/") {
+    let normalized = String(path || "/")
+      .split("?")[0]
+      .split("#")[0]
+      .replace(/\/+/g, "/");
+
+    // Normalize homepage.
+    normalized = normalized.replace(/\/index\.html$/i, "");
+
+    // Remove .html extensions.
+    normalized = normalized.replace(/\.html$/i, "");
+
+    // Treat /pages/example as /example.
+    normalized = normalized.replace(/^\/pages(?=\/)/i, "");
+
+    // Remove trailing slash, except for homepage.
+    normalized = normalized.replace(/\/+$/, "");
+
+    return normalized || "/";
+  }
 
   function getCurrentPath() {
-    let path = window.location.pathname || "/";
-
-    path = path.replace(/\/+/g, "/");
-
-    if (path.endsWith("/index.html")) {
-      path = path.slice(0, -"index.html".length);
-    }
-
-    if (path.endsWith(".html")) {
-      path = path.slice(0, -5);
-    }
-
-    if (path !== "/" && path.endsWith("/")) {
-      path = path.slice(0, -1);
-    }
-
-    return path;
+    return normalizePath(window.location.pathname);
   }
 
   function isCurrentPage(url) {
-    const current = getCurrentPath();
+    try {
+      const target = new URL(url, window.location.origin);
 
-    let target = url.replace(/\/+/g, "/");
+      return getCurrentPath() === normalizePath(target.pathname);
+    } catch (error) {
+      console.warn(
+        "EA Somalia: Could not compare navigation URL:",
+        url,
+        error
+      );
 
-    if (target.endsWith("/index.html")) {
-      target = target.slice(0, -"index.html".length);
+      return false;
     }
-
-    if (target.endsWith(".html")) {
-      target = target.slice(0, -5);
-    }
-
-    if (target !== "/" && target.endsWith("/")) {
-      target = target.slice(0, -1);
-    }
-
-    return current === target;
   }
+
+  // ========================================================
+  // Safe Local Storage
+  // ========================================================
 
   function safeStorageGet(key) {
     try {
@@ -162,8 +225,24 @@
   function safeStorageSet(key, value) {
     try {
       window.localStorage.setItem(key, value);
+      return true;
     } catch (error) {
-      // The website still works when local storage is unavailable.
+      return false;
+    }
+  }
+
+  // ========================================================
+  // Safe Component Initialization
+  // ========================================================
+
+  function runSafely(name, callback) {
+    try {
+      callback();
+    } catch (error) {
+      console.error(
+        `EA Somalia: Failed to initialize ${name}:`,
+        error
+      );
     }
   }
 
@@ -174,10 +253,14 @@
   function initializeAnalytics() {
     const scriptPath = "/_vercel/insights/script.js";
 
-    if (document.querySelector(`script[src="${scriptPath}"]`)) {
-      return;
-    }
+    // Do not insert the analytics script more than once.
+    const existingScript = $(
+      'script[src="/_vercel/insights/script.js"]'
+    );
 
+    if (existingScript) return;
+
+    // Initialize the Vercel analytics queue.
     window.va = window.va || function () {
       (window.vaq = window.vaq || []).push(arguments);
     };
@@ -187,78 +270,104 @@
     script.defer = true;
     script.src = scriptPath;
 
+    script.onerror = () => {
+      console.warn(
+        "EA Somalia: Vercel Analytics could not be loaded."
+      );
+    };
+
     document.head.appendChild(script);
   }
 
   // ========================================================
-  // Navigation
+  // Fellowship Navigation Markup
   // ========================================================
+
+  function renderFellowshipLinks() {
+    return FELLOWSHIPS.map(fellow => {
+      // Coming-soon items are not links.
+      if (!fellow.active) {
+        return `
+          <span
+            class="fellowship-dropdown-link coming-soon"
+            aria-disabled="true"
+          >
+            <span>${escapeHTML(fellow.title)}</span>
+
+            <span class="fellowship-status">
+              ${escapeHTML(fellow.status)}
+            </span>
+          </span>
+        `;
+      }
+
+      return `
+        <a
+          class="fellowship-dropdown-link active"
+          href="${escapeHTML(fellow.url)}"
+        >
+          <span>${escapeHTML(fellow.title)}</span>
+
+          <span class="fellowship-status active">
+            Explore
+          </span>
+        </a>
+      `;
+    }).join("");
+  }
+
+  // ========================================================
+  // Main Navigation Markup
+  // ========================================================
+
+  function renderRegularNavigationLinks() {
+    return NAV_LINKS.map(link => {
+      const active = isCurrentPage(link.url);
+
+      return `
+        <a
+          href="${escapeHTML(link.url)}"
+          class="nav-link${active ? " active" : ""}"
+          ${active ? 'aria-current="page"' : ""}
+        >
+          ${escapeHTML(link.label)}
+        </a>
+      `;
+    }).join("");
+  }
 
   function renderNavigation() {
     const container = $("#site-nav");
 
     if (!container) return;
 
-    const navLinks = [
-      {
-        label: "Home",
-        url: "/"
-      },
-      {
-        label: "Effective Giving",
-        url: "/pages/effective-giving.html"
-      },
-      {
-        label: "Jobs",
-        url: "/pages/jobs.html"
-      },
-      {
-        label: "Incubation",
-        url: "/pages/incubation.html"
-      },
-      {
-        label: "Connect",
-        url: "/pages/connect.html"
-      }
-    ];
-
-    const fellowshipLinks = FELLOWS.map(fellow => `
-      <a
-        class="fellowship-dropdown-link ${fellow.active ? "active" : "coming-soon"}"
-        href="${escapeHTML(fellow.url)}"
-        ${fellow.active ? "" : 'aria-disabled="true"'}
-      >
-        <span>${escapeHTML(fellow.title)}</span>
-        ${
-          fellow.active
-            ? '<span class="fellowship-status active">Explore</span>'
-            : `<span class="fellowship-status">${escapeHTML(fellow.status)}</span>`
-        }
-      </a>
-    `).join("");
-
-    const regularLinks = navLinks.map(link => `
-      <a
-        href="${escapeHTML(link.url)}"
-        class="nav-link ${isCurrentPage(link.url) ? "active" : ""}"
-        ${isCurrentPage(link.url) ? 'aria-current="page"' : ""}
-      >
-        ${escapeHTML(link.label)}
-      </a>
-    `).join("");
+    const regularLinks = renderRegularNavigationLinks();
+    const fellowshipLinks = renderFellowshipLinks();
 
     container.innerHTML = `
       <nav class="navbar" aria-label="Main navigation">
+
         <div class="nav-container">
 
-          <a class="nav-brand" href="/" aria-label="EA Somalia home">
+          <!-- Brand -->
+
+          <a
+            class="nav-brand"
+            href="/"
+            aria-label="EA Somalia home"
+          >
             <img
               src="/images/logo.png"
-              alt="EA Somalia"
+              alt=""
               class="nav-logo"
             >
-            <span class="nav-brand-text">EA Somalia</span>
+
+            <span class="nav-brand-text">
+              EA Somalia
+            </span>
           </a>
+
+          <!-- Mobile Navigation Toggle -->
 
           <button
             class="nav-toggle"
@@ -272,45 +381,76 @@
             <span></span>
           </button>
 
+          <!-- Navigation Menu -->
+
           <div class="menu" id="main-menu">
 
             ${regularLinks}
 
+            <!-- Fellowship Dropdown -->
+
             <div class="nav-dropdown fellowship-dropdown">
+
               <button
                 class="nav-link dropdown-toggle"
                 type="button"
                 aria-expanded="false"
                 aria-haspopup="true"
+                aria-controls="fellowship-menu"
               >
                 Learn
-                <span class="dropdown-arrow" aria-hidden="true">⌄</span>
+
+                <span
+                  class="dropdown-arrow"
+                  aria-hidden="true"
+                >
+                  ⌄
+                </span>
               </button>
 
-              <div class="dropdown-menu fellowship-menu">
+              <div
+                class="dropdown-menu fellowship-menu"
+                id="fellowship-menu"
+              >
                 ${fellowshipLinks}
               </div>
+
             </div>
+
+            <!-- Fellowship Call to Action -->
 
             <a
               class="nav-cta"
-              href="/pages/ea-fellowship.html"
+              href="/ea-fellowship"
             >
               Join the EA Fellowship
             </a>
 
+            <!-- Theme Toggle -->
+
             <button
               class="theme-toggle"
               type="button"
-              aria-label="Toggle colour theme"
+              aria-label="Switch to dark mode"
+              aria-pressed="false"
               title="Toggle colour theme"
             >
-              <span class="theme-icon" aria-hidden="true">◐</span>
-              <span class="theme-label">Dark mode</span>
+              <span
+                class="theme-icon"
+                aria-hidden="true"
+              >
+                ◐
+              </span>
+
+              <span class="theme-label">
+                Dark mode
+              </span>
             </button>
 
           </div>
+
         </div>
+
       </nav>
     `;
 
@@ -323,61 +463,127 @@
   // Footer
   // ========================================================
 
+  function renderFooterFellowships() {
+    return FELLOWSHIPS.map(fellow => {
+      if (!fellow.active) {
+        return `
+          <li>
+            <span
+              class="footer-coming-soon"
+              aria-disabled="true"
+            >
+              ${escapeHTML(fellow.title)}
+              <small>(${escapeHTML(fellow.status)})</small>
+            </span>
+          </li>
+        `;
+      }
+
+      return `
+        <li>
+          <a href="${escapeHTML(fellow.url)}">
+            ${escapeHTML(fellow.title)}
+          </a>
+        </li>
+      `;
+    }).join("");
+  }
+
   function renderFooter() {
     const container = $("#site-footer");
 
     if (!container) return;
 
     const currentYear = new Date().getFullYear();
-
-    const fellowshipLinks = FELLOWS.map(fellow => `
-      <li>
-        <a href="${escapeHTML(fellow.url)}">
-          ${escapeHTML(fellow.title)}
-        </a>
-      </li>
-    `).join("");
+    const fellowshipLinks = renderFooterFellowships();
 
     container.innerHTML = `
       <footer class="site-footer">
+
         <div class="footer-container">
 
+          <!-- Footer Brand -->
+
           <div class="footer-brand">
-            <a href="/" class="footer-logo">
-              <img src="/images/logo.png" alt="EA Somalia">
+
+            <a
+              href="/"
+              class="footer-logo"
+              aria-label="EA Somalia home"
+            >
+              <img
+                src="/images/logo.png"
+                alt=""
+              >
+
               <span>EA Somalia</span>
             </a>
 
             <p>
               Somalis using evidence and reason to do the most good.
             </p>
+
           </div>
 
+          <!-- Learn -->
+
           <div class="footer-column">
+
             <h3>Learn</h3>
+
             <ul>
               ${fellowshipLinks}
             </ul>
+
           </div>
 
+          <!-- More -->
+
           <div class="footer-column">
+
             <h3>More</h3>
+
             <ul>
-              <li><a href="/pages/effective-giving.html">Effective Giving</a></li>
-              <li><a href="/pages/jobs.html">Opportunities</a></li>
-              <li><a href="/pages/incubation.html">Incubation</a></li>
-              <li><a href="/pages/connect.html">Connect</a></li>
+              <li>
+                <a href="/effective-giving">
+                  Effective Giving
+                </a>
+              </li>
+
+              <li>
+                <a href="/jobs">
+                  Opportunities
+                </a>
+              </li>
+
+              <li>
+                <a href="/incubation">
+                  Incubation
+                </a>
+              </li>
+
+              <li>
+                <a href="/connect">
+                  Connect
+                </a>
+              </li>
             </ul>
+
           </div>
 
+          <!-- Contact -->
+
           <div class="footer-column">
+
             <h3>Contact</h3>
+
             <ul>
               <li>
                 <a href="mailto:info@easomalia.org">
                   info@easomalia.org
                 </a>
               </li>
+
               <li>
                 <a
                   href="https://calendly.com/easomalia"
@@ -388,15 +594,21 @@
                 </a>
               </li>
             </ul>
+
           </div>
 
         </div>
 
+        <!-- Copyright -->
+
         <div class="footer-bottom">
+
           <p>
             &copy; ${currentYear} EA Somalia. All rights reserved.
           </p>
+
         </div>
+
       </footer>
     `;
   }
@@ -412,18 +624,24 @@
       return savedTheme;
     }
 
-    return window.matchMedia &&
+    if (
+      window.matchMedia &&
       window.matchMedia("(prefers-color-scheme: dark)").matches
-      ? "dark"
-      : "light";
+    ) {
+      return "dark";
+    }
+
+    return "light";
   }
 
   function applyTheme(theme) {
-    const selectedTheme = theme === "dark" ? "dark" : "light";
+    const selectedTheme =
+      theme === "dark" ? "dark" : "light";
 
-    document.documentElement.setAttribute("data-theme", selectedTheme);
+    const root = document.documentElement;
 
-    document.documentElement.style.colorScheme = selectedTheme;
+    root.setAttribute("data-theme", selectedTheme);
+    root.style.colorScheme = selectedTheme;
 
     const toggle = $(".theme-toggle");
 
@@ -433,7 +651,8 @@
     const label = $(".theme-label", toggle);
 
     if (icon) {
-      icon.textContent = selectedTheme === "dark" ? "☀" : "◐";
+      icon.textContent =
+        selectedTheme === "dark" ? "☀" : "◐";
     }
 
     if (label) {
@@ -457,20 +676,28 @@
   function initializeThemeToggle(parent = document) {
     const toggle = $(".theme-toggle", parent);
 
-    if (!toggle || toggle.dataset.initialized === "true") return;
+    if (!toggle || toggle.dataset.initialized === "true") {
+      return;
+    }
 
     toggle.dataset.initialized = "true";
 
-    applyTheme(getPreferredTheme());
+    // Apply the current theme to the newly rendered toggle.
+    applyTheme(
+      document.documentElement.getAttribute("data-theme") ||
+      getPreferredTheme()
+    );
 
     toggle.addEventListener("click", () => {
-      const current =
-        document.documentElement.getAttribute("data-theme") || "light";
+      const currentTheme =
+        document.documentElement.getAttribute("data-theme") ||
+        "light";
 
-      const next = current === "dark" ? "light" : "dark";
+      const nextTheme =
+        currentTheme === "dark" ? "light" : "dark";
 
-      safeStorageSet(THEME_KEY, next);
-      applyTheme(next);
+      safeStorageSet(THEME_KEY, nextTheme);
+      applyTheme(nextTheme);
     });
   }
 
@@ -491,17 +718,26 @@
     function closeMenu() {
       menu.classList.remove("show");
       toggle.classList.remove("active");
+
       toggle.setAttribute("aria-expanded", "false");
-      toggle.setAttribute("aria-label", "Open navigation menu");
+      toggle.setAttribute(
+        "aria-label",
+        "Open navigation menu"
+      );
     }
 
     function openMenu() {
       menu.classList.add("show");
       toggle.classList.add("active");
+
       toggle.setAttribute("aria-expanded", "true");
-      toggle.setAttribute("aria-label", "Close navigation menu");
+      toggle.setAttribute(
+        "aria-label",
+        "Close navigation menu"
+      );
     }
 
+    // Toggle the mobile menu.
     toggle.addEventListener("click", () => {
       const isOpen = menu.classList.contains("show");
 
@@ -512,30 +748,28 @@
       }
     });
 
-    // Close menu after navigating.
+    // Close after selecting a navigation link.
     $$("a", menu).forEach(link => {
-      link.addEventListener("click", () => {
-        closeMenu();
-      });
+      link.addEventListener("click", closeMenu);
     });
 
-    // Close menu with Escape.
+    // Close with Escape.
     document.addEventListener("keydown", event => {
       if (event.key === "Escape") {
         closeMenu();
       }
     });
 
-    // Close menu when clicking outside.
+    // Close when clicking outside the navigation.
     document.addEventListener("click", event => {
       if (!parent.contains(event.target)) {
         closeMenu();
       }
     });
 
-    // Close menu when returning to desktop layout.
+    // Close when switching back to desktop layout.
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 900) {
+      if (window.innerWidth > MOBILE_BREAKPOINT) {
         closeMenu();
       }
     });
@@ -569,6 +803,7 @@
       button.setAttribute("aria-expanded", "true");
     }
 
+    // Click to open or close.
     button.addEventListener("click", event => {
       event.stopPropagation();
 
@@ -583,18 +818,18 @@
 
     // Desktop hover support.
     dropdown.addEventListener("mouseenter", () => {
-      if (window.innerWidth > 900) {
+      if (window.innerWidth > MOBILE_BREAKPOINT) {
         openDropdown();
       }
     });
 
     dropdown.addEventListener("mouseleave", () => {
-      if (window.innerWidth > 900) {
+      if (window.innerWidth > MOBILE_BREAKPOINT) {
         closeDropdown();
       }
     });
 
-    // Close when clicking elsewhere.
+    // Close when clicking outside.
     document.addEventListener("click", event => {
       if (!dropdown.contains(event.target)) {
         closeDropdown();
@@ -622,10 +857,28 @@
   // ========================================================
 
   function initialize() {
-    initializeAnalytics();
-    renderNavigation();
-    renderFooter();
+    // Apply the preferred theme before rendering navigation.
+    runSafely("theme", () => {
+      applyTheme(getPreferredTheme());
+    });
+
+    runSafely("analytics", initializeAnalytics);
+    runSafely("navigation", renderNavigation);
+    runSafely("footer", renderFooter);
+
+    // Public API for other website scripts.
+    window.EASomalia = window.EASomalia || {};
+
+    window.EASomalia.getCurrentPath = getCurrentPath;
+    window.EASomalia.isCurrentPage = isCurrentPage;
+    window.EASomalia.normalizePath = normalizePath;
+
+    window.EASomalia.initialized = true;
   }
+
+  // ========================================================
+  // DOM Ready
+  // ========================================================
 
   if (document.readyState === "loading") {
     document.addEventListener("DOMContentLoaded", initialize, {
