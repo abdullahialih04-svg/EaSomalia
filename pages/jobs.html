@@ -7,14 +7,14 @@
 
   <title>Opportunities | EA Somalia</title>
 
-  <link rel="icon" href="/images/logo.png">
-
   <meta
     name="description"
     content="Explore jobs, fellowships, internships and funding opportunities through EA Somalia."
   >
 
   <meta name="theme-color" content="#ffffff">
+
+  <link rel="icon" href="/images/logo.png">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -30,12 +30,10 @@
 
 <body>
 
-  <!-- Navigation -->
   <div id="site-nav"></div>
 
   <main class="opp-page">
 
-    <!-- Page Header -->
     <section class="opp-head">
       <div class="wrap opp-head-inner">
 
@@ -62,11 +60,9 @@
       </div>
     </section>
 
-    <!-- Opportunities Board -->
     <section class="opp-board">
       <div class="wrap">
 
-        <!-- Tabs -->
         <div class="opp-tabs">
 
           <span class="opp-tab active">
@@ -84,7 +80,6 @@
 
         </div>
 
-        <!-- Search and Filters -->
         <div class="opp-filter-card">
 
           <div class="opp-search-row">
@@ -140,13 +135,16 @@
 
             <select id="f-closing" aria-label="Filter by closing date">
               <option value="all">Any closing date</option>
+              <option value="7">Closing within 7 days</option>
+              <option value="30">Closing within 30 days</option>
+              <option value="60">Closing within 60 days</option>
+              <option value="open">No closing date</option>
             </select>
 
           </div>
 
         </div>
 
-        <!-- Results Count and Sorting -->
         <div class="opp-bar">
 
           <div class="opp-bar-left">
@@ -177,11 +175,10 @@
 
         </div>
 
-        <!-- Opportunity List -->
         <div
           id="job-list"
           aria-live="polite"
-          aria-busy="true"
+          aria-busy="false"
         >
           <div class="opp-empty">
             Loading opportunities…
@@ -193,12 +190,65 @@
 
   </main>
 
-  <!-- Footer -->
+  <!--
+    OPPORTUNITY DATABASE
+
+    Add, edit or remove opportunities in this section.
+    Do not add jobs to jobs.json anymore.
+
+    Required data attributes:
+    data-title
+    data-organization
+    data-area
+    data-type
+    data-location
+    data-source
+    data-closing
+    data-posted
+
+    Use YYYY-MM-DD for dates.
+  -->
+
+  <div id="jobs-data" hidden>
+
+    <!--
+    EXAMPLE ENTRY TEMPLATE
+
+    Copy this article for each real opportunity.
+    Replace all example details and the application URL.
+
+    <article
+      class="job-record"
+      data-title="AI Policy Researcher"
+      data-organization="Organisation Name"
+      data-area="AI Safety"
+      data-type="Full-time"
+      data-location="Remote"
+      data-source="Organisation Website"
+      data-closing="2026-12-15"
+      data-posted="2026-11-04"
+    >
+      <p class="job-description">
+        Add a short description of the opportunity here.
+      </p>
+
+      <a
+        class="job-apply"
+        href="https://example.org/apply"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        Apply now
+      </a>
+    </article>
+    -->
+
+  </div>
+
   <div id="site-footer"></div>
 
-  <!-- JavaScript -->
   <script src="/js/components.js"></script>
-  <script src="/js/Jobs.js"></script>
+  <script src="/js/Jobs.js?v=3" defer></script>
 
 </body>
 </html>
