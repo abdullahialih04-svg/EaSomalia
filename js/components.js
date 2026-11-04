@@ -1,48 +1,20 @@
-
 /* ==========================================================
    EA SOMALIA — SHARED WEBSITE COMPONENTS
-   ----------------------------------------------------------
-   Handles:
-   - Vercel Web Analytics
-   - Shared navigation
-   - Fellowship dropdown
-   - Shared footer
-   - Dark / light theme
-   - Mobile navigation
-   - Central opportunity categories and types
-
-   IMPORTANT:
-   Jobs and opportunities are handled separately by the
-   opportunities page script in pages/jobs.html.
-
-   This file does NOT:
-   - Fetch jobs JSON
-   - Read opportunity records
-   - Filter opportunities
-   - Render opportunity cards
    ========================================================== */
 
 (() => {
   "use strict";
 
-  // ========================================================
-  // Prevent Duplicate Initialization
-  // ========================================================
-
   if (window.__eaSomaliaComponentsInitialized) return;
-
   window.__eaSomaliaComponentsInitialized = true;
 
   // ========================================================
-  // Configuration
+  // CONFIGURATION
   // ========================================================
 
   const THEME_KEY = "ea-somalia-theme";
-  const MOBILE_BREAKPOINT = 900;
-
-  // ========================================================
-  // Shared Opportunity Categories
-  // ========================================================
+  const MOBILE_QUERY = "(max-width: 900px)";
+  const ANALYTICS_PATH = "/_vercel/insights/script.js";
 
   const OPPORTUNITY_CATEGORIES = Object.freeze({
     "animal-welfare": "Animal Welfare",
@@ -63,18 +35,6 @@
     course: "Course",
     funding: "Funding"
   });
-
-  // Expose shared constants to other scripts.
-  // The opportunities page can use these without duplicating them.
-
-  window.EASomalia = window.EASomalia || {};
-
-  window.EASomalia.opportunityCategories = OPPORTUNITY_CATEGORIES;
-  window.EASomalia.opportunityTypes = OPPORTUNITY_TYPES;
-
-  // ========================================================
-  // Fellowship Information
-  // ========================================================
 
   const FELLOWSHIPS = Object.freeze([
     {
@@ -103,35 +63,23 @@
     }
   ]);
 
-  // ========================================================
-  // Navigation Configuration
-  // ========================================================
-
   const NAV_LINKS = Object.freeze([
-    {
-      label: "Home",
-      url: "/"
-    },
-    {
-      label: "Effective Giving",
-      url: "/effective-giving"
-    },
-    {
-      label: "Jobs",
-      url: "/jobs"
-    },
-    {
-      label: "Incubation",
-      url: "/incubation"
-    },
-    {
-      label: "Connect",
-      url: "/connect"
-    }
+    { label: "Home", url: "/" },
+    { label: "Effective Giving", url: "/effective-giving" },
+    { label: "Jobs", url: "/jobs" },
+    { label: "Incubation", url: "/incubation" },
+    { label: "Connect", url: "/connect" }
   ]);
 
+  window.EASomalia = window.EASomalia || {};
+
+  Object.assign(window.EASomalia, {
+    opportunityCategories: OPPORTUNITY_CATEGORIES,
+    opportunityTypes: OPPORTUNITY_TYPES
+  });
+
   // ========================================================
-  // DOM Helpers
+  // DOM HELPERS
   // ========================================================
 
   const $ = (selector, parent = document) =>
@@ -139,10 +87,6 @@
 
   const $$ = (selector, parent = document) =>
     [...parent.querySelectorAll(selector)];
-
-  // ========================================================
-  // HTML Escaping
-  // ========================================================
 
   function escapeHTML(value = "") {
     return String(value).replace(/[&<>"']/g, character => ({
@@ -153,87 +97,6 @@
       "'": "&#39;"
     })[character]);
   }
-
-  // ========================================================
-  // URL and Path Helpers
-  // ========================================================
-
-  /**
-   * Converts different URL formats into a common path.
-   *
-   * Examples:
-   * /jobs                 -> /jobs
-   * /jobs/                -> /jobs
-   * /pages/jobs.html      -> /jobs
-   * /pages/jobs           -> /jobs
-   * /index.html           -> /
-   */
-
-  function normalizePath(path = "/") {
-    let normalized = String(path || "/")
-      .split("?")[0]
-      .split("#")[0]
-      .replace(/\/+/g, "/");
-
-    // Normalize homepage.
-    normalized = normalized.replace(/\/index\.html$/i, "");
-
-    // Remove .html extensions.
-    normalized = normalized.replace(/\.html$/i, "");
-
-    // Treat /pages/example as /example.
-    normalized = normalized.replace(/^\/pages(?=\/)/i, "");
-
-    // Remove trailing slash, except for homepage.
-    normalized = normalized.replace(/\/+$/, "");
-
-    return normalized || "/";
-  }
-
-  function getCurrentPath() {
-    return normalizePath(window.location.pathname);
-  }
-
-  function isCurrentPage(url) {
-    try {
-      const target = new URL(url, window.location.origin);
-
-      return getCurrentPath() === normalizePath(target.pathname);
-    } catch (error) {
-      console.warn(
-        "EA Somalia: Could not compare navigation URL:",
-        url,
-        error
-      );
-
-      return false;
-    }
-  }
-
-  // ========================================================
-  // Safe Local Storage
-  // ========================================================
-
-  function safeStorageGet(key) {
-    try {
-      return window.localStorage.getItem(key);
-    } catch (error) {
-      return null;
-    }
-  }
-
-  function safeStorageSet(key, value) {
-    try {
-      window.localStorage.setItem(key, value);
-      return true;
-    } catch (error) {
-      return false;
-    }
-  }
-
-  // ========================================================
-  // Safe Component Initialization
-  // ========================================================
 
   function runSafely(name, callback) {
     try {
@@ -247,28 +110,105 @@
   }
 
   // ========================================================
-  // Vercel Web Analytics
+  // SAFE LOCAL STORAGE
+  // ========================================================
+
+  function safeStorageGet(key) {
+    try {
+      return localStorage.getItem(key);
+    } catch (_) {
+      return null;
+    }
+  }
+
+  function safeStorageSet(key, value) {
+    try {
+      localStorage.setItem(key, value);
+      return true;
+    } catch (_) {
+      return false;
+    }
+  }
+
+  // ========================================================
+  // URL AND PATH HELPERS
+  // ========================================================
+
+  function normalizePath(path = "/") {
+    let normalized = String(path || "/").trim();
+
+    try {
+      if (/^[a-z][a-z\d+.-]*:\/\//i.test(normalized)) {
+        normalized = new URL(normalized).pathname;
+      }
+    } catch (_) {
+      return "/";
+    }
+
+    normalized = normalized
+      .split(/[?#]/, 1)[0]
+      .replace(/\\/g, "/")
+      .replace(/\/{2,}/g, "/");
+
+    normalized = normalized.replace(/\/index\.html$/i, "");
+    normalized = normalized.replace(/\.html$/i, "");
+    normalized = normalized.replace(/^\/pages(?=\/|$)/i, "");
+    normalized = normalized.replace(/\/+$/, "");
+
+    return normalized || "/";
+  }
+
+  function getCurrentPath() {
+    return normalizePath(window.location.pathname);
+  }
+
+  function isCurrentPage(url) {
+    try {
+      const target = new URL(url, window.location.origin);
+
+      if (target.origin !== window.location.origin) {
+        return false;
+      }
+
+      return getCurrentPath() === normalizePath(target.pathname);
+
+    } catch (error) {
+      console.warn(
+        "EA Somalia: Could not compare navigation URL:",
+        url,
+        error
+      );
+
+      return false;
+    }
+  }
+
+  // ========================================================
+  // VERCEL ANALYTICS
   // ========================================================
 
   function initializeAnalytics() {
-    const scriptPath = "/_vercel/insights/script.js";
-
-    // Do not insert the analytics script more than once.
-    const existingScript = $(
-      'script[src="/_vercel/insights/script.js"]'
-    );
-
-    if (existingScript) return;
-
-    // Initialize the Vercel analytics queue.
     window.va = window.va || function () {
       (window.vaq = window.vaq || []).push(arguments);
     };
 
+    const alreadyLoaded = $$("script[src]").some(script => {
+      try {
+        return new URL(
+          script.src,
+          window.location.href
+        ).pathname === ANALYTICS_PATH;
+      } catch (_) {
+        return false;
+      }
+    });
+
+    if (alreadyLoaded) return;
+
     const script = document.createElement("script");
 
     script.defer = true;
-    script.src = scriptPath;
+    script.src = ANALYTICS_PATH;
 
     script.onerror = () => {
       console.warn(
@@ -280,12 +220,12 @@
   }
 
   // ========================================================
-  // Fellowship Navigation Markup
+  // FELLOWSHIP NAVIGATION
   // ========================================================
 
   function renderFellowshipLinks() {
     return FELLOWSHIPS.map(fellow => {
-      // Coming-soon items are not links.
+
       if (!fellow.active) {
         return `
           <span
@@ -313,15 +253,17 @@
           </span>
         </a>
       `;
+
     }).join("");
   }
 
   // ========================================================
-  // Main Navigation Markup
+  // REGULAR NAVIGATION LINKS
   // ========================================================
 
   function renderRegularNavigationLinks() {
     return NAV_LINKS.map(link => {
+
       const active = isCurrentPage(link.url);
 
       return `
@@ -333,23 +275,23 @@
           ${escapeHTML(link.label)}
         </a>
       `;
+
     }).join("");
   }
+
+  // ========================================================
+  // MAIN NAVIGATION
+  // ========================================================
 
   function renderNavigation() {
     const container = $("#site-nav");
 
     if (!container) return;
 
-    const regularLinks = renderRegularNavigationLinks();
-    const fellowshipLinks = renderFellowshipLinks();
-
     container.innerHTML = `
       <nav class="navbar" aria-label="Main navigation">
 
         <div class="nav-container">
-
-          <!-- Brand -->
 
           <a
             class="nav-brand"
@@ -360,14 +302,14 @@
               src="/images/logo.png"
               alt=""
               class="nav-logo"
+              width="40"
+              height="40"
             >
 
             <span class="nav-brand-text">
               EA Somalia
             </span>
           </a>
-
-          <!-- Mobile Navigation Toggle -->
 
           <button
             class="nav-toggle"
@@ -381,13 +323,9 @@
             <span></span>
           </button>
 
-          <!-- Navigation Menu -->
-
           <div class="menu" id="main-menu">
 
-            ${regularLinks}
-
-            <!-- Fellowship Dropdown -->
+            ${renderRegularNavigationLinks()}
 
             <div class="nav-dropdown fellowship-dropdown">
 
@@ -411,13 +349,12 @@
               <div
                 class="dropdown-menu fellowship-menu"
                 id="fellowship-menu"
+                hidden
               >
-                ${fellowshipLinks}
+                ${renderFellowshipLinks()}
               </div>
 
             </div>
-
-            <!-- Fellowship Call to Action -->
 
             <a
               class="nav-cta"
@@ -425,8 +362,6 @@
             >
               Join the EA Fellowship
             </a>
-
-            <!-- Theme Toggle -->
 
             <button
               class="theme-toggle"
@@ -460,11 +395,12 @@
   }
 
   // ========================================================
-  // Footer
+  // FOOTER
   // ========================================================
 
   function renderFooterFellowships() {
     return FELLOWSHIPS.map(fellow => {
+
       if (!fellow.active) {
         return `
           <li>
@@ -486,6 +422,7 @@
           </a>
         </li>
       `;
+
     }).join("");
   }
 
@@ -495,14 +432,11 @@
     if (!container) return;
 
     const currentYear = new Date().getFullYear();
-    const fellowshipLinks = renderFooterFellowships();
 
     container.innerHTML = `
       <footer class="site-footer">
 
         <div class="footer-container">
-
-          <!-- Footer Brand -->
 
           <div class="footer-brand">
 
@@ -514,6 +448,8 @@
               <img
                 src="/images/logo.png"
                 alt=""
+                width="40"
+                height="40"
               >
 
               <span>EA Somalia</span>
@@ -525,19 +461,15 @@
 
           </div>
 
-          <!-- Learn -->
-
           <div class="footer-column">
 
             <h3>Learn</h3>
 
             <ul>
-              ${fellowshipLinks}
+              ${renderFooterFellowships()}
             </ul>
 
           </div>
-
-          <!-- More -->
 
           <div class="footer-column">
 
@@ -571,8 +503,6 @@
 
           </div>
 
-          <!-- Contact -->
-
           <div class="footer-column">
 
             <h3>Contact</h3>
@@ -599,8 +529,6 @@
 
         </div>
 
-        <!-- Copyright -->
-
         <div class="footer-bottom">
 
           <p>
@@ -614,7 +542,7 @@
   }
 
   // ========================================================
-  // Theme Management
+  // THEME MANAGEMENT
   // ========================================================
 
   function getPreferredTheme() {
@@ -624,14 +552,9 @@
       return savedTheme;
     }
 
-    if (
-      window.matchMedia &&
-      window.matchMedia("(prefers-color-scheme: dark)").matches
-    ) {
-      return "dark";
-    }
-
-    return "light";
+    return window.matchMedia?.(
+      "(prefers-color-scheme: dark)"
+    ).matches ? "dark" : "light";
   }
 
   function applyTheme(theme) {
@@ -642,6 +565,15 @@
 
     root.setAttribute("data-theme", selectedTheme);
     root.style.colorScheme = selectedTheme;
+
+    const metaTheme = $('meta[name="theme-color"]');
+
+    if (metaTheme) {
+      metaTheme.setAttribute(
+        "content",
+        selectedTheme === "dark" ? "#111827" : "#ffffff"
+      );
+    }
 
     const toggle = $(".theme-toggle");
 
@@ -682,13 +614,13 @@
 
     toggle.dataset.initialized = "true";
 
-    // Apply the current theme to the newly rendered toggle.
     applyTheme(
       document.documentElement.getAttribute("data-theme") ||
       getPreferredTheme()
     );
 
     toggle.addEventListener("click", () => {
+
       const currentTheme =
         document.documentElement.getAttribute("data-theme") ||
         "light";
@@ -698,11 +630,23 @@
 
       safeStorageSet(THEME_KEY, nextTheme);
       applyTheme(nextTheme);
+
+    });
+
+    window.addEventListener("storage", event => {
+
+      if (
+        event.key === THEME_KEY &&
+        (event.newValue === "dark" || event.newValue === "light")
+      ) {
+        applyTheme(event.newValue);
+      }
+
     });
   }
 
   // ========================================================
-  // Mobile Navigation
+  // MOBILE NAVIGATION
   // ========================================================
 
   function initializeMobileNavigation(parent = document) {
@@ -715,71 +659,88 @@
 
     toggle.dataset.initialized = "true";
 
-    function closeMenu() {
-      menu.classList.remove("show");
-      toggle.classList.remove("active");
+    const mediaQuery = window.matchMedia?.(MOBILE_QUERY);
 
-      toggle.setAttribute("aria-expanded", "false");
+    function setMenuOpen(open, returnFocus = false) {
+
+      menu.classList.toggle("show", open);
+      toggle.classList.toggle("active", open);
+
+      toggle.setAttribute("aria-expanded", String(open));
+
       toggle.setAttribute(
         "aria-label",
-        "Open navigation menu"
+        open ? "Close navigation menu" : "Open navigation menu"
       );
-    }
 
-    function openMenu() {
-      menu.classList.add("show");
-      toggle.classList.add("active");
-
-      toggle.setAttribute("aria-expanded", "true");
-      toggle.setAttribute(
-        "aria-label",
-        "Close navigation menu"
-      );
-    }
-
-    // Toggle the mobile menu.
-    toggle.addEventListener("click", () => {
-      const isOpen = menu.classList.contains("show");
-
-      if (isOpen) {
-        closeMenu();
+      if (mediaQuery?.matches) {
+        menu.hidden = !open;
+        menu.inert = !open;
       } else {
-        openMenu();
+        menu.hidden = false;
+        menu.inert = false;
       }
+
+      if (!open && returnFocus) {
+        toggle.focus();
+      }
+    }
+
+    setMenuOpen(false);
+
+    toggle.addEventListener("click", () => {
+
+      const isOpen =
+        toggle.getAttribute("aria-expanded") === "true";
+
+      setMenuOpen(!isOpen);
+
     });
 
-    // Close after selecting a navigation link.
-    $$("a", menu).forEach(link => {
-      link.addEventListener("click", closeMenu);
+    menu.addEventListener("click", event => {
+
+      if (event.target.closest("a")) {
+        setMenuOpen(false);
+      }
+
     });
 
-    // Close with Escape.
     document.addEventListener("keydown", event => {
-      if (event.key === "Escape") {
-        closeMenu();
+
+      if (
+        event.key === "Escape" &&
+        toggle.getAttribute("aria-expanded") === "true"
+      ) {
+        setMenuOpen(false, true);
       }
+
     });
 
-    // Close when clicking outside the navigation.
     document.addEventListener("click", event => {
+
       if (!parent.contains(event.target)) {
-        closeMenu();
+        setMenuOpen(false);
       }
+
     });
 
-    // Close when switching back to desktop layout.
-    window.addEventListener("resize", () => {
-      if (window.innerWidth > MOBILE_BREAKPOINT) {
-        closeMenu();
-      }
-    });
+    const handleBreakpointChange = () => {
+      setMenuOpen(false);
+    };
+
+    if (mediaQuery?.addEventListener) {
+      mediaQuery.addEventListener("change", handleBreakpointChange);
+    } else if (mediaQuery?.addListener) {
+      mediaQuery.addListener(handleBreakpointChange);
+    }
   }
 
   // ========================================================
-  // Fellowship Dropdown
+  // FELLOWSHIP DROPDOWN
   // ========================================================
 
   function initializeFellowshipDropdown(parent = document) {
+
     const dropdown = $(".fellowship-dropdown", parent);
 
     if (!dropdown) return;
@@ -793,99 +754,164 @@
 
     button.dataset.initialized = "true";
 
-    function closeDropdown() {
-      dropdown.classList.remove("open");
-      button.setAttribute("aria-expanded", "false");
+    function setOpen(open, returnFocus = false) {
+
+      dropdown.classList.toggle("open", open);
+
+      button.setAttribute(
+        "aria-expanded",
+        String(open)
+      );
+
+      menu.hidden = !open;
+      menu.inert = !open;
+
+      if (!open && returnFocus) {
+        button.focus();
+      }
     }
 
-    function openDropdown() {
-      dropdown.classList.add("open");
-      button.setAttribute("aria-expanded", "true");
-    }
-
-    // Click to open or close.
     button.addEventListener("click", event => {
+
       event.stopPropagation();
 
-      const isOpen = dropdown.classList.contains("open");
+      const isOpen =
+        button.getAttribute("aria-expanded") === "true";
 
-      if (isOpen) {
-        closeDropdown();
-      } else {
-        openDropdown();
-      }
+      setOpen(!isOpen);
+
     });
 
-    // Desktop hover support.
     dropdown.addEventListener("mouseenter", () => {
-      if (window.innerWidth > MOBILE_BREAKPOINT) {
-        openDropdown();
+
+      if (
+        window.matchMedia?.(
+          "(hover: hover) and (pointer: fine)"
+        ).matches
+      ) {
+        setOpen(true);
       }
+
     });
 
     dropdown.addEventListener("mouseleave", () => {
-      if (window.innerWidth > MOBILE_BREAKPOINT) {
-        closeDropdown();
+
+      if (
+        window.matchMedia?.(
+          "(hover: hover) and (pointer: fine)"
+        ).matches
+      ) {
+        setOpen(false);
       }
+
     });
 
-    // Close when clicking outside.
-    document.addEventListener("click", event => {
-      if (!dropdown.contains(event.target)) {
-        closeDropdown();
-      }
-    });
-
-    // Keyboard support.
     dropdown.addEventListener("keydown", event => {
+
+      const links = $$("a[href]", menu);
+
+      const currentIndex =
+        links.indexOf(document.activeElement);
+
       if (event.key === "Escape") {
-        closeDropdown();
-        button.focus();
+
+        event.preventDefault();
+        setOpen(false, true);
+
+      } else if (event.key === "ArrowDown" && links.length) {
+
+        event.preventDefault();
+        setOpen(true);
+
+        links[
+          Math.min(currentIndex + 1, links.length - 1)
+        ].focus();
+
+      } else if (event.key === "ArrowUp" && links.length) {
+
+        event.preventDefault();
+        setOpen(true);
+
+        links[
+          currentIndex <= 0 ? 0 : currentIndex - 1
+        ].focus();
+
+      } else if (event.key === "Home" && links.length) {
+
+        event.preventDefault();
+        setOpen(true);
+        links[0].focus();
+
+      } else if (event.key === "End" && links.length) {
+
+        event.preventDefault();
+        setOpen(true);
+        links[links.length - 1].focus();
+
       }
+
     });
 
-    // Close when focus leaves the dropdown.
-    dropdown.addEventListener("focusout", event => {
-      if (!dropdown.contains(event.relatedTarget)) {
-        closeDropdown();
+    document.addEventListener("click", event => {
+
+      if (!dropdown.contains(event.target)) {
+        setOpen(false);
       }
+
     });
+
+    dropdown.addEventListener("focusout", event => {
+
+      if (!dropdown.contains(event.relatedTarget)) {
+        setOpen(false);
+      }
+
+    });
+
+    setOpen(false);
   }
 
   // ========================================================
-  // Initialize Shared Components
+  // INITIALIZE SHARED COMPONENTS
   // ========================================================
 
   function initialize() {
-    // Apply the preferred theme before rendering navigation.
+
     runSafely("theme", () => {
       applyTheme(getPreferredTheme());
     });
 
     runSafely("analytics", initializeAnalytics);
+
     runSafely("navigation", renderNavigation);
+
     runSafely("footer", renderFooter);
 
-    // Public API for other website scripts.
-    window.EASomalia = window.EASomalia || {};
+    Object.assign(window.EASomalia, {
+      getCurrentPath,
+      isCurrentPage,
+      normalizePath,
+      initialized: true
+    });
 
-    window.EASomalia.getCurrentPath = getCurrentPath;
-    window.EASomalia.isCurrentPage = isCurrentPage;
-    window.EASomalia.normalizePath = normalizePath;
-
-    window.EASomalia.initialized = true;
   }
 
   // ========================================================
-  // DOM Ready
+  // DOM READY
   // ========================================================
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initialize, {
-      once: true
-    });
+
+    document.addEventListener(
+      "DOMContentLoaded",
+      initialize,
+      { once: true }
+    );
+
   } else {
+
     initialize();
+
   }
 
 })();
