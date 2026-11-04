@@ -1,0 +1,252 @@
+/* ==========================================================
+   EA SOMALIA — OPPORTUNITIES PAGE
+   Uses the tokens from style.css, so light/dark mode just works.
+   ========================================================== */
+
+/* ---------- Tabs ---------- */
+
+.opp-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  border-bottom: 1px solid var(--brand-border);
+}
+
+.opp-tab {
+  display: inline-flex;
+  align-items: center;
+  padding: 14px 22px;
+  border: 0;
+  border-bottom: 3px solid transparent;
+  background: transparent;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.2;
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    color var(--transition),
+    border-color var(--transition),
+    background var(--transition);
+}
+
+.opp-tab:hover {
+  background: var(--surface-hover);
+  color: var(--text);
+}
+
+.opp-tab.active {
+  border-bottom-color: var(--brand-blue);
+  color: var(--text);
+}
+
+.opp-panel {
+  padding-top: 26px;
+}
+
+/* ---------- Search and filters ---------- */
+
+.opp-input,
+.opp-filters select {
+  width: 100%;
+  border: 1px solid var(--brand-border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-soft);
+  color: var(--text);
+  font-family: var(--font-body);
+  transition:
+    border-color var(--transition),
+    background var(--transition);
+}
+
+.opp-input {
+  min-height: 52px;
+  padding: 12px 16px;
+  font-size: 1rem;
+}
+
+.opp-input::placeholder {
+  color: var(--text-muted);
+}
+
+.opp-input:hover,
+.opp-filters select:hover {
+  border-color: var(--brand-bright);
+}
+
+.opp-filters {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0 22px;
+}
+
+.opp-filters select {
+  min-height: 46px;
+  padding: 10px 12px;
+  background: var(--surface);
+  font-size: 0.94rem;
+  cursor: pointer;
+}
+
+.opp-clear {
+  justify-self: start;
+  padding: 8px 4px;
+  border: 0;
+  background: none;
+  color: var(--brand-blue);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.opp-clear:hover {
+  color: var(--brand-bright);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.opp-count {
+  margin-bottom: 16px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.opp-count strong {
+  color: var(--text);
+  font-size: 1.05rem;
+}
+
+/* ---------- Opportunity cards ---------- */
+
+.opp-card {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 16px;
+  padding: clamp(18px, 3vw, 26px);
+  border: 1px solid var(--brand-border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  transition:
+    transform var(--transition),
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.opp-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--brand-bright);
+  box-shadow: var(--shadow-md);
+}
+
+.opp-card h3 {
+  margin: 0 0 6px;
+  font-size: 1.22rem;
+  line-height: 1.35;
+}
+
+.opp-meta {
+  margin: 0 0 14px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+/* ---------- Tags ---------- */
+
+.opp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.opp-tag {
+  padding: 4px 11px;
+  border-radius: var(--radius-pill);
+  background: color-mix(in srgb, var(--success) 14%, transparent);
+  color: var(--success);
+  font-size: 0.8rem;
+  font-weight: 600;
+  line-height: 1.5;
+}
+
+.opp-tag.type {
+  background: var(--brand-light);
+  color: var(--brand-blue);
+}
+
+.opp-tag.src {
+  border: 1px solid var(--brand-border);
+  background: var(--bg-soft);
+  color: var(--text-muted);
+}
+
+/* ---------- Deadline and apply button ---------- */
+
+.opp-side {
+  display: flex;
+  min-width: 190px;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  text-align: right;
+}
+
+.opp-deadline {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+  line-height: 1.5;
+}
+
+.opp-deadline.urgent {
+  color: var(--warning);
+  font-weight: 700;
+}
+
+/* ---------- Empty state ---------- */
+
+.opp-empty {
+  padding: 36px 24px;
+  border: 1px dashed var(--brand-border);
+  border-radius: var(--radius-md);
+  background: var(--bg-soft);
+  color: var(--text-muted);
+  text-align: center;
+}
+
+/* ---------- Mobile ---------- */
+
+@media (max-width: 700px) {
+  .opp-tab {
+    padding: 12px 14px;
+    font-size: 0.92rem;
+  }
+
+  .opp-card {
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .opp-side {
+    width: 100%;
+    min-width: 0;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+@media (max-width: 420px) {
+  .opp-side {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .opp-side .btn {
+    width: 100%;
+  }
+}
