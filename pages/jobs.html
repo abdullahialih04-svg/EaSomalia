@@ -1107,42 +1107,26 @@ const ORG_LOGOS = {
   }
 
 
-  /* =========================================
-     POPULATE FILTERS
-     FULL-TIME EXCLUDED
-  ========================================= */
+  /* POPULATE FILTERS */
 
-  Object.keys(filters).forEach(key => {
+Object.keys(filters).forEach(key => {
+  const filter = filters[key];
 
-    const filter = filters[key];
+  const values = unique(
+    JOBS.flatMap(job => {
+      const value = filter.get(job);
+      return Array.isArray(value) ? value : [value];
+    })
+  );
 
-    let values = unique(
-      JOBS.flatMap(job => {
-        const value = filter.get(job);
-        return Array.isArray(value) ? value : [value];
-      })
-    );
-
-    // Remove Full-time from role-type filter
-    if (key === "type") {
-      values = values.filter(
-        value => value.toLowerCase() !== "full-time"
-      );
-    }
-
-    values.forEach(value => {
-
-      const option = element("option", "", value);
-      option.value = value;
-
-      filter.el.appendChild(option);
-
-    });
-
-    filter.el.addEventListener("change", render);
-
+  values.forEach(value => {
+    const option = element("option", "", value);
+    option.value = value;
+    filter.el.appendChild(option);
   });
 
+  filter.el.addEventListener("change", render);
+});
 
   /* =========================================
      SEARCH
@@ -1313,36 +1297,30 @@ const ORG_LOGOS = {
     });
 
 
-    /* =====================================================
-       JOB METADATA
-       ONLY AREA + LEVEL
-       FULL-TIME IS NOT DISPLAYED
-    ===================================================== */
+   /* JOB METADATA — NO FULL-TIME BADGE */
 
-    const footer = element("div", "jb-foot");
+const footer = element("div", "jb-foot");
+const metaGroup = element("div", "jb-meta-group");
 
-    const metaGroup = element("div", "jb-meta-group");
+if (job.area) {
+  metaGroup.appendChild(
+    element("span", "jb-chip area", job.area)
+  );
+}
 
+if (job.level) {
+  metaGroup.appendChild(
+    element("span", "jb-chip level", job.level)
+  );
+}
 
-    if (job.area) {
+footer.appendChild(metaGroup);
 
-      metaGroup.appendChild(
-        element("span", "jb-chip area", job.area)
-      );
-
-    }
-
-
-    if (job.level) {
-
-      metaGroup.appendChild(
-        element("span", "jb-chip level", job.level)
-      );
-
-    }
-
-
-    footer.appendChild(metaGroup);
+if (job.posted) {
+  footer.appendChild(
+    element("span", "jb-when", ago(job.posted))
+  );
+}
 
 
     /* POSTING DATE */
