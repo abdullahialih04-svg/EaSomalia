@@ -34,9 +34,19 @@
 
   const normalizePath = (value) => {
     let normalized = value || "/";
-    normalized = normalized.replace(/\\/$/, "") || "/";
-    normalized = normalized.replace(/^\\/pages(?=\\/)/, "");
-    normalized = normalized.replace(/\\.html$/, "");
+
+    if (normalized.length > 1 && normalized.endsWith("/")) {
+      normalized = normalized.slice(0, -1);
+    }
+
+    if (normalized.startsWith("/pages/")) {
+      normalized = normalized.slice("/pages".length);
+    }
+
+    if (normalized.endsWith(".html")) {
+      normalized = normalized.slice(0, -".html".length);
+    }
+
     if (normalized === "/index") normalized = "/";
     return normalized;
   };
