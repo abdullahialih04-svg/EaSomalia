@@ -1,15 +1,90 @@
 /* ==========================================================
    EA SOMALIA — OPPORTUNITIES PAGE
-   Uses the tokens from style.css, so light/dark mode just works.
+   ----------------------------------------------------------
+   Page-specific styles for the opportunities board.
+
+   Uses global design tokens from style.css.
+   Supports light and dark themes.
    ========================================================== */
 
-/* ---------- Hero button spacing ---------- */
 
-.hero .btn {
+/* ==========================================================
+   1. HERO
+   ========================================================== */
+
+.opp-page .hero .btn {
   margin-top: 6px;
 }
 
-/* ---------- Tabs ---------- */
+
+/* ==========================================================
+   2. PAGE HEADER
+   ========================================================== */
+
+.opp-head-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px 36px;
+}
+
+.opp-head h1 {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: clamp(2.2rem, 5vw, 3.2rem);
+  font-weight: 800;
+  letter-spacing: -0.04em;
+  line-height: 1.1;
+}
+
+.opp-head p {
+  max-width: 58ch;
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 1.02rem;
+  line-height: 1.7;
+}
+
+
+/* ==========================================================
+   3. CAREER ADVISOR
+   ========================================================== */
+
+.opp-advisor {
+  width: 100%;
+  max-width: 320px;
+  padding: 20px;
+  border: 1px solid var(--brand-border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  text-align: right;
+}
+
+.opp-advisor p {
+  margin: 0 0 12px;
+  color: var(--text);
+  font-size: 0.94rem;
+  line-height: 1.6;
+}
+
+.opp-advisor a {
+  color: var(--brand-blue);
+  font-size: 0.88rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: color var(--transition);
+}
+
+.opp-advisor a:hover {
+  color: var(--brand-bright);
+}
+
+
+/* ==========================================================
+   4. TABS
+   ========================================================== */
 
 .opp-tabs {
   display: flex;
@@ -20,16 +95,21 @@
 
 .opp-tab {
   display: inline-flex;
+  flex: 1 1 auto;
   align-items: center;
-  padding: 14px 22px;
+  justify-content: center;
+  min-height: 48px;
+  padding: 13px 20px;
   border: 0;
   border-bottom: 3px solid transparent;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
   background: transparent;
   color: var(--text-muted);
   font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 0.96rem;
   font-weight: 600;
-  line-height: 1.2;
+  line-height: 1.3;
+  text-align: center;
   text-decoration: none;
   cursor: pointer;
   transition:
@@ -45,65 +125,187 @@
 
 .opp-tab.active {
   border-bottom-color: var(--brand-blue);
+  background: var(--surface);
   color: var(--text);
 }
 
-.opp-panel {
-  padding-top: 26px;
+.opp-tab:focus-visible {
+  outline: 2px solid var(--brand-bright);
+  outline-offset: 3px;
 }
 
-/* ---------- Search and filters ---------- */
 
-.opp-input,
-.opp-filters select {
+/* ==========================================================
+   5. SEARCH PANEL
+   ========================================================== */
+
+.opp-filter-card {
+  padding: 22px;
+  border: 1px solid var(--brand-border);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-md) var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+}
+
+.opp-search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.opp-searchbox {
+  position: relative;
+  flex: 1 1 320px;
+  min-width: 0;
+}
+
+.opp-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 15px;
+  width: 19px;
+  height: 19px;
+  color: var(--text-muted);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+
+/* ==========================================================
+   6. SEARCH INPUT
+   ========================================================== */
+
+.opp-input {
+  display: block;
   width: 100%;
+  min-height: 50px;
+  padding: 12px 16px 12px 46px;
   border: 1px solid var(--brand-border);
   border-radius: var(--radius-sm);
+  outline: none;
   background: var(--bg-soft);
   color: var(--text);
   font-family: var(--font-body);
+  font-size: 0.96rem;
   transition:
     border-color var(--transition),
+    box-shadow var(--transition),
     background var(--transition);
-}
-
-.opp-input {
-  min-height: 52px;
-  padding: 12px 16px;
-  font-size: 1rem;
 }
 
 .opp-input::placeholder {
   color: var(--text-muted);
 }
 
-.opp-input:hover,
-.opp-filters select:hover {
+.opp-input:hover {
   border-color: var(--brand-bright);
 }
 
-.opp-filters {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  align-items: center;
-  gap: 12px;
-  margin: 14px 0 22px;
+.opp-input:focus {
+  border-color: var(--brand-blue);
+  background: var(--surface);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--brand-blue) 14%, transparent);
 }
 
-.opp-filters select {
-  min-height: 46px;
-  padding: 10px 12px;
+
+/* ==========================================================
+   7. FILTERS
+   ========================================================== */
+
+.opp-filters {
+  display: grid;
+  grid-template-columns: repeat(
+    auto-fit,
+    minmax(165px, 1fr)
+  );
+  align-items: center;
+  gap: 12px;
+  margin: 14px 0 0;
+}
+
+.opp-filters select,
+.opp-sort select {
+  width: 100%;
+  min-width: 0;
+  min-height: 44px;
+  padding: 9px 12px;
+  border: 1px solid var(--brand-border);
+  border-radius: var(--radius-sm);
+  outline: none;
   background: var(--surface);
-  font-size: 0.94rem;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.91rem;
   cursor: pointer;
+  transition:
+    border-color var(--transition),
+    box-shadow var(--transition);
+}
+
+.opp-filters select:hover,
+.opp-sort select:hover {
+  border-color: var(--brand-bright);
+}
+
+.opp-filters select:focus,
+.opp-sort select:focus {
+  border-color: var(--brand-blue);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--brand-blue) 12%, transparent);
+}
+
+
+/* ==========================================================
+   8. RESULTS TOOLBAR
+   ========================================================== */
+
+.opp-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 20px;
+  margin: 24px 0 16px;
+}
+
+.opp-bar-left {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 16px;
+}
+
+#opp-count {
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 700;
+}
+
+.opp-sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.opp-sort select {
+  width: auto;
+  min-width: 145px;
+  min-height: 38px;
+  border-radius: var(--radius-pill);
+  font-weight: 600;
 }
 
 .opp-clear {
   justify-self: start;
   padding: 8px 4px;
   border: 0;
-  background: none;
+  background: transparent;
   color: var(--brand-blue);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
   font-weight: 600;
   cursor: pointer;
 }
@@ -114,29 +316,21 @@
   text-underline-offset: 4px;
 }
 
-.opp-count {
-  margin-bottom: 16px;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-}
 
-.opp-count strong {
-  color: var(--text);
-  font-size: 1.05rem;
-}
-
-/* ---------- Opportunity cards ---------- */
+/* ==========================================================
+   9. OPPORTUNITY CARDS
+   ========================================================== */
 
 .opp-card {
   display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
+  flex-direction: column;
+  gap: 13px;
   margin-bottom: 16px;
   padding: clamp(18px, 3vw, 26px);
   border: 1px solid var(--brand-border);
   border-radius: var(--radius-md);
   background: var(--surface);
+  box-shadow: var(--shadow-sm);
   transition:
     transform var(--transition),
     border-color var(--transition),
@@ -149,110 +343,321 @@
   box-shadow: var(--shadow-md);
 }
 
-.opp-card h3 {
-  margin: 0 0 6px;
-  font-size: 1.22rem;
-  line-height: 1.35;
-}
 
-.opp-meta {
-  margin: 0 0 14px;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-}
+/* ==========================================================
+   10. CARD HEADER AND TAGS
+   ========================================================== */
 
-/* ---------- Tags ---------- */
-
-.opp-tags {
+.job-card-header {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+}
+
+.job-card-tags {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
   gap: 8px;
 }
 
-.opp-tag {
-  padding: 4px 11px;
+.job-category,
+.job-type,
+.job-featured {
+  display: inline-flex;
+  align-items: center;
+  min-height: 27px;
+  padding: 4px 10px;
   border-radius: var(--radius-pill);
-  background: color-mix(in srgb, var(--success) 14%, transparent);
-  color: var(--success);
-  font-size: 0.8rem;
-  font-weight: 600;
-  line-height: 1.5;
+  font-size: 0.78rem;
+  font-weight: 700;
+  line-height: 1.3;
 }
 
-.opp-tag.type {
+.job-category {
+  background: color-mix(
+    in srgb,
+    var(--success) 13%,
+    transparent
+  );
+  color: var(--success);
+}
+
+.job-type {
   background: var(--brand-light);
   color: var(--brand-blue);
 }
 
-.opp-tag.src {
-  border: 1px solid var(--brand-border);
-  background: var(--bg-soft);
-  color: var(--text-muted);
+.job-featured {
+  background: color-mix(
+    in srgb,
+    var(--warning) 17%,
+    transparent
+  );
+  color: var(--warning);
 }
 
-/* ---------- Deadline and apply button ---------- */
 
-.opp-side {
-  display: flex;
-  min-width: 190px;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 12px;
-  text-align: right;
+/* ==========================================================
+   11. CARD TITLE AND ORGANISATION
+   ========================================================== */
+
+.job-title {
+  margin: 0;
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: clamp(1.15rem, 2vw, 1.35rem);
+  font-weight: 750;
+  letter-spacing: -0.02em;
+  line-height: 1.4;
+  overflow-wrap: anywhere;
 }
 
-.opp-deadline {
+.job-organization {
+  margin: -7px 0 0;
   color: var(--text-secondary);
-  font-size: 0.9rem;
+  font-size: 0.96rem;
+  font-weight: 600;
   line-height: 1.5;
 }
 
-.opp-deadline.urgent {
-  color: var(--warning);
-  font-weight: 700;
+
+/* ==========================================================
+   12. DESCRIPTION AND ELIGIBILITY
+   ========================================================== */
+
+.job-card .job-description {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.93rem;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
 }
 
-/* ---------- Empty state ---------- */
+.job-eligibility {
+  margin: 0;
+  padding: 11px 14px;
+  border-left: 3px solid var(--brand-blue);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  background: var(--bg-soft);
+  color: var(--text-secondary);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+
+/* ==========================================================
+   13. METADATA
+   ========================================================== */
+
+.job-meta-list {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px 16px;
+  color: var(--text-secondary);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.job-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+
+/* ==========================================================
+   14. CARD FOOTER AND DEADLINE
+   ========================================================== */
+
+.job-card-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px 20px;
+  margin-top: 5px;
+  padding-top: 16px;
+  border-top: 1px solid var(--brand-border);
+}
+
+.job-deadline {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  color: var(--text-secondary);
+  font-size: 0.86rem;
+  line-height: 1.5;
+}
+
+.job-deadline span:first-child {
+  font-weight: 600;
+}
+
+
+/* ==========================================================
+   15. APPLY BUTTON
+   ========================================================== */
+
+.job-card .job-apply {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 18px;
+  border: 1px solid var(--brand-blue);
+  border-radius: var(--radius-sm);
+  background: var(--brand-blue);
+  color: #fff;
+  font-family: var(--font-body);
+  font-size: 0.88rem;
+  font-weight: 700;
+  line-height: 1.3;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background var(--transition),
+    border-color var(--transition),
+    transform var(--transition);
+}
+
+.job-card .job-apply:hover {
+  transform: translateY(-1px);
+  border-color: var(--brand-bright);
+  background: var(--brand-bright);
+  color: #fff;
+}
+
+
+/* ==========================================================
+   16. EMPTY STATE
+   ========================================================== */
 
 .opp-empty {
-  padding: 36px 24px;
+  padding: 42px 24px;
   border: 1px dashed var(--brand-border);
   border-radius: var(--radius-md);
-  background: var(--bg-soft);
+  background: var(--surface);
   color: var(--text-muted);
   text-align: center;
 }
 
-/* ---------- Mobile ---------- */
+.opp-empty h3 {
+  margin: 0 0 9px;
+  color: var(--text);
+  font-size: 1.15rem;
+  font-weight: 700;
+}
 
-@media (max-width: 700px) {
-  .opp-tab {
-    padding: 12px 14px;
-    font-size: 0.92rem;
-  }
+.opp-empty p {
+  max-width: 52ch;
+  margin: 0 auto;
+  color: var(--text-secondary);
+  font-size: 0.93rem;
+  line-height: 1.65;
+}
 
-  .opp-card {
-    flex-direction: column;
-    gap: 16px;
-  }
 
-  .opp-side {
-    width: 100%;
-    min-width: 0;
-    flex-direction: row;
-    align-items: center;
-    justify-content: space-between;
-    text-align: left;
+/* ==========================================================
+   17. ACCESSIBILITY
+   ========================================================== */
+
+.opp-page button:focus-visible,
+.opp-page a:focus-visible,
+.opp-page input:focus-visible,
+.opp-page select:focus-visible {
+  outline: 2px solid var(--brand-bright);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .opp-page *,
+  .opp-page *::before,
+  .opp-page *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
 
-@media (max-width: 420px) {
-  .opp-side {
-    flex-direction: column;
+
+/* ==========================================================
+   18. TABLET
+   ========================================================== */
+
+@media (max-width: 760px) {
+  .opp-head-inner {
     align-items: stretch;
   }
 
-  .opp-side .btn {
+  .opp-advisor {
+    max-width: none;
+    text-align: left;
+  }
+
+  .opp-filter-card {
+    padding: 16px;
+  }
+
+  .opp-filters {
+    grid-template-columns: repeat(
+      2,
+      minmax(0, 1fr)
+    );
+  }
+
+  .opp-card {
+    padding: 20px;
+  }
+}
+
+
+/* ==========================================================
+   19. MOBILE
+   ========================================================== */
+
+@media (max-width: 520px) {
+  .opp-head h1 {
+    font-size: 2.2rem;
+  }
+
+  .opp-tab {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+
+  .opp-filter-card {
+    padding: 13px;
+  }
+
+  .opp-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .opp-bar {
+    align-items: flex-start;
+  }
+
+  .opp-bar-left {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .opp-sort select {
+    min-width: 125px;
+  }
+
+  .job-card-footer {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .job-card .job-apply {
     width: 100%;
   }
 }
