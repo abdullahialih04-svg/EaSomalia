@@ -32,8 +32,8 @@
 
   <main>
 
-    <!-- Hero -->
-    <section class="hero single">
+    <!-- Compact hero -->
+    <section class="hero single hero-compact">
       <div class="wrap">
         <div>
           <span class="pill">Take action</span>
@@ -45,46 +45,26 @@
             Search the open opportunities below, or talk to the AI Career Advisor
             about roles that fit your background.
           </p>
-
-          <div class="actions">
-            <a
-              class="btn"
-              href="https://app.80000hours.org/?utm_source=80k_job_board&utm_medium=tab&flow=explore-jobs"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              AI Career Advisor ↗
-            </a>
-          </div>
         </div>
+
+        <a
+          class="btn"
+          href="https://app.80000hours.org/?utm_source=80k_job_board&utm_medium=tab&flow=explore-jobs"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          AI Career Advisor ↗
+        </a>
       </div>
     </section>
 
     <!-- Opportunities board -->
-    <section class="section">
+    <section class="section opp-section">
       <div class="wrap">
 
         <!-- Tabs -->
-        <div class="opp-tabs" role="tablist">
-          <button
-            class="opp-tab active"
-            type="button"
-            role="tab"
-            aria-selected="true"
-            data-panel="panel-search"
-          >
-            Search Opportunities
-          </button>
-
-          <button
-            class="opp-tab"
-            type="button"
-            role="tab"
-            aria-selected="false"
-            data-panel="panel-boards"
-          >
-            Other job boards
-          </button>
+        <div class="opp-tabs">
+          <span class="opp-tab active">Search Opportunities</span>
 
           <a
             class="opp-tab"
@@ -98,128 +78,35 @@
 
         <div class="opp-panel">
 
-          <!-- Panel 1: search -->
-          <div id="panel-search">
-            <input
-              id="opp-search"
-              class="opp-input"
-              type="search"
-              placeholder="Search by keyword, organisation or location"
-              aria-label="Search opportunities"
-            >
+          <input
+            id="opp-search"
+            class="opp-input"
+            type="search"
+            placeholder="Search by keyword, organisation or location"
+            aria-label="Search opportunities"
+          >
 
-            <div class="opp-filters">
-              <select id="f-area" aria-label="Area"></select>
-              <select id="f-type" aria-label="Type"></select>
-              <select id="f-source" aria-label="Source"></select>
-              <button id="f-clear" class="opp-clear" type="button">
-                Clear filters
-              </button>
-            </div>
-
-            <div class="opp-count">
-              <strong id="opp-count">0</strong> opportunities · Closing soonest first
-            </div>
-
-            <div id="job-list">
-              <div class="opp-empty">Loading opportunities…</div>
-            </div>
+          <div class="opp-filters">
+            <select id="f-area" aria-label="Area"></select>
+            <select id="f-type" aria-label="Type"></select>
+            <select id="f-source" aria-label="Source"></select>
+            <button id="f-clear" class="opp-clear" type="button">
+              Clear filters
+            </button>
           </div>
 
-          <!-- Panel 2: other boards -->
-          <div id="panel-boards" hidden>
-            <div class="jobs">
-
-              <div class="card job">
-                <div>
-                  <h3>EA Opportunities Board</h3>
-                  <p>
-                    Jobs, fellowships, internships and volunteering
-                    from the effective altruism community.
-                  </p>
-                </div>
-                <a
-                  class="btn ghost"
-                  href="https://www.effectivealtruism.org/opportunities"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Browse opportunities
-                </a>
-              </div>
-
-              <div class="card job">
-                <div>
-                  <h3>80,000 Hours job board</h3>
-                  <p>
-                    Curated roles across global health, animal welfare,
-                    AI safety and more.
-                  </p>
-                </div>
-                <a
-                  class="btn ghost"
-                  href="https://jobs.80000hours.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Browse jobs
-                </a>
-              </div>
-
-              <div class="card job">
-                <div>
-                  <h3>Probably Good job board</h3>
-                  <p>
-                    Impactful roles across many cause areas,
-                    with a broad view of what counts as impact.
-                  </p>
-                </div>
-                <a
-                  class="btn ghost"
-                  href="https://www.probablygood.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Visit site
-                </a>
-              </div>
-
-              <div class="card job">
-                <div>
-                  <h3>Animal Advocacy Careers</h3>
-                  <p>
-                    Jobs and career support for people working
-                    to help animals.
-                  </p>
-                </div>
-                <a
-                  class="btn ghost"
-                  href="https://www.animaladvocacycareers.org"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  Visit site
-                </a>
-              </div>
-
-              <div class="card job">
-                <div>
-                  <h3>Have an opportunity to share?</h3>
-                  <p>
-                    Hiring for a high-impact role? Send it to us and we will
-                    pass it on to the community.
-                  </p>
-                </div>
-                <a
-                  class="btn"
-                  href="mailto:info@easomalia.org?subject=Opportunity%20to%20share"
-                >
-                  Email us
-                </a>
-              </div>
-
-            </div>
+          <div class="opp-count">
+            <strong id="opp-count">0</strong> opportunities · Closing soonest first
           </div>
+
+          <div id="job-list">
+            <div class="opp-empty">Loading opportunities…</div>
+          </div>
+
+          <p class="opp-share">
+            Have an opportunity to share?
+            <a href="mailto:info@easomalia.org?subject=Opportunity%20to%20share">Email us</a>
+          </p>
 
         </div>
       </div>
