@@ -18,9 +18,13 @@
     (function () {
       try {
         var theme = localStorage.getItem("ea-somalia-theme");
+
         if (theme !== "light" && theme !== "dark") {
-          theme = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+          theme = matchMedia("(prefers-color-scheme: dark)").matches
+            ? "dark"
+            : "light";
         }
+
         document.documentElement.dataset.theme = theme;
       } catch (e) {}
     })();
@@ -29,7 +33,10 @@
   <link rel="stylesheet" href="/css/style.css">
 
   <style>
-    /* HEADER */
+    /* ============================
+       PAGE HEADER
+    ============================ */
+
     .jb-head {
       display: flex;
       flex-wrap: wrap;
@@ -75,7 +82,10 @@
       text-transform: uppercase;
     }
 
-    /* SEARCH AND FILTERS */
+    /* ============================
+       SEARCH AND FILTERS
+    ============================ */
+
     .jb-panel {
       padding: 20px;
       border: 1px solid var(--brand-border);
@@ -136,7 +146,10 @@
       cursor: pointer;
     }
 
-    /* RESULTS */
+    /* ============================
+       RESULTS
+    ============================ */
+
     .jb-bar {
       display: flex;
       flex-wrap: wrap;
@@ -169,7 +182,10 @@
       gap: 14px;
     }
 
-    /* JOB CARD */
+    /* ============================
+       JOB CARDS
+    ============================ */
+
     .jb-card {
       display: flex;
       align-items: flex-start;
@@ -192,7 +208,10 @@
       border-color: var(--brand-blue);
     }
 
-    /* LOGOS */
+    /* ============================
+       ORGANISATION LOGOS
+    ============================ */
+
     .jb-logo {
       display: flex;
       flex: 0 0 76px;
@@ -225,7 +244,10 @@
       font-weight: 700;
     }
 
-    /* CARD CONTENT */
+    /* ============================
+       CARD CONTENT
+    ============================ */
+
     .jb-body {
       flex: 1;
       min-width: 0;
@@ -277,17 +299,26 @@
       list-style: none;
     }
 
+    /* ============================
+       JOB METADATA - ONE LINE
+    ============================ */
+
     .jb-foot {
       display: flex;
-      flex-wrap: wrap;
+      flex-wrap: nowrap;
       align-items: center;
       gap: 8px;
+      min-width: 0;
+      overflow-x: auto;
+      scrollbar-width: thin;
     }
 
     .jb-chip {
+      flex: 0 0 auto;
       padding: 4px 10px;
       border-radius: 5px;
       font-size: .82rem;
+      white-space: nowrap;
     }
 
     .jb-chip.area {
@@ -307,12 +338,17 @@
     }
 
     .jb-when {
+      flex: 0 0 auto;
       margin-left: auto;
       color: var(--text-muted);
       font-size: .85rem;
+      white-space: nowrap;
     }
 
-    /* EXPAND / COLLAPSE */
+    /* ============================
+       EXPAND / COLLAPSE
+    ============================ */
+
     .jb-toggle {
       display: flex;
       width: 100%;
@@ -369,7 +405,10 @@
       line-height: 1.5;
     }
 
-    /* ACTION BUTTONS */
+    /* ============================
+       ACTION BUTTONS
+    ============================ */
+
     .jb-actions {
       display: flex;
       flex-wrap: wrap;
@@ -418,6 +457,8 @@
       font-size: .85rem;
     }
 
+    /* DARK MODE */
+
     html[data-theme="dark"] .jb-chip.area {
       background: #1d3a2a;
       color: #a6e3bd;
@@ -433,8 +474,12 @@
       color: #ffe08a;
     }
 
-    /* MOBILE */
+    /* ============================
+       MOBILE RESPONSIVENESS
+    ============================ */
+
     @media (max-width: 560px) {
+
       .jb-card {
         gap: 12px;
         padding: 15px;
@@ -469,12 +514,18 @@
 
 <main>
 
-  <!-- PAGE HEADER -->
+  <!-- ============================
+       PAGE HEADER
+  ============================ -->
+
   <section class="hero single">
     <div class="wrap">
+
       <div class="jb-head">
+
         <div>
           <h1>Jobs</h1>
+
           <p>
             Handpicked to help you tackle the
             <em>world’s most pressing problems</em>
@@ -485,31 +536,45 @@
         <div class="jb-alert-box">
           Want roles matched to your background?
           <br>
+
           <a href="mailto:info@easomalia.org?subject=Job%20alerts">
             Get in touch →
           </a>
         </div>
+
       </div>
+
     </div>
   </section>
 
-  <!-- SEARCH AND FILTERS -->
+
+  <!-- ============================
+       SEARCH AND FILTERS
+  ============================ -->
+
   <section class="section">
     <div class="wrap">
 
       <div class="jb-panel">
 
         <div class="jb-search">
+
           <label class="jb-input">
+
             <span style="position:absolute;left:-9999px">
               Search jobs
             </span>
 
-            <svg viewBox="0 0 24 24" fill="none"
-              stroke="currentColor" stroke-width="2"
-              stroke-linecap="round" aria-hidden="true">
+            <svg viewBox="0 0 24 24"
+                 fill="none"
+                 stroke="currentColor"
+                 stroke-width="2"
+                 stroke-linecap="round"
+                 aria-hidden="true">
+
               <circle cx="11" cy="11" r="7"/>
               <path d="m20 20-3.5-3.5"/>
+
             </svg>
 
             <input
@@ -517,15 +582,27 @@
               type="search"
               placeholder="Search jobs by keyword..."
               autocomplete="off">
+
           </label>
 
+          <!-- AI CAREER ADVISOR -->
+
           <a class="btn"
-             href="mailto:info@easomalia.org?subject=Job%20alerts">
-            🔔 Set up alerts
+             href="https://app.80000hours.org/?utm_source=80k_job_board&amp;utm_medium=tab&amp;flow=explore-jobs"
+             target="_blank"
+             rel="noopener noreferrer">
+
+            ✨ AI Career Advisor ↗
+
           </a>
+
         </div>
 
+
+        <!-- FILTERS -->
+
         <div class="jb-filters">
+
           <select id="jb-area" aria-label="Cause area">
             <option value="">All areas</option>
           </select>
@@ -545,267 +622,453 @@
           <select id="jb-level" aria-label="Experience">
             <option value="">All experience levels</option>
           </select>
+
         </div>
 
       </div>
 
+
+      <!-- RESULTS BAR -->
+
       <div class="jb-bar">
-        <span class="jb-count" id="jb-count">Loading jobs...</span>
+
+        <span class="jb-count" id="jb-count">
+          Loading jobs...
+        </span>
 
         <span>
-          <button class="jb-clear" id="jb-clear" type="button" hidden>
+
+          <button
+            class="jb-clear"
+            id="jb-clear"
+            type="button"
+            hidden>
+
             Clear filters
+
           </button>
 
           &nbsp;&nbsp;
 
-          <a href="https://reliefweb.int/jobs?list=Somalia%20Jobs&amp;advanced-search=%28C216%29"
-             target="_blank" rel="noopener">
+          <a
+            href="https://reliefweb.int/jobs?list=Somalia%20Jobs&amp;advanced-search=%28C216%29"
+            target="_blank"
+            rel="noopener">
+
             Somalia jobs on ReliefWeb ↗
+
           </a>
+
         </span>
+
       </div>
 
-      <div class="jb-list" id="jb-list" aria-live="polite"></div>
+
+      <!-- JOB LIST -->
+
+      <div
+        class="jb-list"
+        id="jb-list"
+        aria-live="polite">
+      </div>
 
       <p class="jb-note" id="jb-note"></p>
 
     </div>
   </section>
 
-  <!-- OTHER JOB BOARDS -->
+
+  <!-- ============================
+       OTHER JOB BOARDS
+  ============================ -->
+
   <section class="section alt">
+
     <div class="wrap">
 
       <h2>More places to look</h2>
 
       <div class="jobs">
 
+
         <div class="card job">
+
           <div>
             <h3>EA Opportunities Board</h3>
-            <p>Jobs, fellowships, internships and volunteering from the effective altruism community.</p>
+
+            <p>
+              Jobs, fellowships, internships and volunteering
+              from the effective altruism community.
+            </p>
           </div>
-          <a class="btn ghost" href="https://www.effectivealtruism.org/opportunities" target="_blank" rel="noopener">Browse opportunities</a>
+
+          <a class="btn ghost"
+             href="https://www.effectivealtruism.org/opportunities"
+             target="_blank"
+             rel="noopener">
+
+            Browse opportunities
+
+          </a>
+
         </div>
 
+
         <div class="card job">
+
           <div>
             <h3>80,000 Hours Job Board</h3>
-            <p>Curated roles across global health, animal welfare, AI safety and more.</p>
+
+            <p>
+              Curated roles across global health,
+              animal welfare, AI safety and more.
+            </p>
           </div>
-          <a class="btn ghost" href="https://jobs.80000hours.org" target="_blank" rel="noopener">Browse jobs</a>
+
+          <a class="btn ghost"
+             href="https://jobs.80000hours.org"
+             target="_blank"
+             rel="noopener">
+
+            Browse jobs
+
+          </a>
+
         </div>
 
+
         <div class="card job">
+
           <div>
             <h3>Probably Good Job Board</h3>
-            <p>Impactful roles across many cause areas, with a broad view of what counts as impact.</p>
+
+            <p>
+              Impactful roles across many cause areas,
+              with a broad view of what counts as impact.
+            </p>
           </div>
-          <a class="btn ghost" href="https://www.probablygood.org" target="_blank" rel="noopener">Visit site</a>
+
+          <a class="btn ghost"
+             href="https://www.probablygood.org"
+             target="_blank"
+             rel="noopener">
+
+            Visit site
+
+          </a>
+
         </div>
 
+
         <div class="card job">
+
           <div>
             <h3>Animal Advocacy Careers</h3>
-            <p>Jobs and career support for people working to help animals.</p>
+
+            <p>
+              Jobs and career support for people
+              working to help animals.
+            </p>
           </div>
-          <a class="btn ghost" href="https://www.animaladvocacycareers.org" target="_blank" rel="noopener">Visit site</a>
+
+          <a class="btn ghost"
+             href="https://www.animaladvocacycareers.org"
+             target="_blank"
+             rel="noopener">
+
+            Visit site
+
+          </a>
+
         </div>
 
+
         <div class="card job">
+
           <div>
             <h3>Have a role to share?</h3>
-            <p>Hiring for a high-impact role? Send it to us and we will pass it on to the community.</p>
+
+            <p>
+              Hiring for a high-impact role?
+              Send it to us and we will pass it on to the community.
+            </p>
           </div>
-          <a class="btn" href="mailto:info@easomalia.org?subject=Job%20to%20share">Email us</a>
+
+          <a class="btn"
+             href="mailto:info@easomalia.org?subject=Job%20to%20share">
+
+            Email us
+
+          </a>
+
         </div>
 
       </div>
+
     </div>
+
   </section>
 
 </main>
+
 
 <div id="site-footer"></div>
 
 <script src="/js/components.js"></script>
 
+
 <script>
+
 /* =========================================================
    JOB DATA
-   ========================================================= */
+========================================================= */
 
 const JOBS = [
 
   {
     title: "Risk Analyst",
     org: "United Nations Development Programme (UNDP)",
-    description: "Supports risk analysis for UNDP programmes in Somalia. The role is broadly focused on identifying, assessing and communicating risks that may affect programme delivery and development outcomes. Check the official listing for the exact responsibilities and required qualifications.",
+
+    description:
+      "Supports risk analysis for UNDP programmes in Somalia. The role is broadly focused on identifying, assessing and communicating risks that may affect programme delivery and development outcomes. Check the official listing for the exact responsibilities and required qualifications.",
+
     locations: ["Mogadishu, Somalia"],
     area: "Global development",
     type: "Full-time",
     level: "NPSA-9",
     posted: "2026-11-04",
+
     url: "https://estm.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/37769",
+
     featured: true
   },
+
 
   {
     title: "Small Grants Programme National Coordinator",
     org: "United Nations Development Programme (UNDP)",
-    description: "Coordinates a national small-grants programme, helping manage implementation and engagement with participating partners. The exact programme scope, deliverables and eligibility requirements are set out in the official UNDP vacancy.",
+
+    description:
+      "Coordinates a national small-grants programme, helping manage implementation and engagement with participating partners. The exact programme scope, deliverables and eligibility requirements are set out in the official UNDP vacancy.",
+
     locations: ["Mogadishu, Somalia"],
     area: "Climate & environment",
     type: "Full-time",
     level: "NPSA-8",
     posted: "2026-11-04",
+
     url: "https://estm.fa.em2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1/job/37801",
+
     featured: true
   },
+
 
   {
     title: "Data Specialist (NO-C) – UN Resident Coordinator System",
     org: "United Nations",
-    description: "A data-focused role supporting the UN Resident Coordinator System. The work is expected to involve making data and analysis useful for coordination, planning and evidence-informed decisions. Consult the UN vacancy for the precise duties and technical requirements.",
+
+    description:
+      "A data-focused role supporting the UN Resident Coordinator System. The work is expected to involve making data and analysis useful for coordination, planning and evidence-informed decisions. Consult the UN vacancy for the precise duties and technical requirements.",
+
     locations: ["Somalia"],
     area: "Data & research",
     type: "Full-time",
     level: "NO-C",
     posted: "2026-11-04",
+
     url: "https://careers.un.org/jobSearchDescription/287305?language=en",
+
     featured: true
   },
+
 
   {
     title: "WatHab Generalist Project Officer",
     org: "International Committee of the Red Cross (ICRC)",
-    description: "A water, sanitation and habitat (WatHab) project role with the ICRC in Bosaso. The position relates to supporting humanitarian water and habitat activities. Refer to the ICRC listing for the detailed responsibilities and professional requirements.",
+
+    description:
+      "A water, sanitation and habitat (WatHab) project role with the ICRC in Bosaso. The position relates to supporting humanitarian water and habitat activities. Refer to the ICRC listing for the detailed responsibilities and professional requirements.",
+
     locations: ["Bosaso, Somalia"],
     area: "Global development",
     type: "Full-time",
     level: "Mid-level",
+
     url: "https://careers.icrc.org/job/Bosaso-%28BOS%29-WatHab-Generalist-Project-Officer-Bosaso-34005/1453819533/"
   },
+
 
   {
     title: "Prehospital Emergency Care Field Officer",
     org: "International Committee of the Red Cross (ICRC)",
-    description: "Supports prehospital emergency care activities in Mogadishu. The role is connected to strengthening emergency care before patients reach health facilities. Check the ICRC vacancy for the specific operational duties and required clinical experience.",
+
+    description:
+      "Supports prehospital emergency care activities in Mogadishu. The role is connected to strengthening emergency care before patients reach health facilities. Check the ICRC vacancy for the specific operational duties and required clinical experience.",
+
     locations: ["Mogadishu, Somalia"],
     area: "Global health",
     type: "Full-time",
     level: "Mid-level",
+
     url: "https://careers.icrc.org/job/Mogadishu-Banadir-%28MOG%29-Prehospital-Emergency-Care-Field-Officer-34020/1453841433/"
   },
+
 
   {
     title: "Legal Advisor",
     org: "International Committee of the Red Cross (ICRC)",
-    description: "A legal advisory position with the ICRC in Mogadishu. The role concerns providing legal expertise in support of the organisation’s work. The official vacancy contains the detailed subject areas, responsibilities and qualification criteria.",
+
+    description:
+      "A legal advisory position with the ICRC in Mogadishu. The role concerns providing legal expertise in support of the organisation’s work. The official vacancy contains the detailed subject areas, responsibilities and qualification criteria.",
+
     locations: ["Mogadishu, Somalia"],
     area: "Policy & governance",
     type: "Full-time",
     level: "Senior",
+
     url: "https://careers.icrc.org/job/Mogadishu-Banadir-%28MOG%29-LEGAL-ADVISOR-34021/1453884733/"
   },
+
 
   {
     title: "Joint Resilience Programme – Monitoring, Evaluation and Learning Officer",
     org: "World Food Programme (WFP)",
-    description: "A consultancy supporting monitoring, evaluation and learning for the Joint Resilience Programme. The focus is on helping track programme progress, assess results and generate learning to inform implementation. See the WFP listing for the exact deliverables and consultancy requirements.",
+
+    description:
+      "A consultancy supporting monitoring, evaluation and learning for the Joint Resilience Programme. The focus is on helping track programme progress, assess results and generate learning to inform implementation. See the WFP listing for the exact deliverables and consultancy requirements.",
+
     locations: ["Mogadishu, Somalia"],
     area: "Global development",
     type: "Consultancy",
     level: "Consultant Level II",
     posted: "2026-11-04",
+
     url: "https://wfp.wd3.myworkdayjobs.com/en-US/job_openings/job/Mogadiscio-Somalia-The-Dem-Rep-Of/Joint-Resilience-Programme--JRP--Monitoring--Evaluation-and-Learning-Officer---Consultant-Level-II_JR128059-2",
+
     featured: true
   },
+
 
   {
     title: "Project Manager",
     org: "AVA International",
-    description: "A project management role at AVA International. The position is broadly focused on coordinating projects, keeping activities organised and supporting delivery across the organisation. Review the employer’s listing for the specific portfolio, experience and application details.",
+
+    description:
+      "A project management role at AVA International. The position is broadly focused on coordinating projects, keeping activities organised and supporting delivery across the organisation. Review the employer’s listing for the specific portfolio, experience and application details.",
+
     locations: ["Remote, Global"],
     area: "Community building",
     type: "Full-time",
     level: "Mid-level",
+
     url: "https://www.avainternational.org/project-manager"
   },
+
 
   {
     title: "Funding for Increasing Vaccine Impact",
     org: "Coefficient Giving",
-    description: "A funding opportunity from Coefficient Giving focused on increasing the impact of vaccines. Open the fund page to review the funding priorities, who can apply, application process and any current deadlines.",
+
+    description:
+      "A funding opportunity from Coefficient Giving focused on increasing the impact of vaccines. Open the fund page to review the funding priorities, who can apply, application process and any current deadlines.",
+
     locations: ["Remote, Global"],
     area: "Global health",
     type: "Funding opportunity",
     level: "Multiple experience levels",
     posted: "2026-11-04",
+
     url: "https://coefficientgiving.org/funds/science-and-global-health-rd/rfp-on-vaccine-impact-optimization/",
+
     featured: true
   },
+
 
   {
     title: "AI Security Researcher",
     org: "RAND Corporation",
-    description: "A research role focused on AI security. The work relates to understanding and reducing security risks associated with advanced AI systems. Consult RAND’s vacancy for the research agenda, required expertise and location or work-arrangement details.",
+
+    description:
+      "A research role focused on AI security. The work relates to understanding and reducing security risks associated with advanced AI systems. Consult RAND’s vacancy for the research agenda, required expertise and location or work-arrangement details.",
+
     locations: ["Remote, Global", "Washington, DC, USA"],
     area: "AI safety & policy",
     type: "Full-time",
     level: "Senior",
     posted: "2026-11-04",
+
     url: "https://rand.wd5.myworkdayjobs.com/External_Career_Site/job/Washington-DC-DC-Metro-Area/AI-Security-Researcher_R3684",
+
     featured: true
   },
+
 
   {
     title: "Operations Assistant to the COO",
     org: "AI Safety Asia",
-    description: "An operations support role working with the Chief Operating Officer at AI Safety Asia. The position is broadly focused on helping the organisation run smoothly through coordination and operational support. The linked role document should be treated as the source for exact duties and application instructions.",
+
+    description:
+      "An operations support role working with the Chief Operating Officer at AI Safety Asia. The position is broadly focused on helping the organisation run smoothly through coordination and operational support. The linked role document should be treated as the source for exact duties and application instructions.",
+
     locations: ["Remote, Global"],
     area: "AI safety & policy",
     type: "Full-time",
     level: "Mid-level",
     posted: "2026-11-03",
+
     url: "https://docs.google.com/document/d/1g3kYl5vUTxmUQB8tIcsh3V3uSAyC0znTc8XZlIMTN-I/edit?tab=t.0",
+
     featured: true
   },
+
 
   {
     title: "Operations Associate",
     org: "Animal Advocacy Careers",
-    description: "An operations role at Animal Advocacy Careers, supporting the organisation’s day-to-day work and internal processes. Check the employer’s page for the specific responsibilities, experience requirements and application process.",
+
+    description:
+      "An operations role at Animal Advocacy Careers, supporting the organisation’s day-to-day work and internal processes. Check the employer’s page for the specific responsibilities, experience requirements and application process.",
+
     locations: ["Remote, Global"],
     area: "Animal welfare",
     type: "Full-time",
     level: "Mid-level",
     posted: "2026-10-30",
+
     url: "https://animaladvocacycareers.org/operations-associate/"
   },
+
 
   {
     title: "Intern, Programme Management: Digital Cooperation and Emerging Technologies",
     org: "UN Office for Digital and Emerging Technologies",
-    description: "An internship in programme management related to digital cooperation and emerging technologies at the UN Office for Digital and Emerging Technologies. The role offers exposure to programme support in this policy area. See the UN listing for eligibility, duties and internship conditions.",
+
+    description:
+      "An internship in programme management related to digital cooperation and emerging technologies at the UN Office for Digital and Emerging Technologies. The role offers exposure to programme support in this policy area. See the UN listing for eligibility, duties and internship conditions.",
+
     locations: ["Remote, Global", "New York, USA"],
     area: "Tech policy",
     type: "Internship",
     level: "Entry-level",
     posted: "2026-10-29",
+
     url: "https://careers.un.org/jobSearchDescription/286816?language=en"
   },
+
 
   {
     title: "Head of Strategic Projects",
     org: "Africa Jobs Fund",
-    description: "A senior leadership role focused on strategic projects at Africa Jobs Fund. The position is broadly concerned with shaping and coordinating important projects that advance the organisation’s objectives. Refer to the official opportunity page for the exact scope, experience expectations and application details.",
+
+    description:
+      "A senior leadership role focused on strategic projects at Africa Jobs Fund. The position is broadly concerned with shaping and coordinating important projects that advance the organisation’s objectives. Refer to the official opportunity page for the exact scope, experience expectations and application details.",
+
     locations: ["Remote, Global"],
     area: "Global development",
     type: "Full-time",
     level: "Senior",
     posted: "2026-10-29",
+
     url: "https://www.africajobsfund.com/opportunities/head-of-strategic-projects"
   }
 
@@ -814,26 +1077,46 @@ const JOBS = [
 
 /* =========================================================
    ORGANISATION LOGOS
-   ========================================================= */
+========================================================= */
 
 const ORG_LOGOS = {
-  "United Nations Development Programme (UNDP)": "/images/organisations/UNDP.png",
+
+  "United Nations Development Programme (UNDP)":
+    "/images/organisations/UNDP.png",
+
   "United Nations": null,
-  "International Committee of the Red Cross (ICRC)": "/images/organisations/ICRC.png",
-  "World Food Programme (WFP)": "/images/organisations/WFP.png",
-  "AVA International": "/images/organisations/AVA.png",
-  "Coefficient Giving": "/images/organisations/Coefficient_Giving.png",
+
+  "International Committee of the Red Cross (ICRC)":
+    "/images/organisations/ICRC.png",
+
+  "World Food Programme (WFP)":
+    "/images/organisations/WFP.png",
+
+  "AVA International":
+    "/images/organisations/AVA.png",
+
+  "Coefficient Giving":
+    "/images/organisations/Coefficient_Giving.png",
+
   "RAND Corporation": null,
-  "AI Safety Asia": "/images/organisations/AISA.png",
-  "Animal Advocacy Careers": "/images/organisations/AAC.png",
+
+  "AI Safety Asia":
+    "/images/organisations/AISA.png",
+
+  "Animal Advocacy Careers":
+    "/images/organisations/AAC.png",
+
   "UN Office for Digital and Emerging Technologies": null,
-  "Africa Jobs Fund": "/images/organisations/AJF.png"
+
+  "Africa Jobs Fund":
+    "/images/organisations/AJF.png"
+
 };
 
 
 /* =========================================================
    JOB BOARD FUNCTIONALITY
-   ========================================================= */
+========================================================= */
 
 (function () {
 
@@ -845,6 +1128,9 @@ const ORG_LOGOS = {
   const clearBtn = $("jb-clear");
   const search = $("jb-q");
 
+
+  /* ORGANISATION FALLBACK COLORS */
+
   const COLORS = [
     "#1d62ac",
     "#7a3db8",
@@ -854,46 +1140,71 @@ const ORG_LOGOS = {
     "#2f6f8f"
   ];
 
+
+  /* FILTER CONFIGURATION */
+
   const filters = {
+
     area: {
       el: $("jb-area"),
       get: job => job.area
     },
+
     country: {
       el: $("jb-country"),
       get: job => job.locations.map(country)
     },
+
     type: {
       el: $("jb-type"),
       get: job => job.type
     },
+
     org: {
       el: $("jb-org"),
       get: job => job.org
     },
+
     level: {
       el: $("jb-level"),
       get: job => job.level
     }
+
   };
 
+
+  /* HELPER FUNCTIONS */
+
   function country(location) {
+
     const parts = String(location).split(",");
+
     return parts[parts.length - 1].trim();
+
   }
+
 
   function unique(values) {
+
     return [...new Set(values.filter(Boolean))].sort();
+
   }
 
+
   function initials(name) {
-    return name.split(/\s+/).slice(0, 2)
+
+    return name
+      .split(/\s+/)
+      .slice(0, 2)
       .map(word => word[0])
       .join("")
       .toUpperCase();
+
   }
 
+
   function brandColor(name) {
+
     let hash = 0;
 
     for (let i = 0; i < name.length; i++) {
@@ -901,9 +1212,12 @@ const ORG_LOGOS = {
     }
 
     return COLORS[hash % COLORS.length];
+
   }
 
+
   function ago(date) {
+
     if (!date) return "";
 
     const days = Math.floor(
@@ -911,46 +1225,71 @@ const ORG_LOGOS = {
     );
 
     if (isNaN(days)) return "";
+
     if (days < 1) return "Today";
+
     if (days === 1) return "1 day ago";
+
     if (days < 30) return days + " days ago";
 
     const months = Math.floor(days / 30);
 
-    return months + (months === 1 ? " month ago" : " months ago");
+    return months +
+      (months === 1 ? " month ago" : " months ago");
+
   }
 
+
   function element(tag, className, text) {
+
     const node = document.createElement(tag);
 
     if (className) node.className = className;
-    if (text !== undefined) node.textContent = text;
+
+    if (text !== undefined) {
+      node.textContent = text;
+    }
 
     return node;
+
   }
+
 
   function safeUrl(url) {
+
     return /^https:\/\//i.test(url) ? url : "#";
+
   }
 
 
-  /* POPULATE FILTERS */
+  /* =========================================================
+     POPULATE FILTERS
+  ========================================================= */
 
   Object.keys(filters).forEach(key => {
 
     const filter = filters[key];
 
     const values = unique(
+
       JOBS.flatMap(job => {
+
         const value = filter.get(job);
+
         return Array.isArray(value) ? value : [value];
+
       })
+
     );
 
     values.forEach(value => {
+
       const option = element("option", "", value);
+
       option.value = value;
+
       filter.el.appendChild(option);
+
     });
 
     filter.el.addEventListener("change", render);
@@ -958,12 +1297,16 @@ const ORG_LOGOS = {
   });
 
 
-  /* SEARCH */
+  /* =========================================================
+     SEARCH
+  ========================================================= */
 
   search.addEventListener("input", render);
 
 
-  /* CLEAR FILTERS */
+  /* =========================================================
+     CLEAR FILTERS
+  ========================================================= */
 
   clearBtn.addEventListener("click", () => {
 
@@ -978,7 +1321,9 @@ const ORG_LOGOS = {
   });
 
 
-  /* SEARCH AND FILTER MATCHING */
+  /* =========================================================
+     SEARCH AND FILTER MATCHING
+  ========================================================= */
 
   function matches(job) {
 
@@ -987,6 +1332,7 @@ const ORG_LOGOS = {
     if (term) {
 
       const text = [
+
         job.title,
         job.org,
         job.area,
@@ -994,10 +1340,13 @@ const ORG_LOGOS = {
         job.level,
         job.description,
         ...job.locations
+
       ].join(" ").toLowerCase();
 
       if (!text.includes(term)) return false;
+
     }
+
 
     return Object.values(filters).every(filter => {
 
@@ -1016,14 +1365,19 @@ const ORG_LOGOS = {
   }
 
 
-  /* ORGANISATION LOGO */
+  /* =========================================================
+     ORGANISATION LOGOS
+  ========================================================= */
 
   function createLogo(org) {
 
     const logo = element("div", "jb-logo");
+
     const path = ORG_LOGOS[org];
 
+
     function showFallback() {
+
       const fallback = element(
         "span",
         "jb-logo-fallback",
@@ -1033,7 +1387,9 @@ const ORG_LOGOS = {
       fallback.style.background = brandColor(org);
 
       logo.replaceChildren(fallback);
+
     }
+
 
     if (path) {
 
@@ -1058,81 +1414,127 @@ const ORG_LOGOS = {
   }
 
 
-  /* CREATE EXPANDABLE JOB CARD */
+  /* =========================================================
+     CREATE EXPANDABLE JOB CARD
+  ========================================================= */
 
   function createCard(job, index) {
 
     const card = element("article", "jb-card");
 
     const logo = createLogo(job.org);
+
     const body = element("div", "jb-body");
+
     const top = element("div", "jb-top");
+
     const titleArea = element("div");
+
+
+    /* JOB TITLE */
 
     titleArea.appendChild(
       element("h3", "jb-title", job.title)
     );
 
+
+    /* ORGANISATION */
+
     titleArea.appendChild(
       element("p", "jb-org", job.org)
     );
 
+
     top.appendChild(titleArea);
 
+
+    /* FEATURED BADGE */
+
     if (job.featured) {
+
       const badges = element("div", "jb-badges");
+
       badges.appendChild(
         element("span", "jb-badge", "Highlighted role")
       );
+
       top.appendChild(badges);
+
     }
 
-    /* Locations */
+
+    /* LOCATIONS */
 
     const locations = element("ul", "jb-loc");
 
     job.locations.forEach(location => {
+
       locations.appendChild(
         element("li", "", "📍 " + location)
       );
+
     });
 
-    /* Job metadata */
+
+    /* =====================================================
+       JOB METADATA
+
+       Area | Level | Type are kept on ONE horizontal line.
+    ===================================================== */
 
     const footer = element("div", "jb-foot");
 
+
     if (job.area) {
+
       footer.appendChild(
         element("span", "jb-chip area", job.area)
       );
+
     }
 
+
     if (job.level) {
+
       footer.appendChild(
         element("span", "jb-chip level", job.level)
       );
+
     }
 
+
     if (job.type) {
+
       footer.appendChild(
         element("span", "jb-chip type", job.type)
       );
+
     }
 
+
     if (job.posted) {
+
       footer.appendChild(
         element("span", "jb-when", ago(job.posted))
       );
+
     }
 
-    /* Expand button */
+
+    /* =====================================================
+       EXPAND BUTTON
+    ===================================================== */
 
     const detailsId = "jb-details-" + index;
 
     const toggle = element("button", "jb-toggle");
+
     toggle.type = "button";
+
     toggle.setAttribute("aria-expanded", "false");
+
     toggle.setAttribute("aria-controls", detailsId);
+
 
     const toggleText = element(
       "span",
@@ -1140,49 +1542,72 @@ const ORG_LOGOS = {
       "Click to view job description"
     );
 
+
     const chevron = element("span", "jb-chevron", "⌄");
 
     toggle.append(toggleText, chevron);
 
 
-    /* Description area */
+    /* =====================================================
+       JOB DESCRIPTION
+    ===================================================== */
 
     const details = element("div", "jb-details");
+
     details.id = detailsId;
+
     details.hidden = true;
+
 
     details.appendChild(
       element("p", "jb-detail-label", "JOB DESCRIPTION")
     );
 
+
     details.appendChild(
       element("p", "jb-description", job.description)
     );
 
+
     details.appendChild(
+
       element(
         "p",
         "jb-description-note",
+
         "This is a short EA Somalia summary, not the employer's full job description. Please check the official listing for complete duties, eligibility requirements and deadlines."
+
       )
+
     );
 
 
-    /* Apply or Open Listing */
+    /* =====================================================
+       APPLY OR OPEN ORIGINAL LISTING
+    ===================================================== */
 
     const actions = element("div", "jb-actions");
 
+
     const action = element(
+
       "a",
+
       "jb-apply",
+
       job.type === "Funding opportunity"
         ? "Open listing ↗"
         : "Apply ↗"
+
     );
 
+
     action.href = safeUrl(job.url);
+
     action.target = "_blank";
+
     action.rel = "noopener noreferrer";
+
 
     const original = element(
       "a",
@@ -1190,43 +1615,51 @@ const ORG_LOGOS = {
       "View original listing"
     );
 
+
     original.href = safeUrl(job.url);
+
     original.target = "_blank";
+
     original.rel = "noopener noreferrer";
 
+
     actions.append(action, original);
+
     details.appendChild(actions);
 
 
-    /* EXPAND AND COLLAPSE FUNCTION */
+    /* =====================================================
+       EXPAND AND COLLAPSE
+    ===================================================== */
 
     function toggleDetails() {
 
       const isOpen =
         toggle.getAttribute("aria-expanded") === "true";
 
+
       toggle.setAttribute(
         "aria-expanded",
         String(!isOpen)
       );
 
+
       details.hidden = isOpen;
 
       card.classList.toggle("expanded", !isOpen);
 
+
       toggleText.textContent = isOpen
+
         ? "Click to view job description"
+
         : "Hide job description";
 
     }
 
 
-    /*
-      IMPORTANT:
-      Clicking anywhere on the card opens its description.
-      Clicking the card again closes it.
-      The Apply and Open Listing links remain independent.
-    */
+    /* Clicking the card expands the description.
+       Apply and original listing links work independently. */
 
     card.addEventListener("click", event => {
 
@@ -1236,21 +1669,30 @@ const ORG_LOGOS = {
 
     });
 
+
     toggle.addEventListener("click", event => {
+
       event.stopPropagation();
+
       toggleDetails();
+
     });
 
 
-    /* Assemble card */
+    /* =====================================================
+       ASSEMBLE CARD
+    ===================================================== */
 
     body.append(
+
       top,
       locations,
       footer,
       toggle,
       details
+
     );
+
 
     card.append(logo, body);
 
@@ -1259,59 +1701,106 @@ const ORG_LOGOS = {
   }
 
 
-  /* RENDER JOBS */
+  /* =========================================================
+     RENDER JOBS
+  ========================================================= */
 
   function render() {
 
     const shown = JOBS
+
       .filter(matches)
+
       .sort((a, b) =>
-        (Number(Boolean(b.featured)) - Number(Boolean(a.featured))) ||
-        new Date(b.posted || 0) - new Date(a.posted || 0)
+
+        (Number(Boolean(b.featured)) -
+         Number(Boolean(a.featured))) ||
+
+        new Date(b.posted || 0) -
+        new Date(a.posted || 0)
+
       );
+
 
     list.replaceChildren();
 
+
+    /* JOB COUNT */
+
     count.textContent =
-      shown.length + (shown.length === 1 ? " role" : " roles");
+
+      shown.length +
+
+      (shown.length === 1 ? " role" : " roles");
+
+
+    /* CLEAR FILTERS VISIBILITY */
 
     const hasFilters =
+
       search.value.trim() ||
-      Object.values(filters).some(filter => filter.el.value);
+
+      Object.values(filters).some(
+        filter => filter.el.value
+      );
+
 
     clearBtn.hidden = !hasFilters;
+
+
+    /* EMPTY RESULTS */
 
     if (!shown.length) {
 
       list.appendChild(
+
         element(
+
           "div",
+
           "jb-empty",
+
           "No jobs match your search. Try clearing your filters."
+
         )
+
       );
 
     } else {
 
+
+      /* DISPLAY JOB CARDS */
+
       shown.forEach(job => {
+
         list.appendChild(
+
           createCard(job, JOBS.indexOf(job))
+
         );
+
       });
 
     }
 
+
+    /* FOOTER NOTE */
+
     note.textContent =
+
       "Click any job card to read its description. Select Apply or Open listing to visit the organisation's original page. Official listings are the authoritative source for requirements and deadlines.";
 
   }
 
 
-  /* INITIALISE */
+  /* =========================================================
+     INITIALISE JOB BOARD
+  ========================================================= */
 
   render();
 
 })();
+
 </script>
 
 </body>
