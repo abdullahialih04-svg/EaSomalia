@@ -1,7 +1,19 @@
+
 /* ==========================================================
-   EA SOMALIA — OPPORTUNITIES PAGE
+   EA SOMALIA — NAVIGATION & OPPORTUNITIES STYLES
    ----------------------------------------------------------
-   Page-specific styles for the opportunities board.
+   Shared navigation:
+   - Desktop navigation
+   - Mobile navigation
+   - Fellowship dropdown
+   - Theme toggle
+
+   Opportunities page:
+   - Page header and advisor
+   - Tabs, search and filters
+   - Opportunity cards
+   - Metadata and application buttons
+   - Empty states
 
    Uses global design tokens from style.css.
    Supports light and dark themes.
@@ -9,17 +21,287 @@
 
 
 /* ==========================================================
-   1. HERO
+   1. SHARED NAVIGATION
    ========================================================== */
+
+#site-nav {
+  position: relative;
+  z-index: 1000;
+}
+
+.navbar {
+  position: relative;
+  width: 100%;
+  background: var(--surface);
+  border-bottom: 1px solid var(--brand-border);
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  width: min(1200px, calc(100% - 40px));
+  min-height: 76px;
+  margin: 0 auto;
+}
+
+.nav-brand {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 10px;
+  color: var(--text);
+  font-size: 1.12rem;
+  font-weight: 800;
+  text-decoration: none;
+}
+
+.nav-logo {
+  display: block;
+  width: 42px;
+  height: 42px;
+  object-fit: contain;
+}
+
+.nav-brand-text {
+  white-space: nowrap;
+}
+
+
+/* ---------- Desktop menu ---------- */
+
+.menu {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  min-width: 0;
+}
+
+.nav-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  min-height: 42px;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: var(--radius-sm);
+  background: transparent;
+  color: var(--text-secondary);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  line-height: 1.3;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition:
+    color var(--transition),
+    background var(--transition);
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background: var(--surface-hover);
+  color: var(--brand-blue);
+}
+
+.nav-link:focus-visible,
+.nav-cta:focus-visible,
+.theme-toggle:focus-visible,
+.nav-toggle:focus-visible {
+  outline: 2px solid var(--brand-bright);
+  outline-offset: 3px;
+}
+
+
+/* ---------- Fellowship dropdown ---------- */
+
+.nav-dropdown {
+  position: relative;
+  flex-shrink: 0;
+}
+
+.dropdown-arrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  transition: transform var(--transition);
+}
+
+.nav-dropdown.open .dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 1100;
+  display: none;
+  width: 290px;
+  padding: 8px;
+  border: 1px solid var(--brand-border);
+  border-radius: var(--radius-md);
+  background: var(--surface);
+  box-shadow: var(--shadow-md);
+}
+
+.nav-dropdown.open .dropdown-menu {
+  display: flex;
+  flex-direction: column;
+}
+
+.fellowship-dropdown-link {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 11px 12px;
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font-size: 0.88rem;
+  line-height: 1.45;
+  text-decoration: none;
+}
+
+.fellowship-dropdown-link:hover {
+  background: var(--surface-hover);
+}
+
+.fellowship-dropdown-link.coming-soon {
+  color: var(--text-muted);
+  cursor: default;
+}
+
+.fellowship-status {
+  flex-shrink: 0;
+  color: var(--text-muted);
+  font-size: 0.72rem;
+  font-weight: 600;
+}
+
+.fellowship-status.active {
+  color: var(--success);
+}
+
+
+/* ---------- Navigation CTA ---------- */
+
+.nav-cta {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 10px 15px;
+  border: 1px solid var(--brand-blue);
+  border-radius: var(--radius-sm);
+  background: var(--brand-blue);
+  color: #fff;
+  font-size: 0.84rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    background var(--transition),
+    transform var(--transition);
+}
+
+.nav-cta:hover {
+  transform: translateY(-1px);
+  background: var(--brand-bright);
+  color: #fff;
+}
+
+
+/* ---------- Theme toggle ---------- */
+
+.theme-toggle {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 42px;
+  padding: 9px 13px;
+  border: 1px solid var(--brand-border);
+  border-radius: var(--radius-pill);
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.84rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition:
+    background var(--transition),
+    border-color var(--transition);
+}
+
+.theme-toggle:hover {
+  border-color: var(--brand-blue);
+  background: var(--surface-hover);
+}
+
+.theme-icon {
+  line-height: 1;
+}
+
+
+/* ---------- Mobile menu toggle ---------- */
+
+.nav-toggle {
+  display: none;
+  width: 42px;
+  height: 42px;
+  padding: 9px;
+  border: 1px solid var(--brand-border);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  cursor: pointer;
+}
+
+.nav-toggle span {
+  display: block;
+  width: 21px;
+  height: 2px;
+  margin: 4px auto;
+  border-radius: 2px;
+  background: var(--text);
+  transition:
+    transform var(--transition),
+    opacity var(--transition);
+}
+
+.nav-toggle.active span:first-child {
+  transform: translateY(6px) rotate(45deg);
+}
+
+.nav-toggle.active span:nth-child(2) {
+  opacity: 0;
+}
+
+.nav-toggle.active span:last-child {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+
+/* ==========================================================
+   2. OPPORTUNITIES PAGE
+   ========================================================== */
+
+
+/* ---------- Hero button spacing ---------- */
 
 .opp-page .hero .btn {
   margin-top: 6px;
 }
 
 
-/* ==========================================================
-   2. PAGE HEADER
-   ========================================================== */
+/* ---------- Page header ---------- */
 
 .opp-head-inner {
   display: flex;
@@ -47,9 +329,7 @@
 }
 
 
-/* ==========================================================
-   3. CAREER ADVISOR
-   ========================================================== */
+/* ---------- Career advisor ---------- */
 
 .opp-advisor {
   width: 100%;
@@ -83,7 +363,7 @@
 
 
 /* ==========================================================
-   4. TABS
+   3. OPPORTUNITY TABS
    ========================================================== */
 
 .opp-tabs {
@@ -136,7 +416,7 @@
 
 
 /* ==========================================================
-   5. SEARCH PANEL
+   4. SEARCH PANEL
    ========================================================== */
 
 .opp-filter-card {
@@ -173,9 +453,7 @@
 }
 
 
-/* ==========================================================
-   6. SEARCH INPUT
-   ========================================================== */
+/* ---------- Search input ---------- */
 
 .opp-input {
   display: block;
@@ -212,7 +490,7 @@
 
 
 /* ==========================================================
-   7. FILTERS
+   5. FILTERS
    ========================================================== */
 
 .opp-filters {
@@ -259,7 +537,7 @@
 
 
 /* ==========================================================
-   8. RESULTS TOOLBAR
+   6. RESULTS TOOLBAR
    ========================================================== */
 
 .opp-bar {
@@ -318,7 +596,7 @@
 
 
 /* ==========================================================
-   9. OPPORTUNITY CARDS
+   7. OPPORTUNITY CARDS
    ========================================================== */
 
 .opp-card {
@@ -344,9 +622,7 @@
 }
 
 
-/* ==========================================================
-   10. CARD HEADER AND TAGS
-   ========================================================== */
+/* ---------- Card header and tags ---------- */
 
 .job-card-header {
   display: flex;
@@ -400,9 +676,7 @@
 }
 
 
-/* ==========================================================
-   11. CARD TITLE AND ORGANISATION
-   ========================================================== */
+/* ---------- Card title and organisation ---------- */
 
 .job-title {
   margin: 0;
@@ -424,9 +698,7 @@
 }
 
 
-/* ==========================================================
-   12. DESCRIPTION AND ELIGIBILITY
-   ========================================================== */
+/* ---------- Description and eligibility ---------- */
 
 .job-card .job-description {
   margin: 0;
@@ -448,9 +720,7 @@
 }
 
 
-/* ==========================================================
-   13. METADATA
-   ========================================================== */
+/* ---------- Metadata ---------- */
 
 .job-meta-list {
   display: flex;
@@ -469,9 +739,7 @@
 }
 
 
-/* ==========================================================
-   14. CARD FOOTER AND DEADLINE
-   ========================================================== */
+/* ---------- Card footer and deadline ---------- */
 
 .job-card-footer {
   display: flex;
@@ -498,9 +766,7 @@
 }
 
 
-/* ==========================================================
-   15. APPLY BUTTON
-   ========================================================== */
+/* ---------- Apply button ---------- */
 
 .job-card .job-apply {
   display: inline-flex;
@@ -534,7 +800,7 @@
 
 
 /* ==========================================================
-   16. EMPTY STATE
+   8. EMPTY STATE
    ========================================================== */
 
 .opp-empty {
@@ -563,7 +829,7 @@
 
 
 /* ==========================================================
-   17. ACCESSIBILITY
+   9. ACCESSIBILITY
    ========================================================== */
 
 .opp-page button:focus-visible,
@@ -577,7 +843,10 @@
 @media (prefers-reduced-motion: reduce) {
   .opp-page *,
   .opp-page *::before,
-  .opp-page *::after {
+  .opp-page *::after,
+  .navbar *,
+  .navbar *::before,
+  .navbar *::after {
     scroll-behavior: auto !important;
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
@@ -587,7 +856,99 @@
 
 
 /* ==========================================================
-   18. TABLET
+   10. TABLET NAVIGATION
+   ========================================================== */
+
+@media (max-width: 1100px) and (min-width: 901px) {
+  .nav-container {
+    gap: 12px;
+  }
+
+  .menu {
+    gap: 2px;
+  }
+
+  .nav-link {
+    padding-inline: 8px;
+    font-size: 0.84rem;
+  }
+
+  .nav-cta {
+    padding-inline: 11px;
+    font-size: 0.79rem;
+  }
+
+  .theme-toggle {
+    padding-inline: 10px;
+  }
+}
+
+
+/* ==========================================================
+   11. MOBILE NAVIGATION
+   ========================================================== */
+
+@media (max-width: 900px) {
+  .nav-container {
+    position: relative;
+    flex-wrap: wrap;
+    min-height: 70px;
+    padding: 12px 0;
+  }
+
+  .nav-toggle {
+    display: block;
+    margin-left: auto;
+  }
+
+  .menu {
+    position: absolute;
+    top: calc(100% + 1px);
+    left: -20px;
+    right: -20px;
+    display: none;
+    flex-direction: column;
+    align-items: stretch;
+    justify-content: flex-start;
+    gap: 4px;
+    max-height: calc(100vh - 90px);
+    padding: 16px 20px 22px;
+    overflow-y: auto;
+    border-bottom: 1px solid var(--brand-border);
+    background: var(--surface);
+    box-shadow: var(--shadow-md);
+  }
+
+  .menu.show {
+    display: flex;
+  }
+
+  .nav-link {
+    justify-content: space-between;
+    width: 100%;
+    padding: 12px;
+  }
+
+  .nav-dropdown {
+    width: 100%;
+  }
+
+  .dropdown-menu {
+    position: static;
+    width: 100%;
+    margin-top: 5px;
+    box-shadow: none;
+  }
+
+  .nav-cta,
+  .theme-toggle {
+    width: 100%;
+  }
+}
+
+
+/* ==========================================================
+   12. OPPORTUNITIES TABLET
    ========================================================== */
 
 @media (max-width: 760px) {
@@ -618,7 +979,7 @@
 
 
 /* ==========================================================
-   19. MOBILE
+   13. OPPORTUNITIES MOBILE
    ========================================================== */
 
 @media (max-width: 520px) {
