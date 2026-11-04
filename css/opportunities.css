@@ -1,21 +1,49 @@
 
 /* ==========================================================
    EA SOMALIA — OPPORTUNITIES BOARD
-   Inspired by the 80,000 Hours job board.
-   Uses global style.css variables for light/dark mode.
+   ----------------------------------------------------------
+   Styles for:
+   - Opportunities page header
+   - Career advisor
+   - Opportunity tabs
+   - Search and filters
+   - Results toolbar
+   - Opportunity cards
+   - Tags and deadlines
+   - Loading and empty states
+   - Responsive layouts
+   - Accessibility
+
+   Uses global design tokens from style.css.
+   Does not control opportunity data or JavaScript.
    ========================================================== */
+
 
 /* ==========================================================
    1. PAGE FOUNDATION
    ========================================================== */
 
 .opp-page {
+  min-height: 100vh;
   background: var(--bg-soft);
 }
 
 .opp-page .hero .btn {
   margin-top: 6px;
 }
+
+.opp-board {
+  padding: 8px 0 80px;
+}
+
+.opp-panel {
+  padding-top: 26px;
+}
+
+
+/* ==========================================================
+   2. PAGE HEADER
+   ========================================================== */
 
 .opp-head {
   padding: 40px 0 26px;
@@ -41,18 +69,21 @@
 .opp-head p {
   max-width: 54ch;
   margin: 0;
+  color: var(--text-secondary);
   font-size: 1.1rem;
   line-height: 1.55;
 }
 
+
 /* ==========================================================
-   2. AI CAREER ADVISOR
+   3. CAREER ADVISOR
    ========================================================== */
 
 .opp-advisor {
   width: 100%;
   max-width: 310px;
   padding: 18px 22px;
+  border: 1px solid var(--brand-border);
   border-radius: var(--radius-sm);
   background: var(--surface);
   box-shadow: var(--shadow-sm);
@@ -80,20 +111,9 @@
   color: var(--brand-bright);
 }
 
-/* ==========================================================
-   3. OPPORTUNITIES BOARD
-   ========================================================== */
-
-.opp-board {
-  padding: 8px 0 80px;
-}
-
-.opp-panel {
-  padding-top: 26px;
-}
 
 /* ==========================================================
-   4. TABS
+   4. OPPORTUNITY TABS
    ========================================================== */
 
 .opp-tabs {
@@ -105,10 +125,11 @@
 
 .opp-tab {
   display: inline-flex;
-  flex: 1;
+  flex: 1 1 auto;
   align-items: center;
   justify-content: center;
-  padding: 16px 18px;
+  min-height: 48px;
+  padding: 14px 18px;
   border: 0;
   border-bottom: 3px solid transparent;
   border-radius: var(--radius-sm) var(--radius-sm) 0 0;
@@ -138,13 +159,21 @@
   color: var(--text);
 }
 
+.opp-tab:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+
 /* ==========================================================
    5. FILTER CARD
    ========================================================== */
 
 .opp-filter-card {
   padding: 20px;
-  border-radius: 0 var(--radius-sm) var(--radius-sm) var(--radius-sm);
+  border: 1px solid var(--brand-border);
+  border-top: 0;
+  border-radius: 0 0 var(--radius-sm) var(--radius-sm);
   background: var(--surface);
   box-shadow: var(--shadow-sm);
 }
@@ -159,6 +188,7 @@
 .opp-searchbox {
   position: relative;
   flex: 1 1 280px;
+  min-width: 0;
 }
 
 .opp-search-icon {
@@ -170,7 +200,10 @@
   pointer-events: none;
 }
 
-/* Search input */
+
+/* ==========================================================
+   6. SEARCH INPUT
+   ========================================================== */
 
 .opp-input {
   width: 100%;
@@ -185,7 +218,8 @@
   font-size: 1rem;
   transition:
     border-color var(--transition),
-    background var(--transition);
+    background var(--transition),
+    box-shadow var(--transition);
 }
 
 .opp-input::placeholder {
@@ -197,7 +231,18 @@
   border-color: var(--brand-bright);
 }
 
-/* Filter dropdowns */
+.opp-input:focus {
+  box-shadow: 0 0 0 3px color-mix(
+    in srgb,
+    var(--brand-blue) 15%,
+    transparent
+  );
+}
+
+
+/* ==========================================================
+   7. FILTER DROPDOWNS
+   ========================================================== */
 
 .opp-filters {
   display: grid;
@@ -230,8 +275,33 @@
   border-color: var(--brand-bright);
 }
 
+
 /* ==========================================================
-   6. RESULTS BAR
+   8. CLEAR FILTERS
+   ========================================================== */
+
+.opp-clear {
+  justify-self: start;
+  padding: 8px 4px;
+  border: 0;
+  background: transparent;
+  color: var(--brand-blue);
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: color var(--transition);
+}
+
+.opp-clear:hover {
+  color: var(--brand-bright);
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+
+/* ==========================================================
+   9. RESULTS TOOLBAR
    ========================================================== */
 
 .opp-bar {
@@ -245,6 +315,7 @@
 
 .opp-bar-left {
   display: flex;
+  flex-wrap: wrap;
   align-items: center;
   gap: 14px;
 }
@@ -255,7 +326,7 @@
 }
 
 .opp-count {
-  margin-bottom: 16px;
+  margin: 0 0 16px;
   color: var(--text-secondary);
   font-size: 0.95rem;
 }
@@ -265,7 +336,16 @@
   font-size: 1.05rem;
 }
 
-/* Sorting */
+.opp-sort {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.opp-sort label {
+  color: var(--text-secondary);
+  font-size: 0.9rem;
+}
 
 .opp-sort select {
   width: auto;
@@ -274,28 +354,9 @@
   font-weight: 600;
 }
 
-/* Clear filters */
-
-.opp-clear {
-  justify-self: start;
-  padding: 7px 4px;
-  border: 0;
-  background: transparent;
-  color: var(--brand-blue);
-  font-family: var(--font-body);
-  font-weight: 600;
-  cursor: pointer;
-  transition: color var(--transition);
-}
-
-.opp-clear:hover {
-  color: var(--brand-bright);
-  text-decoration: underline;
-  text-underline-offset: 4px;
-}
 
 /* ==========================================================
-   7. OPPORTUNITY CARDS
+   10. OPPORTUNITY CARD
    ========================================================== */
 
 .opp-card {
@@ -320,12 +381,16 @@
   box-shadow: var(--shadow-md);
 }
 
-/* Organization avatar */
+
+/* ==========================================================
+   11. ORGANIZATION AVATAR
+   ========================================================== */
 
 .opp-avatar {
   display: grid;
   width: 64px;
   height: 64px;
+  flex-shrink: 0;
   place-items: center;
   border-radius: var(--radius-sm);
   background: var(--brand-light);
@@ -335,7 +400,10 @@
   letter-spacing: 0.02em;
 }
 
-/* Main card content */
+
+/* ==========================================================
+   12. CARD MAIN CONTENT
+   ========================================================== */
 
 .opp-main {
   min-width: 0;
@@ -344,6 +412,7 @@
 .opp-main h3,
 .opp-card h3 {
   margin: 0 0 6px;
+  color: var(--text);
   font-family: var(--font-body);
   font-size: 1.2rem;
   font-weight: 700;
@@ -363,15 +432,16 @@
   color: var(--brand-blue);
 }
 
-/* Organization name */
-
 .opp-org {
   margin: 0 0 6px;
   color: var(--text);
   font-size: 1rem;
 }
 
-/* Opportunity metadata */
+
+/* ==========================================================
+   13. OPPORTUNITY METADATA
+   ========================================================== */
 
 .opp-meta {
   display: flex;
@@ -384,18 +454,17 @@
   line-height: 1.5;
 }
 
-/* Description */
-
 .opp-detail {
-  max-width: none;
+  max-width: 75ch;
   margin: 0 0 4px;
   color: var(--text-secondary);
   font-size: 0.9rem;
   line-height: 1.6;
 }
 
+
 /* ==========================================================
-   8. OPPORTUNITY TAGS
+   14. OPPORTUNITY TAGS
    ========================================================== */
 
 .opp-tags {
@@ -410,7 +479,11 @@
   align-items: center;
   padding: 4px 10px;
   border-radius: 4px;
-  background: color-mix(in srgb, var(--success) 14%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--success) 14%,
+    transparent
+  );
   color: var(--success);
   font-size: 0.82rem;
   font-weight: 600;
@@ -424,12 +497,13 @@
 
 .opp-tag.src {
   border: 1px solid var(--brand-border);
-  background: transparent;
+  background: var(--bg-soft);
   color: var(--text-muted);
 }
 
+
 /* ==========================================================
-   9. RIGHT COLUMN
+   15. OPPORTUNITY CARD SIDE COLUMN
    ========================================================== */
 
 .opp-side {
@@ -442,20 +516,30 @@
   text-align: right;
 }
 
-/* Featured opportunity label */
+
+/* ==========================================================
+   16. FEATURED LABEL
+   ========================================================== */
 
 .opp-flag {
   display: inline-flex;
   align-items: center;
   padding: 4px 12px;
   border-radius: 6px;
-  background: color-mix(in srgb, var(--warning) 20%, transparent);
+  background: color-mix(
+    in srgb,
+    var(--warning) 20%,
+    transparent
+  );
   color: var(--warning);
   font-size: 0.82rem;
   font-weight: 700;
 }
 
-/* Deadline */
+
+/* ==========================================================
+   17. DEADLINE
+   ========================================================== */
 
 .opp-deadline {
   color: var(--text-secondary);
@@ -468,8 +552,18 @@
   font-weight: 700;
 }
 
+
 /* ==========================================================
-   10. EMPTY STATE
+   18. BUTTONS
+   ========================================================== */
+
+.opp-card .btn {
+  white-space: nowrap;
+}
+
+
+/* ==========================================================
+   19. EMPTY STATE
    ========================================================== */
 
 .opp-empty {
@@ -493,8 +587,9 @@
   line-height: 1.6;
 }
 
+
 /* ==========================================================
-   11. LOADING STATE
+   20. LOADING STATE
    ========================================================== */
 
 .opp-loading {
@@ -503,8 +598,9 @@
   text-align: center;
 }
 
+
 /* ==========================================================
-   12. ACCESSIBILITY
+   21. ACCESSIBILITY
    ========================================================== */
 
 .opp-page button:focus-visible,
@@ -526,8 +622,9 @@
   }
 }
 
+
 /* ==========================================================
-   13. RESPONSIVE — TABLETS AND MOBILE
+   22. TABLET RESPONSIVE
    ========================================================== */
 
 @media (max-width: 760px) {
@@ -556,7 +653,10 @@
   }
 
   .opp-filters {
-    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(140px, 1fr)
+    );
   }
 
   .opp-card {
@@ -585,11 +685,16 @@
   }
 }
 
+
 /* ==========================================================
-   14. SMALL MOBILE SCREENS
+   23. SMALL MOBILE
    ========================================================== */
 
 @media (max-width: 420px) {
+
+  .opp-head {
+    padding-top: 24px;
+  }
 
   .opp-head h1 {
     font-size: 2.2rem;
@@ -627,7 +732,12 @@
     width: 100%;
   }
 
+  .opp-sort {
+    width: 100%;
+  }
+
   .opp-sort select {
+    width: 100%;
     max-width: 100%;
   }
 }
