@@ -1318,9 +1318,12 @@ footer.appendChild(metaGroup);
 
 /* POSTING DATE — DISPLAY ONLY ONCE */
 
-if (job.posted) {
+
+const postedLabel = job.posted ? ago(job.posted) : "";
+
+if (postedLabel) {
   footer.appendChild(
-    element("span", "jb-when", ago(job.posted))
+    element("span", "jb-when", postedLabel)
   );
 }
 
