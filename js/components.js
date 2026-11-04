@@ -29,17 +29,35 @@
 
   // ==========================================
   // Current Page Detection
-  // ==========================================
+  // Support both clean Vercel routes (/jobs) and legacy file paths
+  // (/pages/jobs.html) so active navigation is consistent everywhere.
 
-  const path = location.pathname.replace(/\/$/, "") || "/";
+  const normalizePath = (value) => {
+    let normalized = value || "/";
+
+    if (normalized.length > 1 && normalized.endsWith("/")) {
+      normalized = normalized.slice(0, -1);
+    }
+
+    if (normalized.startsWith("/pages/")) {
+      normalized = normalized.slice("/pages".length);
+    }
+
+    if (normalized.endsWith(".html")) {
+      normalized = normalized.slice(0, -".html".length);
+    }
+
+    if (normalized === "/index") normalized = "/";
+    return normalized;
+  };
+
+  const path = normalizePath(location.pathname);
 
   const cur = (href) =>
-    path === href ||
-    (href === "/" && (path === "/" || path === "/index.html"))
+    path === normalizePath(href)
       ? ' aria-current="page"'
       : "";
 
-  // ==========================================
   // Fellowship Dropdown Links
   // ==========================================
 
@@ -266,9 +284,19 @@
         isDark ? "Switch to light mode" : "Switch to dark mode"
       );
 
-      toggle.innerHTML = isDark
-        ? '<span aria-hidden="true">☀</span><span class="theme-label">Light mode</span>'
-        : '<span aria-hidden="true">☾</span><span class="theme-label">Dark mode</span>';
+      const icon = toggle.querySelector("#theme-icon");
+      const label = toggle.querySelector("#theme-label");
+
+      if (icon && label) {
+        // Preserve the homepage's existing elements and inline theme handler.
+        icon.textContent = isDark ? "☀" : "☾";
+        label.textContent = isDark ? "Light mode" : "Dark mode";
+      } else {
+        // Other pages use the shared toggle markup.
+        toggle.innerHTML = isDark
+          ? '<span aria-hidden="true">☀</span><span class="theme-label">Light mode</span>'
+          : '<span aria-hidden="true">☾</span><span class="theme-label">Dark mode</span>';
+      }
     }
   }
 
@@ -284,38 +312,17 @@
   applyTheme(getPreferredTheme());
 
   function renderThemeToggle() {
+    // The homepage already provides its own toggle and click handler.
     if (document.querySelector(".theme-toggle")) return;
 
     const toggle = document.createElement("button");
-
     toggle.className = "theme-toggle";
     toggle.type = "button";
     toggle.setAttribute("aria-pressed", "false");
 
-    toggle.style.cssText = `
-      position: fixed;
-      right: 20px;
-      bottom: 20px;
-      z-index: 999;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      padding: 11px 15px;
-      border: 1px solid var(--border, #d8e1eb);
-      border-radius: 999px;
-      background: var(--card, #ffffff);
-      color: var(--text, #0f2440);
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
-      cursor: pointer;
-      font: inherit;
-      font-size: 14px;
-    `;
-
     toggle.addEventListener("click", function () {
       const currentTheme =
         document.documentElement.getAttribute("data-theme") || "light";
-
       const nextTheme = currentTheme === "dark" ? "light" : "dark";
 
       applyTheme(nextTheme);
@@ -334,16 +341,35 @@
   const menu = document.querySelector(".menu");
 
   if (burger && menu) {
+    const closeMenu = function () {
+      menu.classList.remove("show");
+      burger.setAttribute("aria-expanded", "false");
+      burger.setAttribute("aria-label", "Open navigation menu");
+      burger.textContent = "☰";
+    };
+
     burger.addEventListener("click", function () {
       const isOpen = menu.classList.toggle("show");
-
       burger.setAttribute("aria-expanded", String(isOpen));
       burger.setAttribute(
         "aria-label",
         isOpen ? "Close navigation menu" : "Open navigation menu"
       );
-
       burger.textContent = isOpen ? "✕" : "☰";
+    });
+
+    menu.addEventListener("click", function (event) {
+      if (event.target.closest("a")) closeMenu();
+    });
+
+    document.addEventListener("click", function (event) {
+      if (!menu.contains(event.target) && !burger.contains(event.target)) {
+        closeMenu();
+      }
+    });
+
+    document.addEventListener("keydown", function (event) {
+      if (event.key === "Escape") closeMenu();
     });
   }
 
@@ -356,7 +382,7 @@
   if (dropdown) {
     const dropdownButton = dropdown.querySelector("button");
     const hoverMode = window.matchMedia(
-      "(hover: hover) and (min-width: 901px)"
+      "(hover: hover) and (min-width: 981px)"
     );
 
     let closeTimer;
