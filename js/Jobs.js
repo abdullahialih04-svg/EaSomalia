@@ -2,27 +2,24 @@
 (() => {
   "use strict";
 
-  // Prevent duplicate initialization.
   if (window.__eaSomaliaJobsLoaded) return;
   window.__eaSomaliaJobsLoaded = true;
 
   // ==========================================
-  // Data Sources
+  // DATA SOURCES
   // ==========================================
 
-  const OPPORTUNITIES_URL = "/data/opportunities.json";
-  const SOMALIA_JOBS_URL = "/data/somalia-jobs.json";
+  const OPPORTUNITIES_URL = "/data/jobs.json";
   const PROGRAMMES_URL = "/data/programmes.json";
 
-  const RELIEFWEB_URL =
-    "https://reliefweb.int/jobs?list=Somalia%20Jobs&advanced-search=%28C216%29";
-
   // ==========================================
-  // Shared Helpers
+  // SHARED HELPERS
   // ==========================================
 
   async function fetchJSON(url) {
-    const response = await fetch(url, { cache: "no-cache" });
+    const response = await fetch(url, {
+      cache: "no-cache"
+    });
 
     if (!response.ok) {
       throw new Error(`${url} returned HTTP ${response.status}`);
@@ -31,14 +28,8 @@
     return response.json();
   }
 
-  function escapeHTML(value) {
-    return String(value ?? "").replace(/[&<>"']/g, (char) => ({
-      "&": "&amp;",
-      "<": "&lt;",
-      ">": "&gt;",
-      '"': "&quot;",
-      "'": "&#039;"
-    })[char]);
+  function normalize(value) {
+    return String(value ?? "").trim().toLowerCase();
   }
 
   function formatDate(value) {
@@ -55,8 +46,21 @@
     });
   }
 
-  function normalize(value) {
-    return String(value ?? "").trim().toLowerCase();
+  function safeURL(value) {
+    try {
+      const url = new URL(value, window.location.origin);
+
+      if (
+        url.protocol !== "https:" &&
+        url.protocol !== "http:"
+      ) {
+        return "";
+      }
+
+      return url.href;
+    } catch {
+      return "";
+    }
   }
 
   function getArray(data, property) {
@@ -69,42 +73,34 @@
     return [];
   }
 
-  function safeURL(value) {
-    try {
-      const url = new URL(value, window.location.origin);
+  function createElement(tag, className, text) {
+    const element = document.createElement(tag);
 
-      if (url.protocol !== "https:" && url.protocol !== "http:") {
-        return "";
-      }
+    if (className) element.className = className;
+    if (text !== undefined) element.textContent = text;
 
-      return url.href;
-    } catch {
-      return "";
-    }
+    return element;
   }
 
-  function isReliefWebURL(value) {
-    try {
-      const url = new URL(value);
+  function addLink(parent, url, label, className = "btn ghost") {
+    const safe = safeURL(url);
+    if (!safe) return;
 
-      return (
-        url.protocol === "https:" &&
-        (url.hostname === "reliefweb.int" ||
-          url.hostname.endsWith(".reliefweb.int"))
-      );
-    } catch {
-      return false;
-    }
+    const link = createElement("a", className, label);
+
+    link.href = safe;
+    link.target = "_blank";
+    link.rel = "noopener noreferrer";
+
+    parent.appendChild(link);
   }
 
   // ==========================================
-  // General Opportunities Board
+  // OPPORTUNITIES BOARD
   // ==========================================
 
   function initializeOpportunitiesBoard() {
     const list = document.getElementById("job-list");
-
-    // Do not run unless this page has the opportunities board.
     if (!list) return;
 
     const count = document.getElementById("opp-count");
@@ -123,31 +119,138 @@
 
     let opportunities = [];
 
+    // ------------------------------------------
+    // FILTERS
+    // ------------------------------------------
+
     function getFilterValue(element) {
       return element ? normalize(element.value) : "";
     }
 
-    function matchesClosingDate(job, filter) {
-      if (!filter || filter === "all" || filter === "any") return true;
+    function formatLabel(value) {
+      return String(value)
+        .replace(/-/g, " ")
+        .replace(/\b\w/g, char => char.toUpperCase());
+    }
 
+    function populateSelect(element, values, placeholder) {
+      if (!element) return;
+
+      element.replaceChildren();
+
+      const defaultOption = document.createElement("option");
+      defaultOption.value = "all";
+      defaultOption.textContent = placeholder;
+
+      element.appendChild(defaultOption);
+
+      [...new Set(values.filter(Boolean))]
+        .sort((a, b) => String(a).localeCompare(String(b)))
+        .forEach(value => {
+          const option = document.createElement("option");
+          option.value = normalize(value);
+          option.textContent = formatLabel(value);
+          element.appendChild(option);
+        });
+    }
+
+    function populateFilters() {
+      populateSelect(
+        filters.area,
+        opportunities.map(job => job.category),
+        "All areas"
+      );
+
+      populateSelect(
+        filters.type,
+        opportunities.map(job => job.type),
+        "All types"
+      );
+
+      populateSelect(
+        filters.source,
+        opportunities.map(job => job.source),
+        "All sources"
+      );
+
+      populateSelect(
+        filters.location,
+        opportunities.map(job => job.location),
+        "All locations"
+      );
+
+      populateSelect(
+        filters.org,
+        opportunities.map(job => job.org),
+        "All organisations"
+      );
+
+      if (filters.closing) {
+        filters.closing.replaceChildren();
+
+        [
+          ["all", "Any closing date"],
+          ["7", "Closing within 7 days"],
+          ["14", "Closing within 14 days"],
+          ["30", "Closing within 30 days"],
+          ["open", "All open opportunities"],
+          ["expired", "Expired opportunities"]
+        ].forEach(([value, label]) => {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = label;
+          filters.closing.appendChild(option);
+        });
+      }
+
+      if (filters.sort) {
+        filters.sort.replaceChildren();
+
+        [
+          ["newest", "Newest first"],
+          ["oldest", "Oldest first"],
+          ["deadline", "Closing date"]
+        ].forEach(([value, label]) => {
+          const option = document.createElement("option");
+          option.value = value;
+          option.textContent = label;
+          filters.sort.appendChild(option);
+        });
+
+        filters.sort.value = "newest";
+      }
+    }
+
+    // ------------------------------------------
+    // FILTER MATCHING
+    // ------------------------------------------
+
+    function matchesClosingDate(job, filter) {
+      if (!filter || filter === "all") return true;
       if (!job.deadline) return false;
 
       const deadline = new Date(job.deadline);
+
       if (Number.isNaN(deadline.getTime())) return false;
 
-      const now = new Date();
       const daysRemaining =
-        (deadline.getTime() - now.getTime()) / 86400000;
+        (deadline.getTime() - Date.now()) / 86400000;
 
-      if (filter.includes("expired") || filter.includes("closed")) {
-        return daysRemaining < 0;
+      if (filter === "expired") return daysRemaining < 0;
+
+      if (filter === "7") {
+        return daysRemaining >= 0 && daysRemaining <= 7;
       }
 
-      if (filter.includes("7")) return daysRemaining >= 0 && daysRemaining <= 7;
-      if (filter.includes("14")) return daysRemaining >= 0 && daysRemaining <= 14;
-      if (filter.includes("30")) return daysRemaining >= 0 && daysRemaining <= 30;
+      if (filter === "14") {
+        return daysRemaining >= 0 && daysRemaining <= 14;
+      }
 
-      if (filter.includes("open")) return daysRemaining >= 0;
+      if (filter === "30") {
+        return daysRemaining >= 0 && daysRemaining <= 30;
+      }
+
+      if (filter === "open") return daysRemaining >= 0;
 
       return true;
     }
@@ -174,115 +277,157 @@
 
       if (query && !searchableText.includes(query)) return false;
 
-      if (area && area !== "all" &&
+      if (area !== "all" && area &&
           !normalize(job.category).includes(area)) return false;
 
-      if (type && type !== "all" &&
+      if (type !== "all" && type &&
           !normalize(job.type).includes(type)) return false;
 
-      if (source && source !== "all" &&
+      if (source !== "all" && source &&
           !normalize(job.source).includes(source)) return false;
 
-      if (location && location !== "all" &&
+      if (location !== "all" && location &&
           !normalize(job.location).includes(location)) return false;
 
-      if (org && org !== "all" &&
+      if (org !== "all" && org &&
           !normalize(job.org).includes(org)) return false;
 
-      if (!matchesClosingDate(job, closing)) return false;
-
-      return true;
+      return matchesClosingDate(job, closing);
     }
+
+    // ------------------------------------------
+    // SORTING
+    // ------------------------------------------
 
     function sortJobs(jobs) {
       const sort = getFilterValue(filters.sort);
 
       return [...jobs].sort((a, b) => {
-        if (sort.includes("deadline") || sort.includes("closing")) {
-          const dateA = new Date(a.deadline || "9999-12-31");
-          const dateB = new Date(b.deadline || "9999-12-31");
-          return dateA - dateB;
+        if (sort === "deadline") {
+          return new Date(a.deadline || "9999-12-31") -
+            new Date(b.deadline || "9999-12-31");
         }
 
-        if (sort.includes("oldest")) {
-          return new Date(a.posted || 0) - new Date(b.posted || 0);
+        if (sort === "oldest") {
+          return new Date(a.posted || 0) -
+            new Date(b.posted || 0);
         }
 
-        // Default: newest first.
-        return new Date(b.posted || 0) - new Date(a.posted || 0);
+        return new Date(b.posted || 0) -
+          new Date(a.posted || 0);
       });
     }
 
+    // ------------------------------------------
+    // OPPORTUNITY CARD
+    // ------------------------------------------
+
     function renderJob(job) {
-      const url = safeURL(job.url);
+      const card = createElement("article", "card job");
+      const content = createElement("div", "job-content");
 
-      const title = escapeHTML(job.title || "Untitled opportunity");
-      const org = escapeHTML(job.org || "Organization not specified");
-      const location = escapeHTML(job.location || "Location not specified");
-      const type = escapeHTML(job.type || "");
-      const category = escapeHTML(job.category || "");
-      const source = escapeHTML(job.source || "");
-      const eligibility = escapeHTML(job.eligibility || "");
-      const deadline = formatDate(job.deadline);
-      const posted = formatDate(job.posted);
+      if (job.category) {
+        content.appendChild(
+          createElement("span", "tag", formatLabel(job.category))
+        );
+      }
 
-      return `
-        <article class="card job">
-          <div class="job-content">
-            ${category ? `<span class="tag">${category}</span>` : ""}
+      content.appendChild(
+        createElement("h3", "", job.title || "Untitled opportunity")
+      );
 
-            <h3>${title}</h3>
+      content.appendChild(
+        createElement("p", "job-org", job.org || "Organisation not specified")
+      );
 
-            <p class="job-org">${org}</p>
+      const meta = createElement("div", "job-meta");
 
-            <div class="job-meta">
-              ${location ? `<span>${location}</span>` : ""}
-              ${type ? `<span>${type}</span>` : ""}
-              ${source ? `<span>${source}</span>` : ""}
-            </div>
+      [
+        job.location,
+        job.type ? formatLabel(job.type) : "",
+        job.source
+      ].filter(Boolean).forEach(value => {
+        meta.appendChild(createElement("span", "", value));
+      });
 
-            ${eligibility ? `<p>${eligibility}</p>` : ""}
+      content.appendChild(meta);
 
-            <div class="job-dates">
-              ${posted ? `<span>Posted: ${posted}</span>` : ""}
-              ${deadline ? `<span>Deadline: ${deadline}</span>` : ""}
-            </div>
-          </div>
+      if (job.eligibility) {
+        content.appendChild(createElement("p", "", job.eligibility));
+      }
 
-          ${
-            url
-              ? `<a class="btn ghost" href="${url}" target="_blank"
-                    rel="noopener noreferrer">View opportunity</a>`
-              : ""
-          }
-        </article>
-      `;
+      if (job.length) {
+        content.appendChild(
+          createElement("p", "", `Duration: ${job.length}`)
+        );
+      }
+
+      const dates = createElement("div", "job-dates");
+
+      if (job.posted) {
+        dates.appendChild(
+          createElement("span", "", `Posted: ${formatDate(job.posted)}`)
+        );
+      }
+
+      if (job.deadline) {
+        dates.appendChild(
+          createElement("span", "", `Deadline: ${formatDate(job.deadline)}`)
+        );
+      }
+
+      content.appendChild(dates);
+      card.appendChild(content);
+
+      addLink(card, job.url, "View opportunity");
+
+      return card;
     }
 
+    // ------------------------------------------
+    // RENDER RESULTS
+    // ------------------------------------------
+
     function render() {
-      const filtered = sortJobs(opportunities.filter(matchesJob));
+      const filtered = sortJobs(
+        opportunities.filter(matchesJob)
+      );
 
       list.replaceChildren();
 
       if (count) {
-        count.textContent = String(filtered.length);
+        count.textContent =
+          `${filtered.length} ${
+            filtered.length === 1 ? "opportunity" : "opportunities"
+          }`;
       }
 
       if (!filtered.length) {
-        list.innerHTML = `
-          <div class="empty-state">
-            <p>No opportunities match your search.</p>
-            <p>Try changing your filters or search terms.</p>
-          </div>
-        `;
+        const empty = createElement("div", "empty-state");
+
+        empty.appendChild(
+          createElement("p", "", "No opportunities match your search.")
+        );
+
+        empty.appendChild(
+          createElement("p", "", "Try changing your filters or search terms.")
+        );
+
+        list.appendChild(empty);
         return;
       }
 
-      list.innerHTML = filtered.map(renderJob).join("");
+      filtered.forEach(job => {
+        list.appendChild(renderJob(job));
+      });
     }
 
+    // ------------------------------------------
+    // CLEAR FILTERS
+    // ------------------------------------------
+
     function clearFilters() {
-      Object.values(filters).forEach((element) => {
+      Object.values(filters).forEach(element => {
         if (element) element.selectedIndex = 0;
       });
 
@@ -291,43 +436,55 @@
       render();
     }
 
-    Object.values(filters).forEach((element) => {
+    // ------------------------------------------
+    // EVENTS
+    // ------------------------------------------
+
+    Object.values(filters).forEach(element => {
       if (element) element.addEventListener("change", render);
     });
 
-    if (search) {
-      search.addEventListener("input", render);
-    }
+    if (search) search.addEventListener("input", render);
 
     if (clearButton) {
       clearButton.addEventListener("click", clearFilters);
     }
 
+    // ------------------------------------------
+    // LOAD JOBS
+    // ------------------------------------------
+
     async function loadOpportunities() {
-      list.innerHTML = "<p>Loading opportunities…</p>";
+      list.textContent = "Loading opportunities…";
 
       try {
         const data = await fetchJSON(OPPORTUNITIES_URL);
 
-        opportunities = getArray(data, "jobs").filter((job) =>
+        opportunities = getArray(data, "jobs").filter(job =>
           job &&
           typeof job.title === "string" &&
           job.title.trim() &&
-          typeof job.url === "string"
+          typeof job.url === "string" &&
+          safeURL(job.url)
         );
 
+        populateFilters();
         render();
+
       } catch (error) {
         console.error("Opportunities loading error:", error);
 
-        list.innerHTML = `
-          <div class="empty-state">
-            <p>We could not load opportunities right now.</p>
-            <p>Please try again later.</p>
-          </div>
-        `;
+        list.replaceChildren();
 
-        if (count) count.textContent = "0";
+        list.appendChild(
+          createElement(
+            "p",
+            "empty-state",
+            "We could not load opportunities right now. Please try again later."
+          )
+        );
+
+        if (count) count.textContent = "0 opportunities";
       }
     }
 
@@ -335,135 +492,7 @@
   }
 
   // ==========================================
-  // Somalia ReliefWeb Jobs
-  // ==========================================
-
-  function initializeSomaliaJobs() {
-    const list = document.getElementById("somalia-jobs");
-    const note = document.getElementById("somalia-jobs-note");
-
-    // This section is optional and only runs when its HTML exists.
-    if (!list || !note) return;
-
-    function showFallback(message) {
-      list.replaceChildren();
-      note.textContent = message + " ";
-
-      const link = document.createElement("a");
-      link.href = RELIEFWEB_URL;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = "See all Somalia jobs on ReliefWeb.";
-
-      note.appendChild(link);
-    }
-
-    function renderSomaliaJob(job) {
-      const card = document.createElement("article");
-      card.className = "card job";
-
-      const location = document.createElement("span");
-      location.className = "tag";
-      location.textContent = job.city || job.country || "Somalia";
-
-      const heading = document.createElement("h3");
-      heading.textContent = job.title;
-
-      const meta = document.createElement("p");
-      meta.style.cssText =
-        "display:flex;flex-wrap:wrap;gap:.25rem 1.25rem;font-size:.9rem";
-
-      [
-        ["Organization", job.org],
-        ["Posted", formatDate(job.posted)],
-        ["Closing date", formatDate(job.closes)]
-      ].forEach(([label, value]) => {
-        if (!value) return;
-
-        const item = document.createElement("span");
-        const strong = document.createElement("strong");
-
-        strong.textContent = label + ": ";
-        item.appendChild(strong);
-        item.appendChild(document.createTextNode(value));
-        meta.appendChild(item);
-      });
-
-      const content = document.createElement("div");
-      content.append(location, heading, meta);
-
-      const link = document.createElement("a");
-      link.className = "btn ghost";
-      link.href = job.url;
-      link.target = "_blank";
-      link.rel = "noopener noreferrer";
-      link.textContent = "View on ReliefWeb";
-
-      card.append(content, link);
-      list.appendChild(card);
-    }
-
-    async function loadSomaliaJobs() {
-      note.textContent = "Loading open roles…";
-
-      try {
-        const data = await fetchJSON(SOMALIA_JOBS_URL);
-
-        if (!data || !Array.isArray(data.jobs)) {
-          throw new Error("Expected a jobs array in somalia-jobs.json");
-        }
-
-        const seen = new Set();
-        const now = Date.now();
-
-        const jobs = data.jobs.filter((job) => {
-          if (
-            !job ||
-            !job.id ||
-            typeof job.title !== "string" ||
-            !job.title.trim() ||
-            !isReliefWebURL(job.url)
-          ) {
-            return false;
-          }
-
-          const id = String(job.id);
-
-          if (seen.has(id)) return false;
-          seen.add(id);
-
-          if (!job.closes) return true;
-
-          const closingTime = new Date(job.closes).getTime();
-
-          // Exclude only listings with a confirmed past closing date.
-          return !Number.isFinite(closingTime) || closingTime > now;
-        });
-
-        list.replaceChildren();
-
-        if (!jobs.length) {
-          showFallback("No open roles are listed right now.");
-          return;
-        }
-
-        jobs.forEach(renderSomaliaJob);
-
-        note.textContent =
-          `Showing ${jobs.length} open ${jobs.length === 1 ? "role" : "roles"} from ReliefWeb` +
-          (data.updated ? `, last refreshed on ${formatDate(data.updated)}` : "") +
-          ". You apply on the employer’s page.";
-      } catch (error) {
-        console.error("Somalia jobs loading error:", error);
-        showFallback("We could not load the Somalia job listings.");
-      }
-    }
-
-    loadSomaliaJobs();
-  }
-
-  // ==========================================
-  // Programmes
+  // PROGRAMMES
   // ==========================================
 
   function initializeProgrammes() {
@@ -471,7 +500,6 @@
       document.getElementById("programme-list") ||
       document.getElementById("programmes-list");
 
-    // Do not fetch programmes on pages without a programmes container.
     if (!list) return;
 
     async function loadProgrammes() {
@@ -486,26 +514,38 @@
           return;
         }
 
-        list.innerHTML = programmes.map((programme) => {
-          const url = safeURL(programme.url);
+        programmes.forEach(programme => {
+          const card = createElement("article", "card");
 
-          return `
-            <article class="card">
-              <h3>${escapeHTML(programme.title || "Programme")}</h3>
-              ${programme.org ? `<p>${escapeHTML(programme.org)}</p>` : ""}
-              ${programme.description
-                ? `<p>${escapeHTML(programme.description)}</p>`
-                : ""}
-              ${programme.deadline
-                ? `<p>Deadline: ${formatDate(programme.deadline)}</p>`
-                : ""}
-              ${url
-                ? `<a class="btn ghost" href="${url}" target="_blank"
-                     rel="noopener noreferrer">Learn more</a>`
-                : ""}
-            </article>
-          `;
-        }).join("");
+          card.appendChild(
+            createElement("h3", "", programme.title || "Programme")
+          );
+
+          if (programme.org) {
+            card.appendChild(createElement("p", "", programme.org));
+          }
+
+          if (programme.description) {
+            card.appendChild(
+              createElement("p", "", programme.description)
+            );
+          }
+
+          if (programme.deadline) {
+            card.appendChild(
+              createElement(
+                "p",
+                "",
+                `Deadline: ${formatDate(programme.deadline)}`
+              )
+            );
+          }
+
+          addLink(card, programme.url, "Learn more");
+
+          list.appendChild(card);
+        });
+
       } catch (error) {
         console.error("Programmes loading error:", error);
         list.textContent = "Programmes could not be loaded.";
@@ -516,20 +556,22 @@
   }
 
   // ==========================================
-  // Initialize Jobs Page
+  // INITIALIZE PAGE
   // ==========================================
 
   function initializeJobsPage() {
     initializeOpportunitiesBoard();
-    initializeSomaliaJobs();
     initializeProgrammes();
   }
 
   if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", initializeJobsPage, {
-      once: true
-    });
+    document.addEventListener(
+      "DOMContentLoaded",
+      initializeJobsPage,
+      { once: true }
+    );
   } else {
     initializeJobsPage();
   }
+
 })();
