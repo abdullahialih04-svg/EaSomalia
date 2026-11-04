@@ -906,7 +906,8 @@ const JOBS = [
     level: "Senior",
     posted: "2026-11-04",
     url: "https://rand.wd5.myworkdayjobs.com/External_Career_Site/job/Washington-DC-DC-Metro-Area/AI-Security-Researcher_R3684",
-    featured: true
+    featured: true,
+    pin: 1
   },
 
   {
@@ -931,7 +932,8 @@ const JOBS = [
     type: "Full-time",
     level: "Mid-level",
     posted: "2026-10-30",
-    url: "https://animaladvocacycareers.org/operations-associate/"
+    url: "https://animaladvocacycareers.org/operations-associate/",
+    pin: 2
   },
 
   {
@@ -979,7 +981,7 @@ const ORG_LOGOS = {
 
   "Coefficient Giving": "/images/organisations/Coefficient_Giving.png",
 
-  "RAND Corporation": null,
+  "RAND Corporation": "/images/organisations/RAND.png",
 
   "AI Safety Asia": "/images/organisations/AISA.png",
 
@@ -1511,6 +1513,7 @@ if (posted) footer.appendChild(posted);
     const shown = JOBS
       .filter(matches)
       .sort((a, b) =>
+        ((a.pin || 999) - (b.pin || 999)) ||
         (Number(Boolean(b.featured)) - Number(Boolean(a.featured))) ||
         new Date(b.posted || 0) - new Date(a.posted || 0)
       );
