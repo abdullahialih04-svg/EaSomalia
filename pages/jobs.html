@@ -1,3 +1,4 @@
+
 <!doctype html>
 <html lang="en">
 <head>
@@ -10,8 +11,10 @@
 
   <meta
     name="description"
-    content="Jobs, fellowships and funding to help you work on pressing problems."
+    content="Explore jobs, fellowships, internships and funding opportunities through EA Somalia."
   >
+
+  <meta name="theme-color" content="#ffffff">
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -32,17 +35,21 @@
 
   <main class="opp-page">
 
-    <!-- Header -->
+    <!-- Page Header -->
     <section class="opp-head">
       <div class="wrap opp-head-inner">
 
         <div>
           <h1>Opportunities</h1>
-          <p>Jobs, fellowships and funding to help you work on pressing problems.</p>
+          <p>
+            Explore jobs, fellowships and funding opportunities
+            to help you work on pressing problems.
+          </p>
         </div>
 
         <aside class="opp-advisor">
           <p>Get career advice matched to your background</p>
+
           <a
             href="https://app.80000hours.org/?utm_source=80k_job_board&utm_medium=tab&flow=explore-jobs"
             target="_blank"
@@ -61,7 +68,10 @@
 
         <!-- Tabs -->
         <div class="opp-tabs">
-          <span class="opp-tab active">Search Opportunities</span>
+
+          <span class="opp-tab active">
+            Search Opportunities
+          </span>
 
           <a
             class="opp-tab"
@@ -71,6 +81,7 @@
           >
             AI Career Advisor ↗
           </a>
+
         </div>
 
         <!-- Search and Filters -->
@@ -98,7 +109,7 @@
                 id="opp-search"
                 class="opp-input"
                 type="search"
-                placeholder="Keywords"
+                placeholder="Search by keyword, role or organisation"
                 aria-label="Search opportunities"
               >
 
@@ -106,26 +117,54 @@
           </div>
 
           <div class="opp-filters">
-            <select id="f-area" aria-label="Area"></select>
-            <select id="f-type" aria-label="Type"></select>
-            <select id="f-source" aria-label="Source"></select>
-            <select id="f-location" aria-label="Location"></select>
-            <select id="f-org" aria-label="Organisation"></select>
-            <select id="f-closing" aria-label="Closing date"></select>
+
+            <select id="f-area" aria-label="Filter by area">
+              <option value="all">All areas</option>
+            </select>
+
+            <select id="f-type" aria-label="Filter by opportunity type">
+              <option value="all">All types</option>
+            </select>
+
+            <select id="f-source" aria-label="Filter by source">
+              <option value="all">All sources</option>
+            </select>
+
+            <select id="f-location" aria-label="Filter by location">
+              <option value="all">All locations</option>
+            </select>
+
+            <select id="f-org" aria-label="Filter by organisation">
+              <option value="all">All organisations</option>
+            </select>
+
+            <select id="f-closing" aria-label="Filter by closing date">
+              <option value="all">Any closing date</option>
+            </select>
+
           </div>
 
         </div>
 
-        <!-- Count and Sort -->
+        <!-- Results Count and Sorting -->
         <div class="opp-bar">
 
           <div class="opp-bar-left">
-            <strong id="opp-count">0 opportunities</strong>
+
+            <strong id="opp-count" aria-live="polite">
+              0 opportunities
+            </strong>
 
             <label class="opp-sort">
               <span class="sr-only">Sort by</span>
-              <select id="f-sort" aria-label="Sort by"></select>
+
+              <select id="f-sort" aria-label="Sort opportunities">
+                <option value="newest">Newest first</option>
+                <option value="oldest">Oldest first</option>
+                <option value="deadline">Closing date</option>
+              </select>
             </label>
+
           </div>
 
           <button
@@ -139,8 +178,14 @@
         </div>
 
         <!-- Opportunity List -->
-        <div id="job-list">
-          <div class="opp-empty">Loading opportunities…</div>
+        <div
+          id="job-list"
+          aria-live="polite"
+          aria-busy="true"
+        >
+          <div class="opp-empty">
+            Loading opportunities…
+          </div>
         </div>
 
       </div>
@@ -151,7 +196,7 @@
   <!-- Footer -->
   <div id="site-footer"></div>
 
-  <!-- Shared JavaScript -->
+  <!-- JavaScript -->
   <script src="/js/components.js"></script>
   <script src="/js/Jobs.js"></script>
 
