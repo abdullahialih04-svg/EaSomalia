@@ -1,70 +1,148 @@
 /* ==========================================================
-   EA SOMALIA — OPPORTUNITIES PAGE
-   Uses the tokens from style.css, so light/dark mode just works.
+   EA SOMALIA — OPPORTUNITIES BOARD
+   Layout modelled on the 80,000 Hours job board.
+   Built only from style.css tokens, so dark mode just works.
    ========================================================== */
 
-/* ---------- Tabs ---------- */
+.opp-page {
+  background: var(--bg-soft);
+}
+
+/* ---------- Header ---------- */
+
+.opp-head {
+  padding: 40px 0 26px;
+}
+
+.opp-head-inner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 20px 32px;
+}
+
+.opp-head h1 {
+  margin: 0 0 8px;
+  font-family: var(--font-body);
+  font-size: clamp(2.3rem, 5vw, 3.3rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  line-height: 1.05;
+}
+
+.opp-head p {
+  max-width: 54ch;
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.55;
+}
+
+.opp-advisor {
+  max-width: 310px;
+  padding: 18px 22px;
+  border-radius: var(--radius-sm);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
+  text-align: right;
+}
+
+.opp-advisor p {
+  margin: 0 0 10px;
+  color: var(--text);
+  font-size: 0.95rem;
+  line-height: 1.5;
+}
+
+.opp-advisor a {
+  color: var(--brand-blue);
+  font-size: 0.9rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.opp-advisor a:hover {
+  color: var(--brand-bright);
+}
+
+/* ---------- Board ---------- */
+
+.opp-board {
+  padding: 8px 0 80px;
+}
+
+/* ---------- Tabs (joined to the filter card) ---------- */
 
 .opp-tabs {
   display: flex;
-  flex-wrap: wrap;
-  gap: 4px;
-  border-bottom: 1px solid var(--brand-border);
 }
 
 .opp-tab {
-  display: inline-flex;
-  align-items: center;
-  padding: 14px 22px;
-  border: 0;
-  border-bottom: 3px solid transparent;
-  background: transparent;
+  flex: 1;
+  padding: 18px 16px;
+  border-radius: var(--radius-sm) var(--radius-sm) 0 0;
+  background: var(--brand-light);
   color: var(--text-muted);
-  font-family: var(--font-body);
-  font-size: 1rem;
+  font-size: 1.05rem;
   font-weight: 600;
-  line-height: 1.2;
+  text-align: center;
   text-decoration: none;
-  cursor: pointer;
-  transition:
-    color var(--transition),
-    border-color var(--transition),
-    background var(--transition);
+  transition: color var(--transition), background var(--transition);
 }
 
-.opp-tab:hover {
+a.opp-tab:hover {
   background: var(--surface-hover);
   color: var(--text);
 }
 
 .opp-tab.active {
-  border-bottom-color: var(--brand-blue);
+  background: var(--surface);
   color: var(--text);
 }
 
-.opp-panel {
-  padding-top: 26px;
+/* ---------- Filter card ---------- */
+
+.opp-filter-card {
+  padding: 20px;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) var(--radius-sm);
+  background: var(--surface);
+  box-shadow: var(--shadow-sm);
 }
 
-/* ---------- Search and filters ---------- */
+.opp-search-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 16px;
+}
 
-.opp-input,
-.opp-filters select {
+.opp-searchbox {
+  position: relative;
+  flex: 1 1 280px;
+}
+
+.opp-search-icon {
+  position: absolute;
+  top: 50%;
+  left: 14px;
+  color: var(--text-muted);
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.opp-input {
   width: 100%;
-  border: 1px solid var(--brand-border);
+  min-height: 48px;
+  padding: 10px 16px 10px 44px;
+  border: 1px solid transparent;
   border-radius: var(--radius-sm);
   background: var(--bg-soft);
   color: var(--text);
   font-family: var(--font-body);
-  transition:
-    border-color var(--transition),
-    background var(--transition);
-}
-
-.opp-input {
-  min-height: 52px;
-  padding: 12px 16px;
   font-size: 1rem;
+  transition: border-color var(--transition);
 }
 
 .opp-input::placeholder {
@@ -72,29 +150,69 @@
 }
 
 .opp-input:hover,
-.opp-filters select:hover {
+.opp-input:focus {
   border-color: var(--brand-bright);
 }
 
 .opp-filters {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-  align-items: center;
   gap: 12px;
-  margin: 14px 0 22px;
+}
+
+.opp-filters select,
+.opp-sort select {
+  min-height: 44px;
+  padding: 8px 12px;
+  border: 1px solid var(--brand-border);
+  border-radius: 6px;
+  background: var(--surface);
+  color: var(--text);
+  font-family: var(--font-body);
+  font-size: 0.94rem;
+  cursor: pointer;
+  transition: border-color var(--transition);
 }
 
 .opp-filters select {
-  min-height: 46px;
-  padding: 10px 12px;
+  width: 100%;
+}
+
+.opp-filters select:hover,
+.opp-sort select:hover {
+  border-color: var(--brand-bright);
+}
+
+/* ---------- Count / sort bar ---------- */
+
+.opp-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px 20px;
+  margin: 24px 0 14px;
+}
+
+.opp-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.opp-bar-left strong {
+  font-size: 1.05rem;
+}
+
+.opp-sort select {
+  min-height: 38px;
+  border-radius: var(--radius-pill);
   background: var(--surface);
-  font-size: 0.94rem;
-  cursor: pointer;
+  font-weight: 600;
 }
 
 .opp-clear {
-  justify-self: start;
-  padding: 8px 4px;
+  padding: 6px 2px;
   border: 0;
   background: none;
   color: var(--brand-blue);
@@ -108,33 +226,22 @@
   text-underline-offset: 4px;
 }
 
-.opp-count {
-  margin-bottom: 16px;
-  color: var(--text-secondary);
-  font-size: 0.95rem;
-}
-
-.opp-count strong {
-  color: var(--text);
-  font-size: 1.05rem;
-}
-
-/* ---------- Opportunity cards ---------- */
+/* ---------- Role cards ---------- */
 
 .opp-card {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 24px;
-  margin-bottom: 16px;
-  padding: clamp(18px, 3vw, 26px);
-  border: 1px solid var(--brand-border);
-  border-radius: var(--radius-md);
+  display: grid;
+  grid-template-columns: 64px minmax(0, 1fr) auto;
+  gap: 20px;
+  margin-bottom: 14px;
+  padding: 22px 24px;
+  border: 1px solid transparent;
+  border-radius: var(--radius-sm);
   background: var(--surface);
+  box-shadow: var(--shadow-sm);
   transition:
-    transform var(--transition),
     border-color var(--transition),
-    box-shadow var(--transition);
+    box-shadow var(--transition),
+    transform var(--transition);
 }
 
 .opp-card:hover {
@@ -143,16 +250,58 @@
   box-shadow: var(--shadow-md);
 }
 
-.opp-card h3 {
-  margin: 0 0 6px;
-  font-size: 1.22rem;
+.opp-avatar {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  place-items: center;
+  border-radius: var(--radius-sm);
+  background: var(--brand-light);
+  color: var(--brand-blue);
+  font-size: 1.25rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.opp-main h3 {
+  margin: 0 0 2px;
+  font-family: var(--font-body);
+  font-size: 1.2rem;
+  font-weight: 700;
   line-height: 1.35;
+  letter-spacing: -0.01em;
+}
+
+.opp-main h3 a {
+  color: var(--text);
+  text-decoration: none;
+}
+
+.opp-main h3 a:hover {
+  color: var(--brand-blue);
+}
+
+.opp-org {
+  margin: 0 0 6px;
+  color: var(--text);
+  font-size: 1rem;
 }
 
 .opp-meta {
-  margin: 0 0 14px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  margin: 0 0 4px;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.opp-detail {
+  max-width: none;
+  margin: 0 0 4px;
   color: var(--text-secondary);
-  font-size: 0.95rem;
+  font-size: 0.9rem;
+  line-height: 1.55;
 }
 
 /* ---------- Tags ---------- */
@@ -161,14 +310,15 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-top: 12px;
 }
 
 .opp-tag {
-  padding: 4px 11px;
-  border-radius: var(--radius-pill);
+  padding: 4px 10px;
+  border-radius: 4px;
   background: color-mix(in srgb, var(--success) 14%, transparent);
   color: var(--success);
-  font-size: 0.8rem;
+  font-size: 0.82rem;
   font-weight: 600;
   line-height: 1.5;
 }
@@ -180,25 +330,35 @@
 
 .opp-tag.src {
   border: 1px solid var(--brand-border);
-  background: var(--bg-soft);
+  background: transparent;
   color: var(--text-muted);
 }
 
-/* ---------- Deadline and apply button ---------- */
+/* ---------- Right column ---------- */
 
 .opp-side {
   display: flex;
-  min-width: 190px;
+  min-width: 170px;
   flex-direction: column;
   align-items: flex-end;
+  justify-content: space-between;
   gap: 12px;
   text-align: right;
 }
 
+.opp-flag {
+  padding: 4px 12px;
+  border-radius: 6px;
+  background: color-mix(in srgb, var(--warning) 20%, transparent);
+  color: var(--warning);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
 .opp-deadline {
-  color: var(--text-secondary);
+  color: var(--text-muted);
   font-size: 0.9rem;
-  line-height: 1.5;
+  line-height: 1.45;
 }
 
 .opp-deadline.urgent {
@@ -209,100 +369,53 @@
 /* ---------- Empty state ---------- */
 
 .opp-empty {
-  padding: 36px 24px;
+  padding: 40px 24px;
   border: 1px dashed var(--brand-border);
-  border-radius: var(--radius-md);
-  background: var(--bg-soft);
+  border-radius: var(--radius-sm);
+  background: var(--surface);
   color: var(--text-muted);
   text-align: center;
 }
 
 /* ---------- Mobile ---------- */
 
-@media (max-width: 700px) {
+@media (max-width: 760px) {
+  .opp-head {
+    padding-top: 28px;
+  }
+
+  .opp-advisor {
+    width: 100%;
+    max-width: none;
+    text-align: left;
+  }
+
   .opp-tab {
-    padding: 12px 14px;
+    padding: 14px 8px;
     font-size: 0.92rem;
   }
 
+  .opp-filter-card {
+    padding: 14px;
+  }
+
   .opp-card {
-    flex-direction: column;
-    gap: 16px;
+    grid-template-columns: 48px minmax(0, 1fr);
+    gap: 14px;
+    padding: 18px;
+  }
+
+  .opp-avatar {
+    width: 48px;
+    height: 48px;
+    font-size: 1rem;
   }
 
   .opp-side {
-    width: 100%;
-    min-width: 0;
+    grid-column: 1 / -1;
     flex-direction: row;
     align-items: center;
     justify-content: space-between;
     text-align: left;
-  }
-}
-
-@media (max-width: 420px) {
-  .opp-side {
-    flex-direction: column;
-    align-items: stretch;
-  }
-
-  .opp-side .btn {
-    width: 100%;
-  }
-}
-
-/* ---------- Compact hero ---------- */
-
-.hero.hero-compact {
-  padding: 28px 0 26px;
-}
-
-.hero-compact .wrap {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  justify-content: space-between;
-  gap: 18px 32px;
-}
-
-.hero-compact .pill {
-  margin-bottom: 10px;
-  padding: 5px 12px;
-  font-size: 0.78rem;
-}
-
-.hero-compact h1 {
-  margin-bottom: 8px;
-  font-size: clamp(2rem, 4vw, 2.7rem);
-  line-height: 1.1;
-}
-
-.hero-compact p {
-  max-width: 62ch;
-  margin: 0;
-  font-size: 1rem;
-  line-height: 1.6;
-}
-
-/* ---------- Board gets the space ---------- */
-
-.section.opp-section {
-  padding: 28px 0 64px;
-}
-
-.opp-share {
-  margin: 28px 0 0;
-  text-align: center;
-  color: var(--text-muted);
-  font-size: 0.95rem;
-}
-
-@media (max-width: 600px) {
-  .hero.hero-compact {
-    padding: 22px 0 20px;
-  }
-
-  .hero-compact .btn {
-    width: 100%;
   }
 }
