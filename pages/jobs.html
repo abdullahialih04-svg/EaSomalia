@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Jobs | EA Somalia</title>
+<link rel="icon" href="/images/logo.png">
+<meta name="description" content="Find work on pressing problems.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@600&family=Inter:wght@400;500;600&family=Source+Serif+4:wght@600;700&display=swap" rel="stylesheet">
+<script>(function(){try{var t=localStorage.getItem("ea-somalia-theme");if(t!=="light"&&t!=="dark"){t=matchMedia("(prefers-color-scheme: dark)").matches?"dark":"light"}document.documentElement.dataset.theme=t}catch(e){}})();</script>
+<link rel="stylesheet" href="/css/style.css">
+<style>
+  .jb-head{display:flex;flex-wrap:wrap;gap:24px;align-items:flex-end;justify-content:space-between}
+  .jb-head h1{margin:0 0 8px;font-size:clamp(2.4rem,6vw,3.6rem)}
+  .jb-head p{margin:0;max-width:560px}
+  .jb-head p em{font-style:normal;color:var(--brand-blue);font-weight:600}
+  .jb-alert-box{padding:20px 24px;border:1px solid var(--brand-border);border-radius:var(--radius-md);background:var(--surface);box-shadow:var(--shadow-sm);max-width:300px;font-size:.95rem;line-height:1.5}
+  .jb-alert-box a{display:inline-block;margin-top:8px;font-weight:600;font-size:.85rem;letter-spacing:.04em;text-transform:uppercase;color:var(--brand-blue);text-decoration:none}
+
+  .jb-panel{padding:20px;border:1px solid var(--brand-border);border-radius:var(--radius-md);background:var(--surface);box-shadow:var(--shadow-sm)}
+  .jb-search{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:14px}
+  .jb-input{position:relative;flex:1 1 280px}
+  .jb-input svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);width:20px;height:20px;color:var(--text-muted);pointer-events:none}
+  .jb-input input{width:100%;min-height:46px;padding:10px 14px 10px 44px;border:1px solid var(--brand-border);border-radius:var(--radius-sm);background:var(--bg-soft);color:var(--text);font:inherit;font-size:.95rem}
+  .jb-filters{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  .jb-filters select{width:100%;min-height:44px;padding:8px 12px;border:1px solid var(--brand-border);border-radius:var(--radius-sm);background:var(--surface);color:var(--text);font:inherit;font-size:.92rem;cursor:pointer}
+  .jb-input input:focus-visible,.jb-filters select:focus-visible{outline:3px solid var(--brand-bright);outline-offset:2px}
+
+  .jb-bar{display:flex;flex-wrap:wrap;gap:12px;align-items:center;justify-content:space-between;margin:26px 0 14px}
+  .jb-count{font-weight:700;font-size:1.05rem}
+  .jb-bar a,.jb-clear{font-size:.9rem;font-weight:600;color:var(--brand-blue);background:none;border:0;cursor:pointer;text-decoration:none;font-family:inherit;padding:0}
+  .jb-bar a:hover,.jb-clear:hover{text-decoration:underline}
+
+  .jb-list{display:grid;gap:14px}
+  .jb-card{display:flex;gap:18px;padding:20px;border:1px solid var(--brand-border);border-radius:var(--radius-md);background:var(--surface);color:var(--text);text-decoration:none;transition:border-color var(--transition),box-shadow var(--transition),transform var(--transition)}
+  .jb-card:hover{border-color:var(--brand-blue);box-shadow:var(--shadow-md);transform:translateY(-1px)}
+  .jb-logo{flex:0 0 76px;height:76px;border-radius:var(--radius-sm);display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:1.5rem;letter-spacing:.02em}
+  .jb-body{flex:1;min-width:0}
+  .jb-top{display:flex;justify-content:space-between;gap:12px;align-items:flex-start}
+  .jb-title{margin:0;font-family:var(--font-body);font-size:1.15rem;font-weight:700;line-height:1.3}
+  .jb-org{margin:2px 0 8px;font-size:1rem}
+  .jb-badge{flex:0 0 auto;padding:3px 10px;border-radius:6px;background:#fff1b8;color:#5c4400;font-size:.8rem;font-weight:600;white-space:nowrap}
+  .jb-badge.sample{background:var(--brand-light);color:var(--brand-blue)}
+  .jb-badges{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+  .jb-loc{display:flex;flex-wrap:wrap;gap:4px 14px;margin:0 0 12px;padding:0;list-style:none;font-size:.88rem;color:var(--text-secondary)}
+  .jb-loc li::before{content:"•";margin-right:8px;color:var(--text-muted)}
+  .jb-loc li:first-child::before{content:"📍";margin-right:5px}
+  .jb-foot{display:flex;flex-wrap:wrap;gap:8px;align-items:center}
+  .jb-chip{padding:3px 10px;border-radius:5px;font-size:.82rem;font-weight:500}
+  .jb-chip.area{background:#e3f4e7;color:#1f5a35}
+  .jb-chip.level{background:#e5ebff;color:#2c3e8f}
+  .jb-chip.type{background:var(--bg-soft);color:var(--text-secondary);border:1px solid var(--brand-border)}
+  html[data-theme="dark"] .jb-chip.area{background:#1d3a2a;color:#a6e3bd}
+  html[data-theme="dark"] .jb-chip.level{background:#232f5a;color:#b9c6ff}
+  html[data-theme="dark"] .jb-badge{background:#4a3c10;color:#ffe08a}
+  .jb-when{margin-left:auto;font-size:.85rem;color:var(--text-muted)}
+  .jb-empty{padding:40px 20px;text-align:center;border:1px dashed var(--brand-border);border-radius:var(--radius-md);color:var(--text-secondary)}
+  .jb-note{margin-top:14px;font-size:.88rem;color:var(--text-muted)}
+  @media (max-width:560px){.jb-card{flex-direction:column;gap:12px}.jb-logo{flex-basis:auto;width:60px;height:60px;font-size:1.2rem}.jb-top{flex-direction:column}.jb-badges{justify-content:flex-start}.jb-when{margin-left:0;width:100%}}
+</style>
+</head>
+<body>
+<div id="site-nav"></div>
+<main>
+
+<section class="hero single"><div class="wrap">
+  <div class="jb-head">
+    <div>
+      <h1>Jobs</h1>
+      <p>Handpicked to help you tackle the <em>world’s most pressing problems</em> with your career.</p>
+    </div>
+    <div class="jb-alert-box">
+      Want roles matched to your background?
+      <br><a href="mailto:info@easomalia.org?subject=Job%20alerts">Get in touch &rarr;</a>
+    </div>
+  </div>
+</div></section>
+
+<section class="section"><div class="wrap">
+
+  <div class="jb-panel">
+    <div class="jb-search">
+      <label class="jb-input">
+        <span class="sr-only" style="position:absolute;left:-9999px">Search jobs</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg>
+        <input id="jb-q" type="search" placeholder="Keywords" autocomplete="off">
+      </label>
+      <a class="btn" href="mailto:info@easomalia.org?subject=Job%20alerts">🔔&nbsp; Set up alerts</a>
+    </div>
+    <div class="jb-filters">
+      <select id="jb-area" aria-label="Area"><option value="">Areas</option></select>
+      <select id="jb-country" aria-label="Country or region"><option value="">Country / Region</option></select>
+      <select id="jb-type" aria-label="Role type"><option value="">Role type</option></select>
+      <select id="jb-org" aria-label="Organisation"><option value="">Organisation</option></select>
+      <select id="jb-level" aria-label="Experience"><option value="">Experience</option></select>
+    </div>
+  </div>
+
+  <div class="jb-bar">
+    <span class="jb-count" id="jb-count">Loading…</span>
+    <span>
+      <button type="button" class="jb-clear" id="jb-clear" hidden>Clear filters</button>
+      &nbsp;&nbsp;
+      <a href="https://reliefweb.int/jobs?list=Somalia%20Jobs&amp;advanced-search=%28C216%29" target="_blank" rel="noopener">Somalia jobs on ReliefWeb ↗</a>
+    </span>
+  </div>
+
+  <div class="jb-list" id="jb-list" aria-live="polite"></div>
+  <p class="jb-note" id="jb-note"></p>
+
+</div></section>
+
+<section class="section alt"><div class="wrap">
+<h2>More places to look</h2>
+<div class="jobs">
+<div class="card job"><div><h3>EA Opportunities Board</h3><p>Jobs, fellowships, internships and volunteering from the effective altruism community.</p></div><a class="btn ghost" href="https://www.effectivealtruism.org/opportunities">Browse opportunities</a></div>
+<div class="card job"><div><h3>80,000 Hours job board</h3><p>Curated roles across global health, animal welfare, AI safety and more.</p></div><a class="btn ghost" href="https://jobs.80000hours.org">Browse jobs</a></div>
+<div class="card job"><div><h3>Probably Good job board</h3><p>Impactful roles across many cause areas, with a broad view of what counts as impact.</p></div><a class="btn ghost" href="https://www.probablygood.org">Visit site</a></div>
+<div class="card job"><div><h3>Animal Advocacy Careers</h3><p>Jobs and career support for people working to help animals.</p></div><a class="btn ghost" href="https://www.animaladvocacycareers.org">Visit site</a></div>
+<div class="card job"><div><h3>Have a role to share?</h3><p>Hiring for a high-impact role? Send it to us and we will pass it on to the community.</p></div><a class="btn" href="mailto:info@easomalia.org?subject=Job%20to%20share">Email us</a></div>
+</div></div></section>
+
+</main>
+<div id="site-footer"></div>
+<script src="/js/components.js"></script>
+<script>
+/* ============================================================
+   JOB LISTINGS — edit this list to add, change or remove roles.
+   Fields: title, org, locations[], area, type, level, posted (YYYY-MM-DD),
+           url, featured (true = "Highlighted role" badge)
+   Entries with sample:true show an "Example" badge — delete them
+   when you add your real listings.
+   ============================================================ */
+var JOBS = [
+  { title: "Programme Officer, Global Health", org: "Example Health Initiative", locations: ["Mogadishu, Somalia", "Hybrid"], area: "Global health", type: "Full-time", level: "Mid-level", posted: "2026-11-03", url: "https://reliefweb.int/jobs?list=Somalia%20Jobs&advanced-search=%28C216%29", featured: true, sample: true },
+  { title: "Monitoring & Evaluation Lead", org: "Example Relief Network", locations: ["Hargeisa, Somalia"], area: "Global health", type: "Full-time", level: "Senior", posted: "2026-11-02", url: "https://reliefweb.int/jobs?list=Somalia%20Jobs&advanced-search=%28C216%29", sample: true },
+  { title: "Research Analyst, Animal Welfare", org: "Example Animal Institute", locations: ["Remote"], area: "Animal welfare", type: "Full-time", level: "Entry-level", posted: "2026-10-30", url: "https://www.animaladvocacycareers.org", sample: true },
+  { title: "Campaigns Coordinator", org: "Example Farm Alliance", locations: ["Nairobi, Kenya", "Remote"], area: "Animal welfare", type: "Full-time", level: "Mid-level", posted: "2026-10-27", url: "https://www.animaladvocacycareers.org", sample: true },
+  { title: "AI Governance Fellow", org: "Example Policy Lab", locations: ["Nairobi, Kenya", "Remote"], area: "AI safety & policy", type: "Fellowship", level: "Multiple experience levels", posted: "2026-10-28", url: "https://jobs.80000hours.org", featured: true, sample: true },
+  { title: "Technical AI Safety Researcher", org: "Example Safety Research", locations: ["London, UK", "Remote"], area: "AI safety & policy", type: "Full-time", level: "Senior", posted: "2026-10-25", url: "https://jobs.80000hours.org", sample: true },
+  { title: "Operations Associate", org: "Example Giving Fund", locations: ["Remote"], area: "Effective giving", type: "Part-time", level: "Entry-level", posted: "2026-10-22", url: "https://www.effectivealtruism.org/opportunities", sample: true },
+  { title: "Community Builder, EA Chapters", org: "Example Community Trust", locations: ["Mogadishu, Somalia", "Hybrid"], area: "Community building", type: "Full-time", level: "Entry-level", posted: "2026-10-18", url: "https://www.effectivealtruism.org/opportunities", sample: true },
+  { title: "Research Intern, Cost-Effectiveness", org: "Example Research Group", locations: ["Remote"], area: "Global health", type: "Internship", level: "Entry-level", posted: "2026-10-10", url: "https://www.probablygood.org", sample: true },
+  { title: "Volunteer Translator (Somali–English)", org: "Example Nonprofit", locations: ["Remote"], area: "Community building", type: "Volunteer", level: "Multiple experience levels", posted: "2026-09-29", url: "https://www.effectivealtruism.org/opportunities", sample: true }
+];
+
+(function () {
+  var $ = function (id) { return document.getElementById(id); };
+  var list = $('jb-list'), count = $('jb-count'), note = $('jb-note'), clearBtn = $('jb-clear');
+  var q = $('jb-q');
+  var filters = {
+    area:    { el: $('jb-area'),    get: function (j) { return j.area; } },
+    country: { el: $('jb-country'), get: function (j) { return (j.locations || []).map(country); } },
+    type:    { el: $('jb-type'),    get: function (j) { return j.type; } },
+    org:     { el: $('jb-org'),     get: function (j) { return j.org; } },
+    level:   { el: $('jb-level'),   get: function (j) { return j.level; } }
+  };
+  var COLORS = ['#1d62ac', '#7a3db8', '#b8503d', '#26734d', '#a8741a', '#2f6f8f'];
+
+  function country(loc) { var p = String(loc).split(','); return p[p.length - 1].trim(); }
+  function flat(a) { return [].concat.apply([], a); }
+  function uniq(a) { return a.filter(function (v, i) { return v && a.indexOf(v) === i; }).sort(); }
+  function initials(s) { return s.split(/\s+/).slice(0, 2).map(function (w) { return w[0]; }).join('').toUpperCase(); }
+  function color(s) { var h = 0; for (var i = 0; i < s.length; i++) h = (h * 31 + s.charCodeAt(i)) >>> 0; return COLORS[h % COLORS.length]; }
+  function ago(iso) {
+    var d = Math.floor((Date.now() - new Date(iso).getTime()) / 864e5);
+    if (isNaN(d)) return '';
+    if (d < 1) return 'Today';
+    if (d === 1) return '1 day ago';
+    if (d < 30) return d + ' days ago';
+    var m = Math.floor(d / 30);
+    return m + (m === 1 ? ' month ago' : ' months ago');
+  }
+  function el(tag, cls, text) {
+    var e = document.createElement(tag);
+    if (cls) e.className = cls;
+    if (text) e.textContent = text;
+    return e;
+  }
+  function safeUrl(u) { return /^https:\/\//.test(u) ? u : '#'; }
+
+  // Populate filter dropdowns from the data
+  Object.keys(filters).forEach(function (k) {
+    var f = filters[k];
+    var vals = uniq(flat(JOBS.map(function (j) { var v = f.get(j); return Array.isArray(v) ? v : [v]; })));
+    vals.forEach(function (v) { var o = el('option', '', v); o.value = v; f.el.appendChild(o); });
+    f.el.addEventListener('change', render);
+  });
+  q.addEventListener('input', render);
+  clearBtn.addEventListener('click', function () {
+    q.value = '';
+    Object.keys(filters).forEach(function (k) { filters[k].el.value = ''; });
+    render();
+  });
+
+  function matches(j) {
+    var term = q.value.trim().toLowerCase();
+    if (term) {
+      var hay = [j.title, j.org, j.area, j.type, j.level].concat(j.locations || []).join(' ').toLowerCase();
+      if (hay.indexOf(term) === -1) return false;
+    }
+    return Object.keys(filters).every(function (k) {
+      var want = filters[k].el.value;
+      if (!want) return true;
+      var v = filters[k].get(j);
+      return Array.isArray(v) ? v.indexOf(want) !== -1 : v === want;
+    });
+  }
+
+  function card(j) {
+    var a = el('a', 'jb-card');
+    a.href = safeUrl(j.url); a.target = '_blank'; a.rel = 'noopener';
+
+    var logo = el('div', 'jb-logo', initials(j.org));
+    logo.style.background = color(j.org);
+    logo.setAttribute('aria-hidden', 'true');
+
+    var body = el('div', 'jb-body');
+    var top = el('div', 'jb-top');
+    var titles = el('div');
+    titles.appendChild(el('h3', 'jb-title', j.title));
+    titles.appendChild(el('p', 'jb-org', j.org));
+    top.appendChild(titles);
+
+    var badges = el('div', 'jb-badges');
+    if (j.featured) badges.appendChild(el('span', 'jb-badge', 'Highlighted role'));
+    if (j.sample) badges.appendChild(el('span', 'jb-badge sample', 'Example'));
+    if (badges.children.length) top.appendChild(badges);
+
+    var loc = el('ul', 'jb-loc');
+    (j.locations || []).forEach(function (l) { loc.appendChild(el('li', '', l)); });
+
+    var foot = el('div', 'jb-foot');
+    if (j.area) foot.appendChild(el('span', 'jb-chip area', j.area));
+    if (j.level) foot.appendChild(el('span', 'jb-chip level', j.level));
+    if (j.type) foot.appendChild(el('span', 'jb-chip type', j.type));
+    foot.appendChild(el('span', 'jb-when', ago(j.posted)));
+
+    body.appendChild(top); body.appendChild(loc); body.appendChild(foot);
+    a.appendChild(logo); a.appendChild(body);
+    return a;
+  }
+
+  function render() {
+    var shown = JOBS.filter(matches).sort(function (a, b) {
+      return (b.featured ? 1 : 0) - (a.featured ? 1 : 0) || new Date(b.posted) - new Date(a.posted);
+    });
+    list.textContent = '';
+    count.textContent = shown.length + (shown.length === 1 ? ' role' : ' roles');
+    var active = q.value.trim() || Object.keys(filters).some(function (k) { return filters[k].el.value; });
+    clearBtn.hidden = !active;
+
+    if (!shown.length) {
+      var empty = el('div', 'jb-empty', active ? 'No roles match your search. Try clearing a filter.' : 'No roles are listed right now. Check the boards below.');
+      list.appendChild(empty);
+    } else {
+      shown.forEach(function (j) { list.appendChild(card(j)); });
+    }
+    note.textContent = shown.some(function (j) { return j.sample; })
+      ? 'Roles marked “Example” are placeholders. You apply on the employer’s page.'
+      : 'You apply on the employer’s page.';
+  }
+
+  render();
+})();
+</script>
+</body>
+</html>
