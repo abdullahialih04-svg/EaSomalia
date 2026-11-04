@@ -250,3 +250,59 @@
     width: 100%;
   }
 }
+
+/* ---------- Compact hero ---------- */
+
+.hero.hero-compact {
+  padding: 28px 0 26px;
+}
+
+.hero-compact .wrap {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px 32px;
+}
+
+.hero-compact .pill {
+  margin-bottom: 10px;
+  padding: 5px 12px;
+  font-size: 0.78rem;
+}
+
+.hero-compact h1 {
+  margin-bottom: 8px;
+  font-size: clamp(2rem, 4vw, 2.7rem);
+  line-height: 1.1;
+}
+
+.hero-compact p {
+  max-width: 62ch;
+  margin: 0;
+  font-size: 1rem;
+  line-height: 1.6;
+}
+
+/* ---------- Board gets the space ---------- */
+
+.section.opp-section {
+  padding: 28px 0 64px;
+}
+
+.opp-share {
+  margin: 28px 0 0;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 0.95rem;
+}
+
+@media (max-width: 600px) {
+  .hero.hero-compact {
+    padding: 22px 0 20px;
+  }
+
+  .hero-compact .btn {
+    width: 100%;
+  }
+}
