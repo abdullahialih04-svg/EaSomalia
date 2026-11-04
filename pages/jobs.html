@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -1106,6 +1105,42 @@ const ORG_LOGOS = {
     return /^https:\/\//i.test(url) ? url : "#";
   }
 
+  /* The ONLY place a posting date is created. Returns null when a job
+     has no valid posted date, so nothing is rendered for it. */
+  function createPostedDate(job) {
+    const label = ago(job.posted);
+
+    if (!label) return null;
+
+    const when = element("span", "jb-when", label);
+
+    when.dataset.role = "posted-date";
+
+    return when;
+  }
+
+  /* Diagnostic only: warns in the console if anything outside this
+     script put a second date-like element inside a card. */
+  function auditDates() {
+    const DATE_TEXT = /^(Today|\d+ days? ago|\d+ months? ago)$/;
+
+    list.querySelectorAll(".jb-card").forEach(card => {
+      const extra = [...card.querySelectorAll("*")].filter(node =>
+        node.dataset.role !== "posted-date" &&
+        node.children.length === 0 &&
+        DATE_TEXT.test(node.textContent.trim())
+      );
+
+      if (extra.length) {
+        console.warn(
+          "[EA Somalia jobs] Unexpected extra date element(s) in card \"" +
+          card.querySelector(".jb-title").textContent + "\":",
+          extra
+        );
+      }
+    });
+  }
+
 
   /* POPULATE FILTERS */
 
@@ -1315,13 +1350,11 @@ if (job.level) {
 
 footer.appendChild(metaGroup);
 
-/* POSTING DATE — ONLY ONCE */
+/* POSTING DATE — created once, by createPostedDate() */
 
-if (job.posted) {
-  footer.appendChild(
-    element("span", "jb-when", ago(job.posted))
-  );
-}
+const posted = createPostedDate(job);
+
+if (posted) footer.appendChild(posted);
 
 
     /* =====================================================
@@ -1523,6 +1556,11 @@ if (job.posted) {
       });
 
     }
+
+
+    /* DIAGNOSTIC: report any duplicated date added by outside code */
+
+    setTimeout(auditDates, 150);
 
 
     /* FOOTER NOTE */
